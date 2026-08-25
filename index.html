@@ -862,6 +862,66 @@ footer {
   width: 1px !important;
   height: 1px !important;
   overflow: hidden !important;
+}
+/* =========================================
+   LEVA VENTURES — PRIVACY & DISCLOSURES
+   ========================================= */
+
+.footer-legal {
+  margin-top: 55px;
+  padding-top: 35px;
+
+  border-top: 1px solid rgba(199, 161, 90, 0.18);
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 55px;
+}
+
+.legal-section h4 {
+  margin: 0 0 18px;
+
+  color: #c7a15a;
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.legal-section p {
+  margin: 0 0 14px;
+
+  color: #85837d;
+
+  font-size: 0.68rem;
+  line-height: 1.75;
+}
+
+.legal-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile */
+@media (max-width: 620px) {
+
+  .footer-legal {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    margin-top: 40px;
+    padding-top: 28px;
+  }
+
+  .legal-section h4 {
+    font-size: 0.64rem;
+    margin-bottom: 14px;
+  }
+
+  .legal-section p {
+    font-size: 0.68rem;
+    line-height: 1.7;
+  }
 }  
 </style>
 </head>
@@ -1123,11 +1183,65 @@ footer {
         <a href="#services">What We Do</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Disclosures</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#disclosures">Disclosures</a>
       </div>
     </div>
+    <div class="footer-legal">
+
+  <div class="legal-section" id="privacy">
+    <h4>Privacy Notice</h4>
+
+    <p>
+      Leva Ventures, LLC respects the privacy of information submitted
+      through this website. Information voluntarily provided through
+      the opportunity submission form may be used to review the
+      submitted opportunity, evaluate whether it may align with
+      Leva Ventures' activities and capital relationships, communicate
+      with the submitting party, and determine whether further
+      discussion may be appropriate.
+    </p>
+
+    <p>
+      Information submitted through this website is processed using
+      third-party service providers that support website and form
+      functionality. Leva Ventures does not guarantee that any
+      submitted opportunity will be reviewed within a particular
+      timeframe or result in financing, funding, investment, placement,
+      or any other transaction.
+    </p>
+
+  </div>
+
+  <div class="legal-section" id="disclosures">
+    <h4>Important Disclosures</h4>
+
+    <p>
+      Submission of an opportunity through this website does not
+      constitute an offer, commitment, agreement, or guarantee by
+      Leva Ventures, LLC or any third party to provide, arrange,
+      source, or secure financing, investment, funding, or other
+      capital.
+    </p>
+
+    <p>
+      Information presented on this website is provided for general
+      informational purposes only and should not be interpreted as
+      financial, investment, legal, tax, or other professional advice.
+      Submission of an opportunity does not create a client, fiduciary,
+      agency, or other contractual relationship between the submitting
+      party and Leva Ventures, LLC.
+    </p>
+
+    <p>
+      Any potential transaction or capital relationship is subject to
+      separate review, diligence, applicable requirements, negotiations,
+      and definitive written agreements.
+    </p>
+
+  </div>
+
+</div>
     <div class="footer-bottom">
       <p>© 2026 Leva Ventures, LLC. All rights reserved.</p>
       <p>Private capital sourcing · Opportunities · Relationships</p>
