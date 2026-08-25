@@ -851,7 +851,15 @@ footer {
 .submission-success .btn:hover {
   background: #c7a15a !important;
   color: #080b10 !important;
-} 
+}
+/* Hidden spam trap */
+.form-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}  
 </style>
 </head>
 
@@ -1039,6 +1047,11 @@ footer {
   <a class="btn" href="#top">Return to Leva Ventures</a>
 </div>
     <form id="contact-form" class="form" action="https://formspree.io/f/mkjwlrlp" method="post">
+    <!-- Hidden spam trap -->
+<div class="form-honeypot">
+  <label for="website">Leave this field empty</label>
+  <input id="website" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+</div>  
       <div class="form-grid">
         <div class="field">
           <label for="name">Name</label>
