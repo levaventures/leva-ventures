@@ -567,6 +567,118 @@ footer {
   .footer-links { margin-top: 35px; flex-wrap: wrap; }
   .footer-bottom p + p { margin-top: 12px; }
 }
+  /* =========================================
+   LEVA VENTURES — SUBMISSION CONFIRMATION
+   ========================================= */
+
+.submission-success {
+  display: none;
+  min-height: 560px;
+  padding: 70px 55px;
+  border: 1px solid rgba(199,161,90,.30);
+  background:
+    linear-gradient(135deg, rgba(199,161,90,.055), transparent 45%),
+    rgba(8,11,17,.72);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+
+.submission-success::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 1px;
+  background: var(--gold);
+  top: 18%;
+  right: -160px;
+  transform: rotate(-42deg);
+  opacity: .35;
+}
+
+.submission-success::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 1px;
+  background: var(--gold);
+  bottom: 18%;
+  left: -160px;
+  transform: rotate(-42deg);
+  opacity: .20;
+}
+
+.submission-success[data-fs-active] {
+  display: flex;
+}
+
+.success-monogram {
+  font-family: var(--serif);
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--gold-light);
+  letter-spacing: -.16em;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.submission-success .eyebrow,
+.submission-success .gold-line,
+.submission-success h3,
+.submission-success p,
+.submission-success .btn {
+  position: relative;
+  z-index: 2;
+}
+
+.submission-success .gold-line {
+  margin: 22px auto;
+}
+
+.submission-success h3 {
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 6vw, 5.5rem);
+  font-weight: 500;
+  line-height: .9;
+  color: var(--ivory);
+}
+
+.submission-success p {
+  max-width: 560px;
+  margin: 20px auto 0;
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.submission-success p + p {
+  margin-top: 10px;
+  color: #77766f;
+  font-size: .76rem;
+}
+
+.submission-success .btn {
+  margin-top: 35px;
+}
+
+@media (max-width: 620px) {
+  .submission-success {
+    min-height: 500px;
+    padding: 55px 25px;
+  }
+
+  .success-monogram {
+    font-size: 4rem;
+  }
+
+  .submission-success h3 {
+    font-size: 3.4rem;
+  }
+}
 </style>
 </head>
 
@@ -731,8 +843,28 @@ footer {
       <p>Tell us about the transaction. We will evaluate whether it may be appropriate for private capital sourcing and, where relevant, consider potentially appropriate capital relationships.</p>
       <p style="font-size:.72rem; margin-top:20px; color:#77766f;">Submission does not guarantee financing, funding, capital placement, approval, or any particular outcome.</p>
     </div>
+<div class="submission-success" data-fs-success>
+  <div class="success-monogram">Lᵛ</div>
 
-    <form class="form" action="https://formspree.io/f/mkjwlrlp" method="post">
+  <div class="eyebrow">Submission Received</div>
+
+  <span class="gold-line"></span>
+
+  <h3>Thank You.</h3>
+
+  <p>
+    Your opportunity has been received by Leva Ventures
+    for preliminary review.
+  </p>
+
+  <p>
+    If the opportunity appears appropriate for further
+    discussion, a member of our team will contact you.
+  </p>
+
+  <a class="btn" href="#top">Return to Leva Ventures</a>
+</div>
+    <form id="contact-form" class="form" action="https://formspree.io/f/mkjwlrlp" method="post">
       <div class="form-grid">
         <div class="field">
           <label for="name">Name</label>
@@ -780,7 +912,7 @@ footer {
         </div>
       </div>
       <p class="form-note">By submitting this information, you acknowledge that submission is for evaluation and does not constitute an application for, or guarantee of, financing or capital placement.</p>
-      <button class="btn" type="submit">Submit Opportunity</button>
+      <button class="btn" type="submit" data-fs-submit-btn>Submit Opportunity</button>
     </form>
   </div>
 </section>
@@ -812,6 +944,22 @@ footer {
     </div>
   </div>
 </footer>
+<script>
+  window.formspree =
+    window.formspree ||
+    function () {
+      (formspree.q = formspree.q || []).push(arguments);
+    };
 
+  formspree(
+    'initForm',
+    {
+      formElement: '#contact-form',
+      formId: 'mkjwlrlp'
+    }
+  );
+</script>
+
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
