@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Leva Insights provides practical perspectives on private capital, residential and commercial real estate financing, development, business acquisitions, deal preparation, and market trends.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://levaventures.com/insights/">
+<title>Leva Insights | Private Capital, Real Estate & Opportunity</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:title" content="Leva Insights | Private Capital, Real Estate & Opportunity">
+<meta property="og:description" content="Practical perspectives on private capital, real estate financing, development, business transactions, and market conditions shaping qualified opportunities.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://levaventures.com/insights/">
+<meta property="og:image" content="https://levaventures.com/levaventures-og-image.png">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink: #080b11;
+  --navy: #10141c;
+  --graphite: #1b2029;
+  --ivory: #f2efe8;
+  --muted: #a9a6a0;
+  --gold: #c7a15a;
+  --gold-light: #e0c27a;
+  --line: rgba(199,161,90,.42);
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Inter", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .03;
+  background-image: radial-gradient(rgba(255,255,255,.7) .5px, transparent .5px);
+  background-size: 5px 5px;
+  z-index: 40;
+}
+
+.container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.eyebrow {
+  color: var(--gold-light);
+  font-size: .67rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.gold-line {
+  display: block;
+  width: 72px;
+  height: 1px;
+  background: var(--gold);
+  margin: 24px 0;
+  box-shadow: 0 0 16px rgba(199,161,90,.16);
+}
+
+header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 30;
+  background: rgba(8,11,17,.9);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(199,161,90,.09);
+}
+
+.nav {
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  letter-spacing: .18em;
+}
+
+.monogram {
+  font-family: var(--serif);
+  font-size: 2.35rem;
+  line-height: 1;
+  color: var(--gold-light);
+  letter-spacing: -.14em;
+  width: 44px;
+}
+
+.brand-name {
+  font-size: .68rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brand-name small {
+  display: block;
+  margin-top: 2px;
+  color: var(--gold);
+  font-size: .53rem;
+  letter-spacing: .5em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #d7d2c8;
+}
+
+.nav-links a { transition: color .3s ease; }
+.nav-links a:hover,
+.nav-links a.active { color: var(--gold-light); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 25px;
+  border: 1px solid var(--gold);
+  background: rgba(199,161,90,.06);
+  color: var(--ivory);
+  font-size: .67rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  transition: .3s ease;
+}
+.btn:hover {
+  background: var(--gold);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.hero {
+  min-height: 760px;
+  padding: 190px 0 110px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(90deg, rgba(8,11,17,.96), rgba(8,11,17,.72) 55%, rgba(8,11,17,.35)),
+    linear-gradient(0deg, rgba(8,11,17,1), rgba(8,11,17,.18) 60%, rgba(8,11,17,.72)),
+    url('/levaventures-og-image.png') center/cover no-repeat;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  background: linear-gradient(transparent, var(--gold), transparent);
+  opacity: .5;
+}
+.hero::before {
+  height: 135%;
+  right: 17%;
+  top: -15%;
+  transform: rotate(26deg);
+}
+.hero::after {
+  height: 100%;
+  right: 28%;
+  top: 20%;
+  transform: rotate(26deg);
+  opacity: .22;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(4.2rem, 8vw, 8rem);
+  line-height: .86;
+  letter-spacing: -.04em;
+}
+.hero h1 span { color: var(--gold-light); }
+
+.hero p {
+  margin-top: 30px;
+  max-width: 700px;
+  color: #c4c0b8;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.hero-note {
+  margin-top: 30px;
+  max-width: 680px;
+  color: #77766f;
+  font-size: .7rem;
+  letter-spacing: .03em;
+}
+
+.categories-strip {
+  position: relative;
+  z-index: 3;
+  margin-top: -42px;
+}
+
+.category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(16,20,28,.94);
+  border: 1px solid rgba(199,161,90,.18);
+  box-shadow: 0 25px 60px rgba(0,0,0,.25);
+  backdrop-filter: blur(12px);
+}
+
+.filter-btn {
+  appearance: none;
+  border: 1px solid rgba(242,239,232,.14);
+  background: transparent;
+  color: #b9b5ad;
+  padding: 12px 16px;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .25s ease;
+}
+.filter-btn:hover,
+.filter-btn.active {
+  color: var(--ink);
+  border-color: var(--gold);
+  background: var(--gold);
+}
+
+.intro {
+  padding: 135px 0 115px;
+  background:
+    linear-gradient(135deg, transparent 0 49.85%, rgba(199,161,90,.09) 50%, transparent 50.15%),
+    var(--ink);
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 90px;
+  align-items: end;
+}
+
+.intro h2,
+.section-head h2,
+.cta h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: .92;
+  font-size: clamp(3rem, 5vw, 5.2rem);
+}
+.intro h2 span { color: var(--gold-light); }
+
+.intro-copy {
+  color: var(--muted);
+  max-width: 560px;
+  font-size: .92rem;
+}
+.intro-copy p + p { margin-top: 18px; }
+
+.coverage {
+  margin-top: 70px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid rgba(199,161,90,.13);
+}
+
+.coverage-card {
+  min-height: 245px;
+  padding: 30px 24px;
+  border-right: 1px solid rgba(199,161,90,.13);
+  border-bottom: 1px solid rgba(199,161,90,.13);
+  position: relative;
+  overflow: hidden;
+}
+.coverage-card::after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 1px;
+  right: -28px;
+  bottom: 28px;
+  background: var(--gold);
+  transform: rotate(-45deg);
+  opacity: .34;
+}
+.coverage-card .num {
+  color: var(--gold);
+  font-size: .62rem;
+  letter-spacing: .2em;
+}
+.coverage-card h3 {
+  font-family: var(--serif);
+  font-size: 1.65rem;
+  font-weight: 500;
+  line-height: 1;
+  margin: 18px 0 13px;
+}
+.coverage-card p {
+  color: var(--muted);
+  font-size: .75rem;
+  line-height: 1.7;
+}
+
+.featured {
+  padding: 120px 0;
+  background: var(--navy);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  align-items: end;
+  margin-bottom: 60px;
+}
+.section-head p {
+  color: var(--muted);
+  font-size: .86rem;
+  max-width: 440px;
+}
+
+.featured-card {
+  min-height: 500px;
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  border: 1px solid rgba(199,161,90,.2);
+  background: #0b0f16;
+  overflow: hidden;
+}
+
+.featured-visual {
+  min-height: 500px;
+  position: relative;
+  background:
+    linear-gradient(145deg, rgba(8,11,17,.15), rgba(8,11,17,.78)),
+    url('/levaventures-og-image.png') center/cover no-repeat;
+}
+.featured-visual::before {
+  content: "";
+  position: absolute;
+  inset: 24px;
+  border: 1px solid rgba(199,161,90,.24);
+}
+.featured-visual::after {
+  content: "PRIVATE CAPITAL / REAL ESTATE";
+  position: absolute;
+  left: 36px;
+  bottom: 34px;
+  color: var(--gold-light);
+  font-size: .58rem;
+  letter-spacing: .26em;
+}
+
+.featured-copy {
+  padding: 58px 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.featured-copy .meta,
+.article-meta {
+  color: var(--gold);
+  font-size: .6rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.featured-copy h3 {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 4vw, 4.2rem);
+  line-height: .95;
+  font-weight: 500;
+  margin: 20px 0;
+}
+.featured-copy p {
+  color: var(--muted);
+  font-size: .88rem;
+}
+.topic-list {
+  margin-top: 26px;
+  border-top: 1px solid rgba(199,161,90,.14);
+}
+.topic-list div {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(199,161,90,.1);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #a8a49c;
+  font-size: .72rem;
+}
+.topic-list strong {
+  color: #d4cfc5;
+  font-weight: 500;
+}
+
+.articles {
+  padding: 125px 0 140px;
+  background: var(--ink);
+}
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid rgba(199,161,90,.13);
+}
+
+.article-card {
+  min-height: 330px;
+  padding: 34px 30px;
+  border-right: 1px solid rgba(199,161,90,.13);
+  border-bottom: 1px solid rgba(199,161,90,.13);
+  display: flex;
+  flex-direction: column;
+  transition: background .3s ease, transform .3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.article-card:hover {
+  background: rgba(255,255,255,.02);
+  transform: translateY(-2px);
+}
+.article-card::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 1px;
+  background: var(--gold);
+  right: -35px;
+  bottom: 34px;
+  transform: rotate(-45deg);
+  opacity: .25;
+}
+.article-card h3 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.05;
+  margin: 24px 0 15px;
+}
+.article-card p {
+  color: var(--muted);
+  font-size: .79rem;
+  line-height: 1.75;
+}
+.article-status {
+  margin-top: auto;
+  padding-top: 28px;
+  color: #72716c;
+  font-size: .58rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.article-card[hidden] { display: none; }
+
+.real-estate-focus {
+  padding: 125px 0;
+  background: #0c1017;
+}
+
+.real-estate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.real-estate-copy h2 {
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 5vw, 5.3rem);
+  font-weight: 500;
+  line-height: .92;
+  letter-spacing: -.03em;
+}
+.real-estate-copy h2 span { color: var(--gold-light); }
+.real-estate-copy p {
+  color: var(--muted);
+  margin-top: 28px;
+  font-size: .9rem;
+}
+
+.real-estate-list {
+  border-top: 1px solid var(--line);
+}
+.real-estate-list article {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(199,161,90,.13);
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 28px;
+}
+.real-estate-list span {
+  color: var(--gold);
+  font-size: .6rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.real-estate-list h3 {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.real-estate-list p {
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.cta {
+  padding: 135px 0;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(120deg, rgba(199,161,90,.07), transparent 38%),
+    var(--navy);
+}
+.cta::after {
+  content: "";
+  position: absolute;
+  top: -30%;
+  right: 14%;
+  height: 165%;
+  width: 1px;
+  background: linear-gradient(transparent, var(--gold), transparent);
+  transform: rotate(24deg);
+  opacity: .45;
+}
+.cta-inner {
+  max-width: 850px;
+  position: relative;
+  z-index: 2;
+}
+.cta p {
+  color: var(--muted);
+  max-width: 650px;
+  margin: 25px 0 32px;
+  font-size: .9rem;
+}
+.cta small {
+  display: block;
+  max-width: 680px;
+  margin-top: 22px;
+  color: #6f6e69;
+  font-size: .65rem;
+  line-height: 1.7;
+}
+
+footer {
+  padding: 65px 0 32px;
+  background: #06080c;
+  border-top: 1px solid rgba(199,161,90,.16);
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 48px;
+}
+.footer-tagline {
+  margin-top: 18px;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+}
+.footer-links {
+  display: flex;
+  gap: 28px;
+  color: var(--muted);
+  font-size: .63rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+.footer-bottom {
+  padding-top: 22px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: #6f6d68;
+  font-size: .62rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.preview-note {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 50;
+  padding: 10px 14px;
+  background: rgba(8,11,17,.94);
+  border: 1px solid rgba(199,161,90,.35);
+  color: var(--gold-light);
+  font-size: .55rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 980px) {
+  .coverage { grid-template-columns: repeat(2, 1fr); }
+  .coverage-card:last-child { grid-column: 1 / -1; }
+  .featured-card,
+  .real-estate-grid { grid-template-columns: 1fr; }
+  .featured-visual { min-height: 380px; }
+  .article-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .hero { min-height: 680px; padding: 150px 0 85px; }
+  .intro-grid,
+  .section-head { display: block; }
+  .intro-copy,
+  .section-head p { margin-top: 28px; }
+  .real-estate-grid { gap: 50px; }
+}
+
+@media (max-width: 620px) {
+  .container { width: min(100% - 32px, 1180px); }
+  .nav { height: 76px; }
+  .brand-name { font-size: .57rem; }
+  .hero h1 { font-size: clamp(3.6rem, 17vw, 5.6rem); }
+  .hero p { font-size: .9rem; }
+  .categories-strip { margin-top: -24px; }
+  .category-nav { padding: 13px; gap: 7px; }
+  .filter-btn { width: 100%; text-align: left; padding: 11px 12px; }
+  .intro,
+  .featured,
+  .articles,
+  .real-estate-focus,
+  .cta { padding: 88px 0; }
+  .coverage { grid-template-columns: 1fr; }
+  .coverage-card:last-child { grid-column: auto; }
+  .coverage-card { min-height: 200px; }
+  .featured-copy { padding: 38px 26px; }
+  .featured-visual { min-height: 310px; }
+  .article-grid { grid-template-columns: 1fr; }
+  .article-card { min-height: 285px; }
+  .real-estate-list article { grid-template-columns: 1fr; gap: 9px; }
+  .footer-top,
+  .footer-bottom { display: block; }
+  .footer-links { margin-top: 32px; }
+  .footer-bottom p + p { margin-top: 12px; }
+  .preview-note { left: 12px; right: 12px; bottom: 12px; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <a href="/" class="brand" aria-label="Leva Ventures home">
+      <div class="monogram">Lᵛ</div>
+      <div class="brand-name">Leva Ventures<small>LLC</small></div>
+    </a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="/#services">What We Do</a>
+      <a href="/#about">About</a>
+      <a href="/insights/" class="active">Insights</a>
+      <a href="/#contact">Contact</a>
+      <a href="/#contact" class="btn">Submit an Opportunity</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="eyebrow">Leva Insights</div>
+      <span class="gold-line"></span>
+      <h1>Perspectives on<br><span>Capital, Real Estate</span><br>&amp; Opportunity.</h1>
+      <p>Practical perspectives on private capital, residential and commercial real estate financing, development, business transactions, deal preparation, and the market conditions shaping qualified opportunities.</p>
+      <p class="hero-note">Leva Insights is educational in nature and does not constitute financial, investment, legal, tax, lending, or other professional advice.</p>
+    </div>
+  </section>
+
+  <div class="container categories-strip">
+    <div class="category-nav" aria-label="Filter insight topics">
+      <button class="filter-btn active" type="button" data-filter="all">All Insights</button>
+      <button class="filter-btn" type="button" data-filter="capital">Private Capital</button>
+      <button class="filter-btn" type="button" data-filter="real-estate">Real Estate Capital</button>
+      <button class="filter-btn" type="button" data-filter="business">Business &amp; Acquisitions</button>
+      <button class="filter-btn" type="button" data-filter="deal-prep">Deal Preparation</button>
+      <button class="filter-btn" type="button" data-filter="market">Market Intelligence</button>
+    </div>
+  </div>
+
+  <section class="intro">
+    <div class="container">
+      <div class="intro-grid">
+        <div>
+          <div class="eyebrow">The Editorial Mandate</div>
+          <span class="gold-line"></span>
+          <h2>Useful insight.<br><span>Less noise.</span></h2>
+        </div>
+        <div class="intro-copy">
+          <p>Leva Insights is designed for business owners, acquisition buyers, real estate investors, developers, operators, advisors, and other professionals evaluating capital-intensive opportunities.</p>
+          <p>The focus is practical: how transactions are prepared, how capital structures differ, what private capital sources may evaluate, and how changing market conditions can affect the path from opportunity to execution.</p>
+        </div>
+      </div>
+
+      <div class="coverage">
+        <article class="coverage-card">
+          <span class="num">01</span>
+          <h3>Private Capital</h3>
+          <p>Private credit, equity, alternative capital, capital structures, and situations where conventional financing may not fit.</p>
+        </article>
+        <article class="coverage-card">
+          <span class="num">02</span>
+          <h3>Real Estate Capital</h3>
+          <p>Residential and commercial acquisitions, primary and investment purchases, refinancing, construction, and development.</p>
+        </article>
+        <article class="coverage-card">
+          <span class="num">03</span>
+          <h3>Business &amp; Acquisitions</h3>
+          <p>Business acquisition financing, growth capital, recapitalizations, ownership transitions, and transaction structures.</p>
+        </article>
+        <article class="coverage-card">
+          <span class="num">04</span>
+          <h3>Deal Preparation</h3>
+          <p>Documentation, financial presentation, diligence readiness, transaction summaries, and common capital-request mistakes.</p>
+        </article>
+        <article class="coverage-card">
+          <span class="num">05</span>
+          <h3>Market Intelligence</h3>
+          <p>Private credit conditions, interest rates, transaction markets, real estate trends, and evolving capital preferences.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Featured Research Track</div>
+          <span class="gold-line"></span>
+          <h2>Real estate capital,<br>without the generic playbook.</h2>
+        </div>
+        <p>Leva Insights will cover real estate capital across primary and investment purchases, residential and commercial assets, and development projects—while distinguishing the structure and underwriting considerations that make each situation different.</p>
+      </div>
+
+      <div class="featured-card">
+        <div class="featured-visual" aria-hidden="true"></div>
+        <div class="featured-copy">
+          <div class="meta">Featured Topic · Real Estate Capital</div>
+          <h3>How to Prepare a Real Estate Opportunity for Private Capital</h3>
+          <p>A practical framework for presenting the opportunity, capital requirement, sponsor profile, property economics, sources and uses, timeline, and potential repayment or exit strategy.</p>
+          <div class="topic-list">
+            <div><strong>Residential</strong><span>Primary &amp; investment purchases</span></div>
+            <div><strong>Commercial</strong><span>Acquisition, refinance &amp; value-add</span></div>
+            <div><strong>Development</strong><span>Land, construction &amp; ground-up</span></div>
+            <div><strong>Structure</strong><span>Debt, equity &amp; hybrid capital</span></div>
+          </div>
+          <div class="article-status">First article in development</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="articles" id="articles">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Editorial Roadmap</div>
+          <span class="gold-line"></span>
+          <h2>Built around questions<br>real transactions create.</h2>
+        </div>
+        <p>These are the first high-intent topics planned for Leva Insights. Use the filters above to preview how the content library will be organized as articles are published.</p>
+      </div>
+
+      <div class="article-grid" id="article-grid">
+        <article class="article-card" data-category="capital">
+          <div class="article-meta">Private Capital</div>
+          <h3>What Is Private Capital and When Does It Make Sense?</h3>
+          <p>A practical introduction to private credit, equity, and other capital relationships—and the situations in which they may complement or differ from traditional financing.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="capital">
+          <div class="article-meta">Private Capital</div>
+          <h3>Private Credit vs. Traditional Bank Financing</h3>
+          <p>How underwriting, structure, speed, flexibility, collateral, pricing, and transaction complexity may differ between private credit and conventional bank financing.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Residential Real Estate</div>
+          <h3>Private Capital for Residential Real Estate: What to Know Before Seeking Funding</h3>
+          <p>Considerations for primary residences, second homes, investment properties, acquisitions, refinancing, and more complex or nontraditional situations.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Investment Property</div>
+          <h3>How to Finance an Investment Property When Traditional Financing Is Not the Right Fit</h3>
+          <p>What borrowers and investors should understand about property economics, borrower strength, leverage, liquidity, exit strategy, and private capital alternatives.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Commercial Real Estate</div>
+          <h3>How to Prepare a Commercial Real Estate Opportunity for Private Capital</h3>
+          <p>A framework for presenting asset quality, sponsor experience, occupancy, NOI, debt service, equity, business plan, timeline, and capital requirements.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Commercial Real Estate</div>
+          <h3>Commercial Real Estate Acquisition Financing: Debt, Equity and Hybrid Structures</h3>
+          <p>How different forms of capital may fit acquisitions, owner-occupied properties, investment assets, repositioning strategies, and value-add transactions.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Development</div>
+          <h3>How to Finance a Ground-Up Real Estate Development Project</h3>
+          <p>The role of land basis, entitlements, sponsor equity, budgets, construction draws, contingencies, market support, and takeout or exit planning.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Development</div>
+          <h3>What Private Capital Providers Look for in a Real Estate Development Opportunity</h3>
+          <p>How sponsor experience, basis, approvals, feasibility, capitalization, construction risk, market demand, and execution planning can shape capital conversations.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="business">
+          <div class="article-meta">Business &amp; Acquisitions</div>
+          <h3>How to Prepare a Business Acquisition for Private Capital</h3>
+          <p>What acquisition buyers should prepare around purchase price, EBITDA, management, financing sources, seller participation, equity, diligence, and post-close strategy.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="business">
+          <div class="article-meta">Business &amp; Acquisitions</div>
+          <h3>SBA Financing vs. Private Capital for Business Acquisitions</h3>
+          <p>A practical comparison of fit, structure, qualification, leverage, timing, guarantees, flexibility, and transaction complexity.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="deal-prep">
+          <div class="article-meta">Deal Preparation</div>
+          <h3>The 10 Things to Have Ready Before Approaching Private Capital</h3>
+          <p>A checklist covering the opportunity summary, use of proceeds, financials, ownership, collateral, capitalization, sponsor background, timeline, and supporting information.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+
+        <article class="article-card" data-category="market">
+          <div class="article-meta">Market Intelligence</div>
+          <h3>What Current Credit Conditions Mean for Real Estate and Business Financing</h3>
+          <p>A recurring market perspective on rates, lender selectivity, private credit, leverage, transaction activity, and the implications for capital-seeking opportunities.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="real-estate-focus">
+    <div class="container real-estate-grid">
+      <div class="real-estate-copy">
+        <div class="eyebrow">Real Estate Capital Coverage</div>
+        <span class="gold-line"></span>
+        <h2>Residential.<br>Commercial.<br><span>Development.</span></h2>
+        <p>Real estate capital is not one category. A primary residence, an investment property, a commercial acquisition, and a ground-up development each create different underwriting questions, structures, risks, and capital requirements. Leva Insights will treat them accordingly.</p>
+      </div>
+
+      <div class="real-estate-list">
+        <article>
+          <span>Residential</span>
+          <div>
+            <h3>Primary &amp; Secondary Residences</h3>
+            <p>Capital considerations for qualified purchases, refinancing situations, complex borrower profiles, and transactions that may not fit conventional parameters.</p>
+          </div>
+        </article>
+        <article>
+          <span>Investment</span>
+          <div>
+            <h3>Residential Investment Property</h3>
+            <p>Acquisition, refinance, portfolio, value-add, rental, and other investment-property capital considerations.</p>
+          </div>
+        </article>
+        <article>
+          <span>Commercial</span>
+          <div>
+            <h3>Commercial Real Estate</h3>
+            <p>Investment and owner-occupied acquisitions, refinancing, bridge situations, repositioning, value-add opportunities, and structured capital needs.</p>
+          </div>
+        </article>
+        <article>
+          <span>Development</span>
+          <div>
+            <h3>Development &amp; Construction</h3>
+            <p>Residential, commercial, multifamily, mixed-use, land, ground-up development, and construction projects requiring debt, equity, or blended capital.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container cta-inner">
+      <div class="eyebrow">Have an Opportunity?</div>
+      <span class="gold-line"></span>
+      <h2>Insight is useful.<br>Execution requires a real opportunity.</h2>
+      <p>If you are evaluating a business transaction, residential or commercial real estate purchase, investment property, refinancing need, or development project, Leva Ventures can review the opportunity to determine whether potential alignment may exist with appropriate private capital relationships.</p>
+      <a class="btn" href="/#contact">Submit an Opportunity</a>
+      <small>Submission does not constitute an offer, commitment, agreement, or guarantee to provide, arrange, source, or secure financing, investment, funding, or other capital.</small>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a href="/" class="brand">
+          <div class="monogram">Lᵛ</div>
+          <div class="brand-name">Leva Ventures<small>LLC</small></div>
+        </a>
+        <div class="footer-tagline">Connecting Opportunity to Capital.</div>
+      </div>
+      <div class="footer-links">
+        <a href="/#services">What We Do</a>
+        <a href="/#about">About</a>
+        <a href="/insights/">Insights</a>
+        <a href="/#contact">Contact</a>
+        <a href="/#privacy">Privacy</a>
+        <a href="/#disclosures">Disclosures</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Leva Ventures, LLC. All rights reserved.</p>
+      <p>Private capital sourcing · Opportunities · Relationships</p>
+    </div>
+  </div>
+</footer>
+
+<div class="preview-note">Insights preview · not yet indexed or linked from the homepage</div>
+
+<script>
+  const filterButtons = document.querySelectorAll('[data-filter]');
+  const articleCards = document.querySelectorAll('.article-card');
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+
+      filterButtons.forEach((item) => {
+        item.classList.remove('active');
+        item.setAttribute('aria-pressed', 'false');
+      });
+
+      button.classList.add('active');
+      button.setAttribute('aria-pressed', 'true');
+
+      articleCards.forEach((card) => {
+        card.hidden = filter !== 'all' && card.dataset.category !== filter;
+      });
+    });
+  });
+</script>
+</body>
+</html>
