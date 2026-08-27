@@ -1,0 +1,162 @@
+name: Fix Insights Mobile UX
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-insights-mobile.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Fix featured image and mobile navigation
+        shell: python
+        run: |
+          from pathlib import Path
+
+          # ---------- Insights page ----------
+          insights = Path('insights/index.html')
+          text = insights.read_text(encoding='utf-8')
+
+          old_visual = '''.featured-visual {
+  min-height: 500px;
+  position: relative;
+  background:
+    linear-gradient(145deg, rgba(8,11,17,.15), rgba(8,11,17,.78)),
+    url('/levaventures-og-image.png') center/cover no-repeat;
+}'''
+          new_visual = '''.featured-visual {
+  min-height: 500px;
+  position: relative;
+  background:
+    linear-gradient(145deg, rgba(8,11,17,.15), rgba(8,11,17,.78)) center/cover no-repeat,
+    url('/levaventures-og-image.png') center/contain no-repeat,
+    #0b0f16;
+}'''
+          if old_visual in text:
+              text = text.replace(old_visual, new_visual, 1)
+
+          # Add a compact mobile Home link on the Insights page.
+          if '.mobile-nav-link {' not in text:
+              anchor = '''.nav-links a:hover,
+.nav-links a.active { color: var(--gold-light); }
+'''
+              addition = '''.nav-links a:hover,
+.nav-links a.active { color: var(--gold-light); }
+
+.mobile-nav-link {
+  display: none;
+  color: var(--gold-light);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(199,161,90,.45);
+  padding-bottom: 4px;
+}
+'''
+              if anchor not in text:
+                  raise SystemExit('Insights nav CSS anchor not found; refusing unsafe edit.')
+              text = text.replace(anchor, addition, 1)
+
+          media_anchor = '''@media (max-width: 760px) {
+  .nav-links { display: none; }'''
+          media_new = '''@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .mobile-nav-link { display: inline-flex; align-items: center; }'''
+          if media_anchor in text:
+              text = text.replace(media_anchor, media_new, 1)
+
+          nav_anchor = '''    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="/#services">What We Do</a>
+      <a href="/#about">About</a>
+      <a href="/insights/" class="active">Insights</a>
+      <a href="/#contact">Contact</a>
+      <a href="/#contact" class="btn">Submit an Opportunity</a>
+    </nav>'''
+          nav_new = nav_anchor + '''
+    <a class="mobile-nav-link" href="/">Home</a>'''
+          if nav_anchor in text and 'class="mobile-nav-link" href="/"' not in text:
+              text = text.replace(nav_anchor, nav_new, 1)
+
+          # Mobile no longer needs to override image sizing; keep height only.
+          old_mobile_visual = '''  .featured-visual {
+  min-height: 240px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #0b0f16;
+}'''
+          new_mobile_visual = '''  .featured-visual {
+    min-height: 240px;
+  }'''
+          if old_mobile_visual in text:
+              text = text.replace(old_mobile_visual, new_mobile_visual, 1)
+
+          insights.write_text(text, encoding='utf-8')
+
+          # ---------- Homepage ----------
+          home = Path('index.html')
+          text = home.read_text(encoding='utf-8')
+
+          # Add compact mobile Insights link CSS once.
+          if '.mobile-insights-link {' not in text:
+              anchor = '''.nav-links a:hover { color: var(--gold-light); }
+'''
+              addition = '''.nav-links a:hover { color: var(--gold-light); }
+
+.mobile-insights-link {
+  display: none;
+  color: var(--gold-light);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(199,161,90,.45);
+  padding-bottom: 4px;
+}
+'''
+              if anchor not in text:
+                  raise SystemExit('Homepage nav CSS anchor not found; refusing unsafe edit.')
+              text = text.replace(anchor, addition, 1)
+
+          media_anchor = '''@media (max-width: 900px) {
+  .nav-links { display: none; }'''
+          media_new = '''@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .mobile-insights-link { display: inline-flex; align-items: center; }'''
+          if media_anchor in text:
+              text = text.replace(media_anchor, media_new, 1)
+
+          nav_anchor = '''    <nav class="nav-links">
+      <a href="#services">What We Do</a>
+      <a href="#about">About</a>
+      <a href="/insights/">Insights</a>
+      <a href="#contact">Contact</a>
+      <a class="btn" href="#contact">Submit an Opportunity</a>
+    </nav>'''
+          nav_new = nav_anchor + '''
+    <a class="mobile-insights-link" href="/insights/">Insights</a>'''
+          if nav_anchor not in text:
+              raise SystemExit('Homepage nav markup anchor not found; refusing unsafe edit.')
+          if 'class="mobile-insights-link"' not in text:
+              text = text.replace(nav_anchor, nav_new, 1)
+
+          home.write_text(text, encoding='utf-8')
+
+      - name: Commit fixes
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed."
+            exit 0
+          fi
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add index.html insights/index.html
+          git commit -m "Fix Insights featured image and mobile navigation"
+          git push
