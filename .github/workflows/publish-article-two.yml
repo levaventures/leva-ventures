@@ -1,0 +1,92 @@
+name: Publish Article Two
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/publish-article-two.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Refine and publish Article 2
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          article_url = '/insights/how-to-finance-investment-property-private-capital/'
+          article_full_url = 'https://levaventures.com/insights/how-to-finance-investment-property-private-capital/'
+
+          # ---------- Article 2 ----------
+          article2 = Path('insights/how-to-finance-investment-property-private-capital/index.html')
+          text = article2.read_text(encoding='utf-8')
+
+          # Small terminology refinement for a search term investors commonly encounter.
+          text = text.replace('<td>Business-purpose rental loan</td>', '<td>DSCR / business-purpose rental loan</td>', 1)
+
+          # Remove preview-only indexing block and banner.
+          text = text.replace('<meta name="robots" content="noindex,nofollow">\n', '', 1)
+          text = text.replace('<div class="preview-note">Article #2 preview · not yet indexed or linked from Insights</div>\n', '', 1)
+          article2.write_text(text, encoding='utf-8')
+
+          # ---------- Insights hub ----------
+          hub = Path('insights/index.html')
+          text = hub.read_text(encoding='utf-8')
+          old_card = '''        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Investment Property</div>
+          <h3>How to Finance an Investment Property When Traditional Financing Is Not the Right Fit</h3>
+          <p>What borrowers and investors should understand about property economics, borrower strength, leverage, liquidity, exit strategy, and private capital alternatives.</p>
+          <div class="article-status">Planned Insight</div>
+        </article>'''
+          new_card = '''        <article class="article-card" data-category="real-estate">
+          <div class="article-meta">Investment Property</div>
+          <h3>How to Finance an Investment Property When Traditional Financing Is Not the Right Fit</h3>
+          <p>What borrowers and investors should understand about property economics, borrower strength, leverage, liquidity, exit strategy, and private capital alternatives.</p>
+          <a class="btn" href="/insights/how-to-finance-investment-property-private-capital/" style="margin-top:auto;align-self:flex-start;">Read Article</a>
+        </article>'''
+          if old_card not in text:
+              raise SystemExit('Article 2 hub card not found; refusing unsafe edit.')
+          text = text.replace(old_card, new_card, 1)
+          hub.write_text(text, encoding='utf-8')
+
+          # ---------- Reciprocal link from Article 1 ----------
+          article1 = Path('insights/how-to-prepare-real-estate-opportunity-private-capital/index.html')
+          text = article1.read_text(encoding='utf-8')
+          anchor = '''      <p>Investment-property and business-purpose transactions may be analyzed under a different framework, but they still require clear documentation of the property, borrower or sponsor, capital request, repayment strategy, and economics.</p>'''
+          addition = anchor + '''
+
+      <div class="callout">
+        <div class="eyebrow">Related Leva Insight</div>
+        <p>For a deeper look at bridge, rental, value-add, and other investment-property structures, read <a href="/insights/how-to-finance-investment-property-private-capital/" style="color:#e0c27a;border-bottom:1px solid rgba(199,161,90,.4);">How to Finance an Investment Property When Traditional Financing Isn't the Right Fit</a>.</p>
+      </div>'''
+          if anchor not in text:
+              raise SystemExit('Article 1 reciprocal-link anchor not found; refusing unsafe edit.')
+          if article_url not in text:
+              text = text.replace(anchor, addition, 1)
+          article1.write_text(text, encoding='utf-8')
+
+          # ---------- Sitemap ----------
+          sitemap = Path('sitemap.xml')
+          text = sitemap.read_text(encoding='utf-8')
+          if article_full_url not in text:
+              entry = f'''\n  <url>\n    <loc>{article_full_url}</loc>\n    <lastmod>2026-08-26</lastmod>\n  </url>\n'''
+              text = text.replace('\n</urlset>', entry + '\n</urlset>')
+          sitemap.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit publication
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add insights/index.html insights/how-to-prepare-real-estate-opportunity-private-capital/index.html insights/how-to-finance-investment-property-private-capital/index.html sitemap.xml
+          git commit -m "Publish second Leva Insights article"
+          git push
