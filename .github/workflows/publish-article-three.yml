@@ -1,0 +1,82 @@
+name: Publish Article Three
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-article-three.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish Article 3 and complete opening cluster
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          url = "/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/"
+          full_url = "https://levaventures.com" + url
+
+          # Article 3: remove preview-only indexing and banner.
+          p = Path("insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/index.html")
+          s = p.read_text(encoding="utf-8")
+          s = s.replace('<meta name="robots" content="noindex,nofollow">\n', '', 1)
+          s = s.replace('<div class="preview-note">Article #3 preview · not yet indexed or linked from Insights</div>\n', '', 1)
+          p.write_text(s, encoding="utf-8")
+
+          # Insights hub: make the planned CRE acquisition card live and align its title to Article 3.
+          p = Path("insights/index.html")
+          s = p.read_text(encoding="utf-8")
+          old_title = "Commercial Real Estate Acquisition Financing: Debt, Equity and Hybrid Structures"
+          new_title = "Commercial Real Estate Acquisition Financing: Debt vs. Equity vs. Hybrid Structures"
+          pos = s.find(old_title)
+          if pos < 0:
+              pos = s.find(new_title)
+          if pos < 0:
+              raise SystemExit("Article 3 hub title not found")
+          if old_title in s[pos:pos+500]:
+              s = s[:pos] + s[pos:].replace(old_title, new_title, 1)
+              pos = s.find(new_title)
+          status = '<div class="article-status">Planned Insight</div>'
+          status_pos = s.find(status, pos)
+          if status_pos < 0:
+              raise SystemExit("Article 3 hub status not found")
+          button = '<a class="btn" href="' + url + '" style="margin-top:auto;align-self:flex-start;">Read Article</a>'
+          s = s[:status_pos] + button + s[status_pos + len(status):]
+          p.write_text(s, encoding="utf-8")
+
+          # Article 2: add the next-step link into the CRE capital-structure article.
+          p = Path("insights/how-to-finance-investment-property-private-capital/index.html")
+          s = p.read_text(encoding="utf-8")
+          faq_marker = '<section class="faq" aria-labelledby="faq-heading">'
+          if url not in s:
+              if faq_marker not in s:
+                  raise SystemExit("Article 2 FAQ marker not found")
+              related = '''<div class="related"><div class="eyebrow">Next in the Real Estate Capital Series</div><p>For commercial acquisitions where the question moves beyond a single loan and into the full capital stack, read <a href="/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/">Commercial Real Estate Acquisition Financing: Debt vs. Equity vs. Hybrid Structures</a>.</p></div>\n\n'''
+              s = s.replace(faq_marker, related + faq_marker, 1)
+              p.write_text(s, encoding="utf-8")
+
+          # Sitemap: add Article 3 once.
+          p = Path("sitemap.xml")
+          s = p.read_text(encoding="utf-8")
+          if full_url not in s:
+              entry = "\n  <url>\n    <loc>" + full_url + "</loc>\n    <lastmod>2026-08-26</lastmod>\n  </url>\n"
+              s = s.replace("\n</urlset>", entry + "\n</urlset>")
+              p.write_text(s, encoding="utf-8")
+          PY
+
+      - name: Commit publication
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add insights/index.html insights/how-to-finance-investment-property-private-capital/index.html insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/index.html sitemap.xml
+          git commit -m "Publish third Leva Insights article"
+          git push
