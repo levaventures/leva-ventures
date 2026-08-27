@@ -1,0 +1,60 @@
+name: Tune Article 1 Lead Font
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/tune-article-lead.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  tune:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Adjust lead paragraph sizing
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('insights/how-to-prepare-real-estate-opportunity-private-capital/index.html')
+          text = path.read_text(encoding='utf-8')
+
+          old_desktop = '''.article-body > .article-container > p:first-of-type {
+  font-family: var(--serif);
+  color: #e8e3da;
+  font-size: 1.55rem;
+  line-height: 1.45;
+}'''
+          new_desktop = '''.article-body > .article-container > p:first-of-type {
+  font-family: var(--serif);
+  color: #e8e3da;
+  font-size: 1.35rem;
+  line-height: 1.5;
+}'''
+
+          old_mobile = '''  .article-body > .article-container > p:first-of-type { font-size: 1.35rem; }'''
+          new_mobile = '''  .article-body > .article-container > p:first-of-type { font-size: 1.2rem; }'''
+
+          if old_desktop not in text:
+              raise SystemExit('Desktop lead paragraph style not found; refusing unsafe edit.')
+          if old_mobile not in text:
+              raise SystemExit('Mobile lead paragraph style not found; refusing unsafe edit.')
+
+          text = text.replace(old_desktop, new_desktop, 1)
+          text = text.replace(old_mobile, new_mobile, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit adjustment
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add insights/how-to-prepare-real-estate-opportunity-private-capital/index.html
+          git commit -m "Refine Article 1 lead paragraph typography"
+          git push
