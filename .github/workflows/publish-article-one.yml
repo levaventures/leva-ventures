@@ -1,0 +1,61 @@
+name: Publish Article One
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/publish-article-one.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish Article 1
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          article_url = '/insights/how-to-prepare-real-estate-opportunity-private-capital/'
+
+          # Article: remove preview-only indexing block and preview banner.
+          article = Path('insights/how-to-prepare-real-estate-opportunity-private-capital/index.html')
+          text = article.read_text(encoding='utf-8')
+          text = text.replace('<meta name="robots" content="noindex,nofollow">\n', '', 1)
+          text = text.replace('<div class="preview-note">Article #1 preview · not yet indexed or linked from Insights</div>\n', '', 1)
+          article.write_text(text, encoding='utf-8')
+
+          # Insights hub: turn the featured article into a live link.
+          hub = Path('insights/index.html')
+          text = hub.read_text(encoding='utf-8')
+          old = '<div class="article-status">First article in development</div>'
+          new = f'<a class="btn" href="{article_url}" style="margin-top:26px;align-self:flex-start;">Read Article</a>'
+          if old not in text:
+              raise SystemExit('Featured article status anchor not found; refusing unsafe edit.')
+          text = text.replace(old, new, 1)
+          hub.write_text(text, encoding='utf-8')
+
+          # Sitemap: add article URL once.
+          sitemap = Path('sitemap.xml')
+          text = sitemap.read_text(encoding='utf-8')
+          full_url = 'https://levaventures.com/insights/how-to-prepare-real-estate-opportunity-private-capital/'
+          if full_url not in text:
+              entry = f'''\n  <url>\n    <loc>{full_url}</loc>\n    <lastmod>2026-08-26</lastmod>\n  </url>\n'''
+              text = text.replace('\n</urlset>', entry + '\n</urlset>')
+          sitemap.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit publication
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add insights/index.html insights/how-to-prepare-real-estate-opportunity-private-capital/index.html sitemap.xml
+          git commit -m "Publish first Leva Insights article"
+          git push
