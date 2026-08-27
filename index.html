@@ -135,6 +135,16 @@ header {
 }
 .nav-links a:hover { color: var(--gold-light); }
 
+.mobile-insights-link {
+  display: none;
+  color: var(--gold-light);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(199,161,90,.45);
+  padding-bottom: 4px;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -534,6 +544,7 @@ footer {
 
 @media (max-width: 900px) {
   .nav-links { display: none; }
+  .mobile-insights-link { display: inline-flex; align-items: center; }
   .hero-copy { padding-bottom: 85px; }
   .intro-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 55px; }
   .pillars { grid-template-columns: 1fr 1fr; }
@@ -949,6 +960,7 @@ footer {
       <a href="#contact">Contact</a>
       <a class="btn" href="#contact">Submit an Opportunity</a>
     </nav>
+    <a class="mobile-insights-link" href="/insights/">Insights</a>
   </div>
 </header>
 

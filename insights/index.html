@@ -136,6 +136,16 @@ header {
 .nav-links a:hover,
 .nav-links a.active { color: var(--gold-light); }
 
+.mobile-nav-link {
+  display: none;
+  color: var(--gold-light);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(199,161,90,.45);
+  padding-bottom: 4px;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -366,8 +376,9 @@ header {
   min-height: 500px;
   position: relative;
   background:
-    linear-gradient(145deg, rgba(8,11,17,.15), rgba(8,11,17,.78)),
-    url('/levaventures-og-image.png') center/cover no-repeat;
+    linear-gradient(145deg, rgba(8,11,17,.15), rgba(8,11,17,.78)) center/cover no-repeat,
+    url('/levaventures-og-image.png') center/contain no-repeat,
+    #0b0f16;
 }
 .featured-visual::before {
   content: "";
@@ -626,6 +637,7 @@ footer {
 
 @media (max-width: 760px) {
   .nav-links { display: none; }
+  .mobile-nav-link { display: inline-flex; align-items: center; }
   .hero { min-height: 680px; padding: 150px 0 85px; }
   .intro-grid,
   .section-head { display: block; }
@@ -653,12 +665,8 @@ footer {
   .coverage-card { min-height: 200px; }
   .featured-copy { padding: 38px 26px; }
   .featured-visual {
-  min-height: 240px;
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-color: #0b0f16;
-}
+    min-height: 240px;
+  }
   .article-grid { grid-template-columns: 1fr; }
   .article-card { min-height: 285px; }
   .real-estate-list article { grid-template-columns: 1fr; gap: 9px; }
@@ -684,6 +692,7 @@ footer {
       <a href="/#contact">Contact</a>
       <a href="/#contact" class="btn">Submit an Opportunity</a>
     </nav>
+    <a class="mobile-nav-link" href="/">Home</a>
   </div>
 </header>
 
