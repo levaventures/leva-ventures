@@ -1,55 +1,20 @@
 name: Add Referral Fields
-
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
 permissions:
   contents: write
-
 jobs:
   update-form:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update contact form
+      - name: Patch form
         shell: bash
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path("index.html")
-          s = p.read_text(encoding="utf-8")
-          marker = '''        <div class="field">
-          <label for="phone">Phone</label>
-          <input id="phone" name="phone" type="tel" placeholder="Phone number">
-        </div>
-'''
-          addition = marker + '''        <div class="field">
-          <label for="referral_source">Referral Source</label>
-          <select id="referral_source" name="referral_source">
-            <option value="">Select one</option>
-            <option>Broker</option>
-            <option>Banker / Lender</option>
-            <option>Sponsor / Developer</option>
-            <option>Attorney / CPA / Advisor</option>
-            <option>Existing Client / Contact</option>
-            <option>Online / Search</option>
-            <option>Other</option>
-            <option>Not Applicable</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="referred_by">Referred By (Name)</label>
-          <input id="referred_by" name="referred_by" type="text" placeholder="Name or N/A">
-        </div>
-'''
-          if 'id="referral_source"' not in s:
-              if marker not in s:
-                  raise SystemExit("Phone marker not found")
-              s = s.replace(marker, addition, 1)
-              p.write_text(s, encoding="utf-8")
-          PY
+          B64='ICAgICAgICA8ZGl2IGNsYXNzPSJmaWVsZCI+CiAgICAgICAgICA8bGFiZWwgZm9yPSJyZWZlcnJhbF9zb3VyY2UiPlJlZmVycmFsIFNvdXJjZTwvbGFiZWw+CiAgICAgICAgICA8c2VsZWN0IGlkPSJyZWZlcnJhbF9zb3VyY2UiIG5hbWU9InJlZmVycmFsX3NvdXJjZSI+CiAgICAgICAgICAgIDxvcHRpb24gdmFsdWU9IiI+U2VsZWN0IG9uZTwvb3B0aW9uPgogICAgICAgICAgICA8b3B0aW9uPkJyb2tlcjwvb3B0aW9uPgogICAgICAgICAgICA8b3B0aW9uPkJhbmtlciAvIExlbmRlcjwvb3B0aW9uPgogICAgICAgICAgICA8b3B0aW9uPlNwb25zb3IgLyBEZXZlbG9wZXI8L29wdGlvbj4KICAgICAgICAgICAgPG9wdGlvbj5BdHRvcm5leSAvIENQQSAvIEFkdmlzb3I8L29wdGlvbj4KICAgICAgICAgICAgPG9wdGlvbj5FeGlzdGluZyBDbGllbnQgLyBDb250YWN0PC9vcHRpb24+CiAgICAgICAgICAgIDxvcHRpb24+T25saW5lIC8gU2VhcmNoPC9vcHRpb24+CiAgICAgICAgICAgIDxvcHRpb24+T3RoZXI8L29wdGlvbj4KICAgICAgICAgICAgPG9wdGlvbj5Ob3QgQXBwbGljYWJsZTwvb3B0aW9uPgogICAgICAgICAgPC9zZWxlY3Q+CiAgICAgICAgPC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0iZmllbGQiPgogICAgICAgICAgPGxhYmVsIGZvcj0icmVmZXJyZWRfYnkiPlJlZmVycmVkIEJ5IChOYW1lKTwvbGFiZWw+CiAgICAgICAgICA8aW5wdXQgaWQ9InJlZmVycmVkX2J5IiBuYW1lPSJyZWZlcnJlZF9ieSIgdHlwZT0idGV4dCIgcGxhY2Vob2xkZXI9Ik5hbWUgb3IgTi9BIj4KICAgICAgICA8L2Rpdj4K'
+          export B64
+          python3 -c 'from pathlib import Path; import os,base64; p=Path("index.html"); s=p.read_text(); marker="        <div class=\"field\">\n          <label for=\"phone\">Phone</label>\n          <input id=\"phone\" name=\"phone\" type=\"tel\" placeholder=\"Phone number\">\n        </div>\n"; snippet=base64.b64decode(os.environ["B64"]).decode(); assert marker in s; s=s if "id=\"referral_source\"" in s else s.replace(marker,marker+snippet,1); p.write_text(s)'
       - name: Commit changes
         shell: bash
         run: |
