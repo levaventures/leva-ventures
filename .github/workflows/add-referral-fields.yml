@@ -1,0 +1,67 @@
+name: Add Referral Fields
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-referral-fields.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add referral source and name fields
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = '''        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="Phone number">
+        </div>
+'''
+
+          addition = marker + '''        <div class="field">
+          <label for="referral_source">Referral Source</label>
+          <select id="referral_source" name="referral_source">
+            <option value="">Select one</option>
+            <option>Broker</option>
+            <option>Banker / Lender</option>
+            <option>Sponsor / Developer</option>
+            <option>Attorney / CPA / Advisor</option>
+            <option>Existing Client / Contact</option>
+            <option>Online / Search</option>
+            <option>Other</option>
+            <option>Not Applicable</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="referred_by">Referred By (Name)</label>
+          <input id="referred_by" name="referred_by" type="text" placeholder="Name or N/A">
+        </div>
+'''
+
+          if 'id="referral_source"' not in s:
+              if marker not in s:
+                  raise SystemExit('Phone field marker not found')
+              s = s.replace(marker, addition, 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit referral fields
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add index.html
+          git commit -m "Add referral tracking fields to contact form"
+          git push
