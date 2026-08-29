@@ -1301,5 +1301,20 @@ footer {
 </script>
 
 <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+<script id="referral-na-behavior">
+(function () {
+  const source = document.getElementById('referral_source');
+  const referredBy = document.getElementById('referred_by');
+  if (!source || !referredBy) return;
+
+  source.addEventListener('change', function () {
+    if (source.value === 'Not Applicable') {
+      referredBy.value = 'N/A';
+    } else if (referredBy.value.trim().toUpperCase() === 'N/A') {
+      referredBy.value = '';
+    }
+  });
+})();
+</script>
 </body>
 </html>
