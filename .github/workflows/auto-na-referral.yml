@@ -1,0 +1,51 @@
+name: Auto Fill Referral N/A
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/auto-na-referral.yml'
+permissions:
+  contents: write
+jobs:
+  update-form:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add referral N/A behavior
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '</body>'
+          script = '''<script id="referral-na-behavior">
+(function () {
+  const source = document.getElementById('referral_source');
+  const referredBy = document.getElementById('referred_by');
+  if (!source || !referredBy) return;
+
+  source.addEventListener('change', function () {
+    if (source.value === 'Not Applicable') {
+      referredBy.value = 'N/A';
+    } else if (referredBy.value.trim().toUpperCase() === 'N/A') {
+      referredBy.value = '';
+    }
+  });
+})();
+</script>
+'''
+          if 'id="referral-na-behavior"' not in s:
+              if marker not in s:
+                  raise SystemExit('Closing body tag not found')
+              s = s.replace(marker, script + marker, 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Auto-fill N/A for non-referred leads"
+          git push
