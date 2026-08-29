@@ -2,34 +2,29 @@ name: Add Referral Fields
 
 on:
   push:
-    branches: [main]
-    paths:
-      - '.github/workflows/add-referral-fields.yml'
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
-  update:
+  update-form:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Add referral source and name fields
+      - name: Update contact form
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
-
-          p = Path('index.html')
-          s = p.read_text(encoding='utf-8')
-
+          p = Path("index.html")
+          s = p.read_text(encoding="utf-8")
           marker = '''        <div class="field">
           <label for="phone">Phone</label>
           <input id="phone" name="phone" type="tel" placeholder="Phone number">
         </div>
 '''
-
           addition = marker + '''        <div class="field">
           <label for="referral_source">Referral Source</label>
           <select id="referral_source" name="referral_source">
@@ -49,19 +44,17 @@ jobs:
           <input id="referred_by" name="referred_by" type="text" placeholder="Name or N/A">
         </div>
 '''
-
           if 'id="referral_source"' not in s:
               if marker not in s:
-                  raise SystemExit('Phone field marker not found')
+                  raise SystemExit("Phone marker not found")
               s = s.replace(marker, addition, 1)
-              p.write_text(s, encoding='utf-8')
+              p.write_text(s, encoding="utf-8")
           PY
-
-      - name: Commit referral fields
+      - name: Commit changes
         shell: bash
         run: |
           git config user.name "Leva Ventures Site Automation"
           git config user.email "matt@levaventures.com"
           git add index.html
-          git commit -m "Add referral tracking fields to contact form"
+          git diff --cached --quiet || git commit -m "Add referral tracking fields to contact form"
           git push
