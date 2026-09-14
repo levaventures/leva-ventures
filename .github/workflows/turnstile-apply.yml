@@ -1,0 +1,73 @@
+name: Turnstile Apply
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/turnstile-apply.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply Turnstile integration
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          legacy = Path('.github/workflows/add-turnstile.yml').read_text(encoding='utf-8')
+          m = re.search(r'data-sitekey=\\?"([^"\\]+)', legacy)
+          if not m:
+              raise SystemExit('Could not recover Turnstile site key')
+          site_key = m.group(1)
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          s = s.replace("script-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; frame-src 'none';",
+                        "script-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://formspree.io https://challenges.cloudflare.com; form-action https://formspree.io; frame-src https://challenges.cloudflare.com;", 1)
+
+          note = '<p class="form-note"><strong>For your security:</strong> Please do not submit Social Security numbers, bank account numbers, passwords, tax identification numbers, government ID numbers, or other highly sensitive personal information through this form.</p>'
+          if 'class="cf-turnstile"' not in s:
+              widget = f'<div class="turnstile-wrap"><div class="cf-turnstile" data-sitekey="{site_key}" data-theme="dark" data-size="flexible"></div></div>\n      '
+              if note not in s:
+                  raise SystemExit('Security note marker missing')
+              s = s.replace(note, widget + note, 1)
+
+          local_script = '<script src="/assets/leva-site.js" defer></script>'
+          if 'challenges.cloudflare.com/turnstile/v0/api.js' not in s:
+              s = s.replace(local_script, '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>\n' + local_script, 1)
+
+          if '.turnstile-wrap {' not in s:
+              s = s.replace('.submission-success {', '.turnstile-wrap {\n  margin: 18px 0 12px;\n  min-height: 65px;\n  display: flex;\n  align-items: center;\n}\n\n.submission-success {', 1)
+
+          p.write_text(s, encoding='utf-8')
+
+          js = Path('assets/leva-site.js')
+          j = js.read_text(encoding='utf-8')
+          if 'cf-turnstile-response' not in j:
+              marker = '    const honeypot = form.querySelector(\'input[name="_gotcha"]\');\n    if (honeypot && honeypot.value) return;\n'
+              addition = marker + '\n    const turnstileToken = form.querySelector(\'[name="cf-turnstile-response"]\');\n    if (!turnstileToken || !turnstileToken.value) {\n      window.alert(\'Please complete the security verification before submitting.\');\n      return;\n    }\n'
+              if marker not in j:
+                  raise SystemExit('Form submit marker missing')
+              j = j.replace(marker, addition, 1)
+          js.write_text(j, encoding='utf-8')
+          PY
+      - name: Verify
+        shell: bash
+        run: |
+          set -e
+          grep -q 'class="cf-turnstile"' index.html
+          grep -q 'challenges.cloudflare.com/turnstile/v0/api.js' index.html
+          grep -q 'cf-turnstile-response' assets/leva-site.js
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add index.html assets/leva-site.js
+          git diff --cached --quiet || git commit -m "Add Turnstile protection to contact form"
+          git push
