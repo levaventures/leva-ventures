@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Leva Ventures, LLC connects qualified business, real estate, and investment opportunities with appropriate private capital sources.">
 <link rel="canonical" href="https://levaventures.com/">
@@ -1137,19 +1139,19 @@ footer {
       <div class="form-grid">
         <div class="field">
           <label for="name">Name</label>
-          <input id="name" name="name" type="text" placeholder="Your name" required>
+          <input id="name" name="name" type="text" placeholder="Your name" maxlength="120" autocomplete="name" required>
         </div>
         <div class="field">
           <label for="company">Company</label>
-          <input id="company" name="company" type="text" placeholder="Company name">
+          <input id="company" name="company" type="text" placeholder="Company name" maxlength="160" autocomplete="organization">
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="you@company.com" required>
+          <input id="email" name="email" type="email" placeholder="you@company.com" maxlength="254" autocomplete="email" required>
         </div>
         <div class="field">
           <label for="phone">Phone</label>
-          <input id="phone" name="phone" type="tel" placeholder="Phone number">
+          <input id="phone" name="phone" type="tel" placeholder="Phone number" maxlength="40" autocomplete="tel">
         </div>
         <div class="field">
           <label for="referral_source">Referral Source</label>
@@ -1167,7 +1169,7 @@ footer {
         </div>
         <div class="field">
           <label for="referred_by">Referred By (Name)</label>
-          <input id="referred_by" name="referred_by" type="text" placeholder="Name or N/A">
+          <input id="referred_by" name="referred_by" type="text" placeholder="Name or N/A" maxlength="160">
         </div>
         <div class="field">
           <label for="type">Opportunity Type</label>
@@ -1183,21 +1185,22 @@ footer {
         </div>
         <div class="field">
           <label for="location">Location</label>
-          <input id="location" name="location" type="text" placeholder="City / State">
+          <input id="location" name="location" type="text" placeholder="City / State" maxlength="160">
         </div>
         <div class="field">
           <label for="value">Transaction Value</label>
-          <input id="value" name="value" type="text" placeholder="$">
+          <input id="value" name="value" type="text" placeholder="$" maxlength="50" inputmode="decimal">
         </div>
         <div class="field">
           <label for="capital">Capital Required</label>
-          <input id="capital" name="capital" type="text" placeholder="$">
+          <input id="capital" name="capital" type="text" placeholder="$" maxlength="50" inputmode="decimal">
         </div>
         <div class="field full">
           <label for="message">Brief Opportunity Description</label>
-          <textarea id="message" name="message" placeholder="Tell us about the opportunity, capital need, timing, and current equity or capital position."></textarea>
+          <textarea id="message" name="message" maxlength="5000" placeholder="Tell us about the opportunity, capital need, timing, and current equity or capital position."></textarea>
         </div>
       </div>
+      <p class="form-note"><strong>For your security:</strong> Please do not submit Social Security numbers, bank account numbers, passwords, tax identification numbers, government ID numbers, or other highly sensitive personal information through this form.</p>
       <p class="form-note">By submitting this information, you acknowledge that submission is for evaluation and does not constitute an application for, or guarantee of, financing or capital placement.</p>
       <button class="btn" type="submit" data-fs-submit-btn>Submit Opportunity</button>
     </form>
@@ -1285,37 +1288,6 @@ footer {
     </div>
   </div>
 </footer>
-<script>
-  window.formspree =
-    window.formspree ||
-    function () {
-      (formspree.q = formspree.q || []).push(arguments);
-    };
-
-  formspree(
-    'initForm',
-    {
-      formElement: '#contact-form',
-      formId: 'mkjwlrlp'
-    }
-  );
-</script>
-
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
-<script id="referral-na-behavior">
-(function () {
-  const source = document.getElementById('referral_source');
-  const referredBy = document.getElementById('referred_by');
-  if (!source || !referredBy) return;
-
-  source.addEventListener('change', function () {
-    if (source.value === 'Not Applicable') {
-      referredBy.value = 'N/A';
-    } else if (referredBy.value.trim().toUpperCase() === 'N/A') {
-      referredBy.value = '';
-    }
-  });
-})();
-</script>
+<script src="/assets/leva-site.js" defer></script>
 </body>
 </html>
