@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form.style.display = 'none';
 
       if (success) {
-        success.style.display = 'block';
+        success.setAttribute('data-fs-active', '');
         success.setAttribute('role', 'status');
         success.setAttribute('aria-live', 'polite');
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
