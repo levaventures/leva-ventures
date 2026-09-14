@@ -1,0 +1,94 @@
+name: Security Hardening
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/security-hardening.yml'
+permissions:
+  contents: write
+jobs:
+  harden-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Harden homepage
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # 1) Add a restrictive CSP and privacy-preserving referrer policy early in <head>.
+          charset = '<meta charset="UTF-8">\n'
+          security_meta = '''<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests">\n<meta name="referrer" content="strict-origin-when-cross-origin">\n'''
+          if 'http-equiv="Content-Security-Policy"' not in s:
+              if charset not in s:
+                  raise SystemExit('charset marker missing')
+              s = s.replace(charset, charset + security_meta, 1)
+
+          # 2) Bound free-text/contact inputs and add useful browser autofill hints.
+          replacements = {
+              '<input id="name" name="name" type="text" placeholder="Your name" required>':
+                  '<input id="name" name="name" type="text" placeholder="Your name" maxlength="120" autocomplete="name" required>',
+              '<input id="company" name="company" type="text" placeholder="Company name">':
+                  '<input id="company" name="company" type="text" placeholder="Company name" maxlength="160" autocomplete="organization">',
+              '<input id="email" name="email" type="email" placeholder="you@company.com" required>':
+                  '<input id="email" name="email" type="email" placeholder="you@company.com" maxlength="254" autocomplete="email" required>',
+              '<input id="phone" name="phone" type="tel" placeholder="Phone number">':
+                  '<input id="phone" name="phone" type="tel" placeholder="Phone number" maxlength="40" autocomplete="tel">',
+              '<input id="referred_by" name="referred_by" type="text" placeholder="Name or N/A">':
+                  '<input id="referred_by" name="referred_by" type="text" placeholder="Name or N/A" maxlength="160">',
+              '<input id="location" name="location" type="text" placeholder="City / State">':
+                  '<input id="location" name="location" type="text" placeholder="City / State" maxlength="160">',
+              '<input id="value" name="value" type="text" placeholder="$">':
+                  '<input id="value" name="value" type="text" placeholder="$" maxlength="50" inputmode="decimal">',
+              '<input id="capital" name="capital" type="text" placeholder="$">':
+                  '<input id="capital" name="capital" type="text" placeholder="$" maxlength="50" inputmode="decimal">',
+              '<textarea id="message" name="message" placeholder="Tell us about the opportunity, capital need, timing, and current equity or capital position."></textarea>':
+                  '<textarea id="message" name="message" maxlength="5000" placeholder="Tell us about the opportunity, capital need, timing, and current equity or capital position."></textarea>'
+          }
+          for old, new in replacements.items():
+              if old in s:
+                  s = s.replace(old, new, 1)
+              elif new not in s:
+                  raise SystemExit('Expected form field not found: ' + old[:60])
+
+          # 3) Warn users not to submit high-risk identity or banking data through preliminary intake.
+          existing_note = '<p class="form-note">By submitting this information, you acknowledge that submission is for evaluation and does not constitute an application for, or guarantee of, financing or capital placement.</p>'
+          sensitive_note = '<p class="form-note"><strong>For your security:</strong> Please do not submit Social Security numbers, bank account numbers, passwords, tax identification numbers, government ID numbers, or other highly sensitive personal information through this form.</p>\n      '
+          if 'For your security:' not in s:
+              if existing_note not in s:
+                  raise SystemExit('form note marker missing')
+              s = s.replace(existing_note, sensitive_note + existing_note, 1)
+
+          # 4) Remove remotely hosted Formspree helper + inline scripts and use our first-party JS.
+          start_marker = '<script>\n  window.formspree ='
+          if start_marker in s:
+              start = s.index(start_marker)
+              body_end = s.index('</body>', start)
+              s = s[:start] + '<script src="/assets/leva-site.js" defer></script>\n' + s[body_end:]
+          elif '<script src="/assets/leva-site.js" defer></script>' not in s:
+              raise SystemExit('legacy script marker missing')
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Verify security changes
+        shell: bash
+        run: |
+          set -e
+          grep -q 'Content-Security-Policy' index.html
+          grep -q '/assets/leva-site.js' index.html
+          grep -q 'For your security:' index.html
+          ! grep -q 'unpkg.com/@formspree/ajax' index.html
+          ! grep -q "window.formspree" index.html
+          grep -q 'maxlength="5000"' index.html
+      - name: Commit hardening changes
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Harden homepage security and form handling"
+          git push
