@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const honeypot = form.querySelector('input[name="_gotcha"]');
     if (honeypot && honeypot.value) return;
 
+    const turnstileToken = form.querySelector('[name="cf-turnstile-response"]');
+    if (!turnstileToken || !turnstileToken.value) {
+      window.alert('Please complete the security verification before submitting.');
+      return;
+    }
+
     if (submitButton) {
       submitButton.disabled = true;
       submitButton.setAttribute('aria-busy', 'true');

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://formspree.io https://challenges.cloudflare.com; form-action https://formspree.io; frame-src https://challenges.cloudflare.com; worker-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Leva Ventures, LLC connects qualified business, real estate, and investment opportunities with appropriate private capital sources.">
@@ -592,6 +592,13 @@ footer {
   /* =========================================
    LEVA VENTURES — SUBMISSION CONFIRMATION
    ========================================= */
+
+.turnstile-wrap {
+  margin: 18px 0 12px;
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+}
 
 .submission-success {
   display: none;
@@ -1200,6 +1207,7 @@ footer {
           <textarea id="message" name="message" maxlength="5000" placeholder="Tell us about the opportunity, capital need, timing, and current equity or capital position."></textarea>
         </div>
       </div>
+      <div class="turnstile-wrap"><div class="cf-turnstile" data-sitekey="0x4AAAAAAE0cfjc5oTJPXAXE" data-theme="dark" data-size="flexible"></div></div>
       <p class="form-note"><strong>For your security:</strong> Please do not submit Social Security numbers, bank account numbers, passwords, tax identification numbers, government ID numbers, or other highly sensitive personal information through this form.</p>
       <p class="form-note">By submitting this information, you acknowledge that submission is for evaluation and does not constitute an application for, or guarantee of, financing or capital placement.</p>
       <button class="btn" type="submit" data-fs-submit-btn>Submit Opportunity</button>
@@ -1288,6 +1296,7 @@ footer {
     </div>
   </div>
 </footer>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="/assets/leva-site.js" defer></script>
 </body>
 </html>
