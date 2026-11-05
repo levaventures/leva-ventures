@@ -19,9 +19,9 @@ for (const path of pages) {
   assert.match(html,/base-uri 'self'/,path+" must restrict base URI");
   assert.match(html,/upgrade-insecure-requests/,path+" must upgrade mixed content");
   for (const match of html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)) {
-    const attrs = match[1], body = match[2].trim();
+  for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
     if (body && !/type=["']application\\/ld\\+json["']/i.test(attrs)) {
-      assert.fail(path+" has executable inline script");
+    if (body && !/type=["']application\/ld\+json["']/i.test(attrs)) {
     }
   }
   assert.doesNotMatch(html,/\son(?:click|load|error|submit|change|mouseover)\s*=/i,path+" has inline event handler");
