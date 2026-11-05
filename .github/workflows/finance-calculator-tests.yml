@@ -37,19 +37,25 @@ jobs:
       - name: Run Chromium desktop and mobile smoke tests
         run: node tools/commercial-real-estate-loan-calculator/browser.test.js
 
+      - name: Comprehensive calculator, voice, validation, export, and mobile QA
+        run: node tools/commercial-real-estate-loan-calculator/full-qa.test.js
+      - name: Comprehensive offline preview QA
+        env:
+          LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-full-qa-offline-review.html
+        run: node tools/commercial-real-estate-loan-calculator/full-qa.test.js
       - name: Automated WCAG 2.2 accessibility checks
         run: node tools/commercial-real-estate-loan-calculator/accessibility.test.js
       - name: Validate standalone interactive preview
         env:
-          LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-accessible-capital-stack-review.html
+          LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-full-qa-offline-review.html
         run: node tools/commercial-real-estate-loan-calculator/browser.test.js
       - name: Capture visual preview screenshots
         run: node tools/commercial-real-estate-loan-calculator/preview-screenshots.js
       - name: Publish review bundle
         uses: actions/upload-artifact@v4
         with:
-          name: leva-financing-intelligence-accessible-capital-stack-review
+          name: leva-financing-intelligence-full-qa-offline-review
           path: |
-            previews/leva-financing-intelligence-accessible-capital-stack-review.html
+            previews/leva-financing-intelligence-full-qa-offline-review.html
             preview-artifacts/*.png
           retention-days: 30
