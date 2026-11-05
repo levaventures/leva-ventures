@@ -956,6 +956,21 @@ footer {
 .footer-bottom{color:#c9c8c2!important;font-size:.78rem!important}
 .article-disclaimer,.article-disclaimer strong{color:#c9c8c2!important;font-size:.82rem!important}
 .article-status{color:#c9c8c2!important;font-size:.78rem!important}
+
+/* Launch-ready free financial tools section — visually aligned with Leva */
+.finance-tool-feature{padding:105px 0;background:linear-gradient(118deg,rgba(199,161,90,.08),transparent 48%),#111722;border-top:1px solid rgba(199,161,90,.25);border-bottom:1px solid rgba(199,161,90,.25)}
+.finance-tool-feature .feature-inner{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(270px,.85fr);gap:52px;align-items:center}
+.finance-tool-feature h2{font-size:clamp(2.3rem,5vw,4.3rem);font-family:var(--serif);font-weight:500;line-height:1.08;margin:17px 0 22px}
+.finance-tool-feature p{color:#d5d1c8;font-size:.93rem;line-height:1.85;max-width:620px}
+.finance-tool-feature .feature-actions{display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin-top:29px}
+.finance-tool-feature .feature-fineprint{font-size:.75rem;line-height:1.6;color:#c9c8c2;margin-top:19px}
+.finance-tool-feature .feature-metrics{background:#171c26;border:1px solid rgba(199,161,90,.4);border-radius:9px;padding:28px;display:grid;gap:17px}
+.finance-tool-feature .feature-metrics .kicker{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:#e0c27a}
+.finance-tool-feature .feature-metrics .metric{padding-top:16px;border-top:1px solid rgba(199,161,90,.23);display:flex;justify-content:space-between;gap:12px;align-items:center}
+.finance-tool-feature .feature-metrics .metric strong{color:#f2efe8;font-size:.88rem}
+.finance-tool-feature .feature-metrics .metric span{color:#c9c8c2;font-size:.78rem;text-align:right}
+@media(max-width:780px){.finance-tool-feature{padding:68px 0}.finance-tool-feature .feature-inner{grid-template-columns:minmax(0,1fr);gap:24px}.finance-tool-feature .feature-metrics{padding:22px}}
+
 </style>
 </head>
 
@@ -974,6 +989,7 @@ footer {
       <a href="#services">What We Do</a>
       <a href="#about">About</a>
       <a href="/insights/">Insights</a>
+      <a href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a>
       <a href="#contact">Contact</a>
       <a class="btn" href="#contact">Submit an Opportunity</a>
     </nav>
@@ -1079,6 +1095,26 @@ footer {
         <h3>Debt &amp; Equity</h3>
         <p>Helping clarify capital requirements and facilitate introductions to potentially relevant debt or equity sources.</p>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="finance-tool-feature" aria-labelledby="finance-tool-title">
+  <div class="container feature-inner">
+    <div>
+      <div class="eyebrow">LEVA FINANCING INTELLIGENCE · FREE ONLINE TOOL</div>
+      <span class="gold-line"></span>
+      <h2 id="finance-tool-title">See what the numbers<br>could support.</h2>
+      <p>Use our free commercial real estate loan calculator to estimate monthly payments and maturity balances. Explore refinance constraints using DSCR, LTV and debt yield, then visualize modeled senior debt, supplemental capital, sponsor cash and any remaining funding gap.</p>
+      <div class="feature-actions"><a class="btn" href="/tools/commercial-real-estate-loan-calculator/">Open Free Commercial Loan Calculator</a><a href="/insights/">Explore Financing Insights</a></div>
+      <p class="feature-fineprint">No account required. Optional audio explanations and a readable capital-stack table. Illustrative estimates, not lender terms or an offer of financing.</p>
+    </div>
+    <div class="feature-metrics" aria-label="Calculator capabilities">
+      <div class="kicker">Understand your financing scenario</div>
+      <div class="metric"><strong>Loan payment</strong><span>Monthly and interest-only</span></div>
+      <div class="metric"><strong>Refinance capacity</strong><span>DSCR · LTV · Debt yield</span></div>
+      <div class="metric"><strong>Capital stack</strong><span>Interactive funding allocation</span></div>
+      <div class="metric"><strong>Optional narration</strong><span>Spoken summaries + transcript</span></div>
     </div>
   </div>
 </section>
@@ -1238,6 +1274,7 @@ footer {
         <a href="#services">What We Do</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
+        <a href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a>
         <a href="#privacy">Privacy</a>
         <a href="#disclosures">Disclosures</a><a href="/accessibility/">Accessibility</a>
       </div>
