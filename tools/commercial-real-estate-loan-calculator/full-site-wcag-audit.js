@@ -24,7 +24,7 @@ const pages=[
      const page=await ctx.newPage();
      await page.goto("file://"+path.resolve(filename),{waitUntil:"domcontentloaded"});
      await page.addScriptTag({path:require.resolve("axe-core/axe.min.js")});
-     const modes=filename.includes("/calculator/")?["loan","refi"]:["default"];
+     const modes=filename.includes("commercial-real-estate-loan-calculator/")?["loan","refi"]:["default"];
      for(const mode of modes){
        if(mode==="refi"){
          await page.locator("#tab-refi").click();
