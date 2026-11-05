@@ -11,6 +11,8 @@ on:
       - 'sitemap.xml'
       - 'robots.txt'
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   calculation-tests:
     runs-on: ubuntu-latest
@@ -19,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Static website security policy and sink regression checks
+        run: node tools/commercial-real-estate-loan-calculator/site-security.test.js
       - name: Test financial formulas
         run: node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/spoken-amounts.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js
       - name: Verify HTML internal targets and required assets
