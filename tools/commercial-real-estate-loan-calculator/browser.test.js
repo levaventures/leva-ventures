@@ -6,6 +6,18 @@ const {chromium}=require("playwright");
  const browser=await chromium.launch({headless:true});
  try{
   const page=await browser.newPage({viewport:{width:1366,height:900},acceptDownloads:true});
+  // Deterministic UK-voice mock: captures the exact text submitted to speechSynthesis.
+  await page.addInitScript(()=>{
+    window.__spokenUtterances=[];window.__voiceCancelCount=0;
+    const installed=[{name:"Sonia",lang:"en-GB",voiceURI:"uk-female-sonia",localService:true}];
+    class MockUtterance{constructor(text){this.text=text;this.lang="";this.rate=1;this.voice=null;}}
+    Object.defineProperty(window,"SpeechSynthesisUtterance",{configurable:true,value:MockUtterance});
+    Object.defineProperty(window,"speechSynthesis",{configurable:true,value:{
+      speaking:false, getVoices:()=>installed, addEventListener:()=>{},
+      cancel:()=>{window.__voiceCancelCount++;},
+      speak:(utterance)=>{window.__spokenUtterances.push({text:utterance.text,lang:utterance.lang,voice:utterance.voice?.voiceURI,rate:utterance.rate});}
+    }});
+  });
   page.on("pageerror",error=>{console.error("Browser exception:",error);process.exitCode=1;});
   const url="file://"+path.resolve(__dirname,process.env.LEVA_PREVIEW_FILE || "index.html");
   await page.goto(url,{waitUntil:"domcontentloaded"});
@@ -54,8 +66,34 @@ const {chromium}=require("playwright");
   await page.waitForFunction(()=>document.querySelector("#st-cash").value==="200000");
   assert.equal(await page.locator("#stack-slider-cash-value").innerText(),"$200,000");
   assert.ok((await page.locator("#capital-stack-table tbody").innerText()).includes("200,000"));
+  // Clicking "Listen" must actually invoke the speech engine, show a matching
+  // transcript, and offer stop feedback — not merely update hidden ARIA text.
+  const initialVoiceCount=await page.evaluate(()=>window.__spokenUtterances.length);
   await page.locator("#capital-stack-announce").click();
-  assert.match(await page.locator("#capital-stack-live").textContent(),/modeled/i);
+  const voiceCapture=await page.evaluate(()=>({
+    utterances:window.__spokenUtterances,
+    transcript:document.querySelector("#capital-stack-transcript").textContent,
+    visible:!document.querySelector("#capital-stack-transcript-wrap").hidden,
+    status:document.querySelector("#capital-stack-audio-status").textContent
+  }));
+  assert.equal(voiceCapture.utterances.length,initialVoiceCount+1);
+  assert.equal(voiceCapture.utterances.at(-1).voice,"uk-female-sonia");
+  assert.equal(voiceCapture.utterances.at(-1).lang,"en-GB");
+  assert.equal(voiceCapture.utterances.at(-1).text,voiceCapture.transcript);
+  assert.ok(voiceCapture.visible,"Capital stack transcript must be available");
+  assert.match(voiceCapture.transcript,/total modeled funding uses/i);
+  assert.match(voiceCapture.status,/narrating/i);
+  const uiValues=await page.evaluate(()=>({
+    uses:document.querySelector("#capital-stack-uses").textContent,
+    sources:document.querySelector("#capital-stack-sources").textContent,
+    gap:document.querySelector("#capital-stack-gap").textContent
+  }));
+  // Narration words must equal *the values visible on screen*.
+  const words=await page.evaluate(numbers=>Object.fromEntries(
+    Object.entries(numbers).map(([k,v])=>[k,LVSpokenAmounts.speakMoney(Number(v.replace(/[^0-9]/g,"")))])),uiValues);
+  for(const word of Object.values(words))assert.ok(voiceCapture.transcript.includes(word),"Unmatched visible capital stack value: "+word);
+  await page.locator("#capital-stack-stop").click();
+  assert.match(await page.locator("#capital-stack-audio-status").innerText(),/stopped/i);
   // WAI-ARIA tab keyboard arrow navigation must switch panels and update tab order.
   await page.locator("#tab-refi").focus();
   await page.keyboard.press("ArrowLeft");
@@ -65,6 +103,7 @@ const {chromium}=require("playwright");
   assert.equal(await page.locator("#tab-refi").getAttribute("aria-selected"),"true");
   await page.locator("#accessible-announce").click();
   assert.ok((await page.locator("#accessible-status").textContent()).includes("Refinance results"));
+  assert.equal(await page.locator("#accessible-status").isVisible(),true,"The general summary should also be visible to non-screen-reader users");
   const voiceOptions=await page.locator("#voice-choice option").allTextContents();
   assert.ok(!voiceOptions.some(x=>/automatic voice/i.test(x)),"Automatic voice option must be removed.");
   await page.locator("#voice-panel summary").first().click();
