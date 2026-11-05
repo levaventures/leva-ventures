@@ -58,6 +58,15 @@ jobs:
         run: node tools/commercial-real-estate-loan-calculator/browser.test.js
       - name: Capture visual preview screenshots
         run: node tools/commercial-real-estate-loan-calculator/preview-screenshots.js
+      - name: Publish complete site launch screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-site-launch-preview-screenshots
+          path: |
+            preview-artifacts/leva-homepage-launch-*.png
+            preview-artifacts/leva-insights-launch-*.png
+            preview-artifacts/leva-calculator-launch-*.png
+          retention-days: 30
       - name: Publish review bundle
         uses: actions/upload-artifact@v4
         with:
