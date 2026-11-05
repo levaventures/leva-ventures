@@ -7,13 +7,23 @@ const multiplier=n=>Number.isFinite(n)?n.toFixed(2)+"x":"—";
 const numeric=id=>{const raw=$(id).value;if(raw.trim()==="")return NaN;return Number(raw);};
 const loanInputs=["loan-principal","loan-rate","loan-term","loan-amort","loan-io"];
 const refInputs=["ref-value","ref-noi","ref-payoff","ref-costs","ref-reserves","ref-rate","ref-amort","ref-dscr","ref-ltv","ref-yield"];
+function validateFinancialFields(ids){
+ for(const id of ids){
+   const field=$(id);
+   if(!field||field.type==="checkbox")continue;
+   if(field.value.trim()===""||!field.checkValidity()){
+     throw new Error("Please enter a valid value for "+(document.querySelector('label[for="'+id+'"]')?.textContent||id)+".");
+   }
+ }
+}
+
 let lastLoan=null,lastRef=null;
 function loanParams(){return {principal:numeric("loan-principal"),rate:numeric("loan-rate"),termYears:numeric("loan-term"),amortYears:numeric("loan-amort"),interestOnly:$("loan-io").checked};}
 function refParams(){return {value:numeric("ref-value"),noi:numeric("ref-noi"),payoff:numeric("ref-payoff"),costs:numeric("ref-costs"),reserves:numeric("ref-reserves"),rate:numeric("ref-rate"),amortYears:numeric("ref-amort"),dscrMin:numeric("ref-dscr"),ltvMax:numeric("ref-ltv"),debtYieldMin:numeric("ref-yield")};}
 function setText(id,value){$(id).textContent=value;}
 function updateLoan(){
   try {
-    const a=LVFinance.loan(loanParams());lastLoan=a;
+    validateFinancialFields(loanInputs);const a=LVFinance.loan(loanParams());lastLoan=a;
     setText("loan-error","");setText("loan-payment",money(a.monthlyPayment));setText("loan-annual",money(a.annualDebtService));
     setText("loan-balloon",money(a.balloon));setText("loan-interest",money(a.interestPaid));setText("loan-repaid",money(a.principalRepaid));
     setText("loan-insight",a.interestOnly?"Interest-only payments do not reduce principal; the full loan amount remains due at maturity.":a.balloon>1?"With a term shorter than the amortization period, a balloon balance remains due at maturity.":"Based on these assumptions the loan is fully amortized by maturity.");
@@ -48,7 +58,7 @@ function renderScenarios(params,baseline){
 }
 function updateRef(){
   try{
-    const params=refParams(),r=LVFinance.refinance(params);lastRef={params,result:r};
+    validateFinancialFields(refInputs);const params=refParams(),r=LVFinance.refinance(params);lastRef={params,result:r};
     setText("ref-error","");setText("ref-gap",money(r.gap));setText("ref-gap-label",r.gap>0?"Estimated additional cash required beyond modeled proceeds":"No modeled shortfall; potential surplus: "+money(r.surplus));
     setText("ref-proceeds",money(r.proceeds));setText("ref-required",money(r.required));setText("ref-actual-dscr",multiplier(r.dscr));setText("ref-actual-ltv",pct(r.ltv));
     setText("ref-insight",r.proceeds===0?"Based on these inputs, the model supports no loan proceeds.":r.binding+" is the limiting constraint under your assumptions. Actual financing may be constrained by additional lender criteria.");
