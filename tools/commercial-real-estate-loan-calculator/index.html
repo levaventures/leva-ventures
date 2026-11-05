@@ -74,6 +74,13 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.capital-segment{transition:none}}
 @media print{.capital-sliders,.capital-announce{display:none!important}.capital-stack-visual{print-color-adjust:exact;-webkit-print-color-adjust:exact}.capital-stack-panel{break-inside:avoid}}
 
+
+.access-tools{margin:-5px 0 16px;display:flex;justify-content:flex-end}
+.access-tools .btn{min-height:40px}
+.tablewrap:focus-visible{outline:3px solid #f0cf85;outline-offset:3px}
+.data-table caption{text-align:left;padding:12px 10px;color:#d9c8a6;font-size:12px}
+.capital-data-table th,.capital-data-table td{white-space:nowrap}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Commercial Real Estate Loan Calculator & Refinance Intelligence","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://levaventures.com/tools/commercial-real-estate-loan-calculator/","publisher":{"@type":"Organization","name":"Leva Ventures, LLC","url":"https://levaventures.com/"}}</script>
 <script src="./finance.js" defer></script>
@@ -84,6 +91,7 @@
 <script src="./advanced.js" defer></script>
 <script src="./spoken-amounts.js" defer></script>
 <script src="./voice.js" defer></script>
+<script src="./accessibility.js" defer></script>
 </head>
 <body><a class="skip-link" href="#main-content">Skip to calculator</a>
 <header><div class="wrap nav"><a class="brand" href="/"><span class="mark">LV</span><span>LEVA VENTURES</span></a><nav class="navlinks" aria-label="Main navigation"><a href="/">Home</a><a href="/insights/">Insights</a><a href="#how-it-works">How it works</a></nav></div></header>
@@ -93,18 +101,19 @@
 <h1>Commercial Real Estate<br>Loan Calculator</h1>
 <p class="intro">Calculate commercial loan payments and balloon balances—or go deeper with Leva Refinance Intelligence to estimate borrowing capacity, identify the constraint on proceeds and understand a potential funding shortfall.</p>
 <div class="trust"><span>Free, no registration</span><span>Immediate results</span><span>Private calculations in your browser</span></div>
-<div class="tabs" role="tablist" aria-label="Calculator mode"><button type="button" class="tab" id="tab-loan" role="tab" aria-controls="loan-panel" aria-selected="true">Commercial Loan Calculator</button><button type="button" class="tab" id="tab-refi" role="tab" aria-controls="refi-panel" aria-selected="false">Refinance Intelligence</button></div>
-<section id="loan-panel" role="tabpanel" aria-labelledby="tab-loan">
+<div class="tabs" role="tablist" aria-label="Calculator mode"><button type="button" class="tab" id="tab-loan" role="tab" aria-controls="loan-panel" aria-selected="true" tabindex="0">Commercial Loan Calculator</button><button type="button" class="tab" id="tab-refi" role="tab" aria-controls="refi-panel" aria-selected="false" tabindex="-1">Refinance Intelligence</button></div>
+<div class="access-tools"><button type="button" id="accessible-announce" class="btn secondary">Announce current results</button><p class="sr-only" id="accessible-status" role="status" aria-live="polite" aria-atomic="true"></p></div>
+<section id="loan-panel" role="tabpanel" aria-labelledby="tab-loan" tabindex="0">
 <div class="tool">
 <div class="panel"><div class="panelheading"><h2>Calculate your loan</h2><p class="helper">Adjust the assumptions to update your estimated payments.</p></div>
 <div class="fields">
-<div class="field full"><label for="loan-principal">Loan amount ($)</label><input id="loan-principal" type="number" min="1" step="1000" value="2500000" inputmode="decimal"></div>
-<div class="field"><label for="loan-rate">Annual interest rate (%)</label><input id="loan-rate" type="number" min="0" max="100" step=".125" value="7.5" inputmode="decimal"></div>
-<div class="field"><label for="loan-term">Loan term (years)</label><input id="loan-term" type="number" min=".0833333" max="100" step="1" value="10" inputmode="decimal"></div>
-<div class="field"><label for="loan-amort">Amortization (years)</label><input id="loan-amort" type="number" min=".0833333" max="100" step="1" value="25" inputmode="decimal"></div>
+<div class="field full"><label for="loan-principal">Loan amount ($)</label><input id="loan-principal" type="number" min="1" step="any" value="2500000" inputmode="decimal"></div>
+<div class="field"><label for="loan-rate">Annual interest rate (%)</label><input id="loan-rate" type="number" min="0" max="100" step="any" value="7.5" inputmode="decimal"></div>
+<div class="field"><label for="loan-term">Loan term (years)</label><input id="loan-term" type="number" min=".0833333" max="100" step="any" value="10" inputmode="decimal"></div>
+<div class="field"><label for="loan-amort">Amortization (years)</label><input id="loan-amort" type="number" min=".0833333" max="100" step="any" value="25" inputmode="decimal"></div>
 </div>
 <label class="checkrow" for="loan-io"><input type="checkbox" id="loan-io">Interest-only payments through maturity</label>
-<div class="error" id="loan-error" role="alert"></div>
+<div class="error" id="loan-error" role="alert" aria-live="assertive"></div>
 </div>
 <div class="panel results"><div class="panelheading"><div class="eyebrow">YOUR LOAN ESTIMATE</div><h2>Payment & maturity</h2></div>
 <div class="metricmain"><div class="metriclabel">Estimated monthly payment</div><div class="metricnumber" id="loan-payment">—</div><div class="helper">Excludes taxes, insurance, lender fees and reserves</div></div>
@@ -114,20 +123,20 @@
 <p class="voice-status" id="loan-voice-status" role="status">Select Listen to loan summary to hear an explanation. Spoken amounts use the exact whole-dollar figures displayed above; the CSV schedule retains cents.</p><details class="voice-transcript" id="loan-voice-transcript-wrap" hidden><summary>Read loan narration transcript</summary><p id="loan-voice-transcript"></p></details>
 <div class="notice">Illustrative calculations only. This does not establish lender eligibility, an available interest rate, or an offer of financing.</div>
 </div></div></section>
-<section id="refi-panel" role="tabpanel" aria-labelledby="tab-refi" hidden>
+<section id="refi-panel" role="tabpanel" aria-labelledby="tab-refi" tabindex="0" hidden>
 <div class="tool"><div class="panel"><div class="panelheading"><div class="eyebrow">LEVA REFINANCE INTELLIGENCE</div><h2>Find your funding gap</h2><p class="helper">Use illustrative underwriting assumptions—not quoted lender terms—to estimate loan capacity.</p></div>
 <div class="fields">
-<div class="field"><label for="ref-value">Property value ($)</label><input id="ref-value" type="number" min="1" step="10000" value="5000000" inputmode="decimal"></div>
-<div class="field"><label for="ref-noi">Annual NOI ($)</label><input id="ref-noi" type="number" min="0" step="5000" value="350000" inputmode="decimal"></div>
-<div class="field"><label for="ref-payoff">Existing loan payoff ($)</label><input id="ref-payoff" type="number" min="0" step="10000" value="3400000" inputmode="decimal"></div>
-<div class="field"><label for="ref-costs">Closing costs and fees ($)</label><input id="ref-costs" type="number" min="0" step="1000" value="75000" inputmode="decimal"></div>
-<div class="field"><label for="ref-reserves">Additional cash reserves ($)</label><input id="ref-reserves" type="number" min="0" step="1000" value="0" inputmode="decimal"></div>
-<div class="field"><label for="ref-rate">Assumed interest rate (%)</label><input id="ref-rate" type="number" min="0" step=".125" value="8" inputmode="decimal"></div>
-<div class="field"><label for="ref-amort">Amortization (years)</label><input id="ref-amort" type="number" min=".0833333" max="100" step="1" value="25" inputmode="decimal"></div>
-<div class="field"><label for="ref-dscr">Minimum DSCR (x)</label><input id="ref-dscr" type="number" min=".01" step=".05" value="1.25" inputmode="decimal"></div>
-<div class="field"><label for="ref-ltv">Maximum LTV (%)</label><input id="ref-ltv" type="number" min="0" max="100" step="1" value="70" inputmode="decimal"></div>
-<div class="field"><label for="ref-yield">Minimum debt yield (%)</label><input id="ref-yield" type="number" min=".01" max="100" step=".25" value="9" inputmode="decimal"></div>
-</div><div class="error" id="ref-error" role="alert"></div>
+<div class="field"><label for="ref-value">Property value ($)</label><input id="ref-value" type="number" min="1" step="any" value="5000000" inputmode="decimal"></div>
+<div class="field"><label for="ref-noi">Annual NOI ($)</label><input id="ref-noi" type="number" min="0" step="any" value="350000" inputmode="decimal"></div>
+<div class="field"><label for="ref-payoff">Existing loan payoff ($)</label><input id="ref-payoff" type="number" min="0" step="any" value="3400000" inputmode="decimal"></div>
+<div class="field"><label for="ref-costs">Closing costs and fees ($)</label><input id="ref-costs" type="number" min="0" step="any" value="75000" inputmode="decimal"></div>
+<div class="field"><label for="ref-reserves">Additional cash reserves ($)</label><input id="ref-reserves" type="number" min="0" step="any" value="0" inputmode="decimal"></div>
+<div class="field"><label for="ref-rate">Assumed interest rate (%)</label><input id="ref-rate" type="number" min="0" step="any" value="8" inputmode="decimal"></div>
+<div class="field"><label for="ref-amort">Amortization (years)</label><input id="ref-amort" type="number" min=".0833333" max="100" step="any" value="25" inputmode="decimal"></div>
+<div class="field"><label for="ref-dscr">Minimum DSCR (x)</label><input id="ref-dscr" type="number" min=".01" step="any" value="1.25" inputmode="decimal"></div>
+<div class="field"><label for="ref-ltv">Maximum LTV (%)</label><input id="ref-ltv" type="number" min="0" max="100" step="any" value="70" inputmode="decimal"></div>
+<div class="field"><label for="ref-yield">Minimum debt yield (%)</label><input id="ref-yield" type="number" min=".01" max="100" step="any" value="9" inputmode="decimal"></div>
+</div><div class="error" id="ref-error" role="alert" aria-live="assertive"></div>
 <div class="notice">Assumptions are examples and not current market offers. The actual lender may adjust NOI, expenses, valuation, reserves, and loan terms.</div>
 </div>
 <div class="panel results"><div class="panelheading"><div class="eyebrow">UNDERWRITING ESTIMATE</div><h2>Financing capacity</h2></div>
@@ -139,7 +148,7 @@
  <p class="helper" id="ref-graphic-explanation">This graphic compares modeled loan proceeds with the payoff, costs and reserves.</p>
  </div>
 <div class="metrics"><div class="metric"><span class="metriclabel">Estimated loan proceeds</span><strong id="ref-proceeds">—</strong></div><div class="metric"><span class="metriclabel">Payoff + costs + reserves</span><strong id="ref-required">—</strong></div><div class="metric"><span class="metriclabel">Calculated DSCR</span><strong id="ref-actual-dscr">—</strong></div><div class="metric"><span class="metriclabel">Calculated LTV</span><strong id="ref-actual-ltv">—</strong></div></div>
-<h3 class="subhead">What limits your loan?</h3><div id="constraint-bars" aria-label="Loan sizing limits"></div>
+<h3 class="subhead">What limits your loan?</h3><div id="constraint-bars" role="group" aria-label="Loan sizing limits"></div>
 <div class="insight" id="ref-insight">Adjust the inputs to see which metric limits the estimated loan.</div>
 <details class="guided" id="voice-panel">
  <summary><span aria-hidden="true">◖))</span> Leva Guided Insights <small>Optional spoken explanations</small></summary>
@@ -175,11 +184,11 @@
     <h3>Build a hypothetical capital plan</h3>
     <p class="helper">Senior loan proceeds are imported from Refinance Intelligence. Enter independent sources below.</p>
     <div class="fields advanced-fields">
-      <div class="field"><label for="st-cash">Sponsor cash contribution ($)</label><input id="st-cash" type="number" min="0" step="10000" value="150000"></div>
-      <div class="field"><label for="st-capital">Additional capital ($)</label><input id="st-capital" type="number" min="0" step="10000" value="300000"></div>
+      <div class="field"><label for="st-cash">Sponsor cash contribution ($)</label><input id="st-cash" type="number" min="0" step="any" value="150000"></div>
+      <div class="field"><label for="st-capital">Additional capital ($)</label><input id="st-capital" type="number" min="0" step="any" value="300000"></div>
       <div class="field"><label for="st-type">Capital structure</label><select id="st-type"><option value="junior-debt">Junior debt — interest only</option><option value="preferred-equity">Preferred equity — current pay</option></select></div>
-      <div class="field"><label for="st-return">Assumed annual cash cost (%)</label><input id="st-return" type="number" min="0" max="100" step=".25" value="12"></div>
-      <div class="field full"><label for="st-fee">Upfront additional-capital fee (%)</label><input id="st-fee" type="number" min="0" max="100" step=".25" value="2"></div>
+      <div class="field"><label for="st-return">Assumed annual cash cost (%)</label><input id="st-return" type="number" min="0" max="100" step="any" value="12"></div>
+      <div class="field full"><label for="st-fee">Upfront additional-capital fee (%)</label><input id="st-fee" type="number" min="0" max="100" step="any" value="2"></div>
     </div>
     <div class="notice">Junior debt assumes interest-only servicing and full principal repayment at exit. Preferred equity assumes current-pay distributions and return of contributed capital at exit, not a guaranteed distribution. Neither models taxes, compounding, catch-ups, participation rights, or legal terms.</div>
   </div>
@@ -195,7 +204,7 @@
       <div class="metric"><span class="metriclabel">Additional capital due at exit</span><strong id="st-exit">—</strong></div>
     </div>
     <h3 class="subhead">Scenario limitations</h3><div class="insight" id="st-flags" role="status">Enter an assumption set.</div>
-    <div class="error" id="st-error" role="alert"></div>
+    <div class="error" id="st-error" role="alert" aria-live="assertive"></div>
   </div>
 </div>
 <section class="panel capital-stack-panel moretop" id="capital-stack-section" aria-labelledby="capital-stack-heading">
@@ -218,7 +227,7 @@
    <input type="range" id="stack-slider-capital" min="0" max="5000000" step="10000" value="300000">
   </div>
  </div>
- <div class="tablewrap capital-tablewrap">
+ <div class="tablewrap capital-tablewrap" role="region" aria-label="Scroll to review the capital stack sources table" tabindex="0">
  <table class="data-table capital-data-table" id="capital-stack-table">
   <caption>Accessible capital stack amounts: hypothetical sources, amounts applied, and percent of uses</caption>
   <thead><tr><th scope="col">Capital source</th><th scope="col">Modeled amount</th><th scope="col">Applied to uses</th><th scope="col">Share of uses</th></tr></thead>
@@ -234,7 +243,7 @@
 <div class="advanced-two moretop">
   <div class="panel"><div class="eyebrow">STRESS TEST</div><h2>How resilient is the refinance?</h2>
     <p class="helper">The grid measures estimated funding gaps as NOI and rates move independently. Other assumptions stay constant.</p>
-    <div class="tablewrap"><table class="data-table" id="st-heatmap"><caption>Funding shortfall: rows are NOI changes, columns are changes in interest rate</caption><thead></thead><tbody></tbody></table></div>
+    <div class="tablewrap" role="region" aria-label="Scroll to review interest rate and NOI stress test" tabindex="0"><table class="data-table" id="st-heatmap"><caption>Funding shortfall: rows are NOI changes, columns are changes in interest rate</caption><thead></thead><tbody></tbody></table></div>
     <p class="helper">Cells show total calculated funding gap before hypothetical additional sponsor cash or junior financing.</p>
   </div>
   <div class="panel"><div class="eyebrow">KEY DRIVERS</div><h2>What would have to change?</h2>
@@ -248,15 +257,15 @@
   <h2>Compare funding assumptions side by side</h2>
   <p class="helper">Compare baseline senior terms, a user-defined alternative senior scenario and the layered capital plan above. The alternative is a hypothetical case—not a market quote or lender offer.</p>
   <div class="fields advanced-fields comparison-inputs">
-    <div class="field"><label for="alt-rate">Alternative interest rate (%)</label><input id="alt-rate" type="number" min="0" max="100" step=".125" value="9.25"></div>
-    <div class="field"><label for="alt-amort">Alternative amortization (years)</label><input id="alt-amort" type="number" min=".083333" max="100" step="1" value="25"></div>
-    <div class="field"><label for="alt-dscr">Alternative minimum DSCR</label><input id="alt-dscr" type="number" min=".01" step=".05" value="1.2"></div>
-    <div class="field"><label for="alt-ltv">Alternative maximum LTV (%)</label><input id="alt-ltv" type="number" min="0" max="100" step="1" value="70"></div>
-    <div class="field"><label for="alt-yield">Alternative minimum debt yield (%)</label><input id="alt-yield" type="number" min=".01" max="100" step=".25" value="9"></div>
-    <div class="field"><label for="alt-fees">Additional alternative senior fees ($)</label><input id="alt-fees" type="number" min="0" step="1000" value="25000"></div>
+    <div class="field"><label for="alt-rate">Alternative interest rate (%)</label><input id="alt-rate" type="number" min="0" max="100" step="any" value="9.25"></div>
+    <div class="field"><label for="alt-amort">Alternative amortization (years)</label><input id="alt-amort" type="number" min=".083333" max="100" step="any" value="25"></div>
+    <div class="field"><label for="alt-dscr">Alternative minimum DSCR</label><input id="alt-dscr" type="number" min=".01" step="any" value="1.2"></div>
+    <div class="field"><label for="alt-ltv">Alternative maximum LTV (%)</label><input id="alt-ltv" type="number" min="0" max="100" step="any" value="70"></div>
+    <div class="field"><label for="alt-yield">Alternative minimum debt yield (%)</label><input id="alt-yield" type="number" min=".01" max="100" step="any" value="9"></div>
+    <div class="field"><label for="alt-fees">Additional alternative senior fees ($)</label><input id="alt-fees" type="number" min="0" step="any" value="25000"></div>
   </div>
-  <div class="tablewrap"><table class="data-table" id="st-compare"><caption>Illustrative structure comparison: financing cost and funding shortfalls</caption><thead><tr><th>Metric</th><th>Baseline senior</th><th>Alternative senior</th><th>Layered capital</th></tr></thead><tbody></tbody></table></div>
-  <div class="error" id="st-compare-error" role="alert"></div>
+  <div class="tablewrap" role="region" aria-label="Scroll to review the financing comparison table" tabindex="0"><table class="data-table" id="st-compare"><caption>Illustrative structure comparison: financing cost and funding shortfalls</caption><thead><tr><th>Metric</th><th>Baseline senior</th><th>Alternative senior</th><th>Layered capital</th></tr></thead><tbody></tbody></table></div>
+  <div class="error" id="st-compare-error" role="alert" aria-live="assertive"></div>
   <div class="notice">Annual cash coverage for layered capital is NOI divided by senior debt service plus modeled junior debt interest or current-pay preferred distributions. This is not the senior lender's DSCR test. The comparison excludes taxes, exit fees, amortization on additional capital, and other transaction-specific terms.</div>
 </div>
 <div class="panel moretop" id="blueprint-preview">
