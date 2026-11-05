@@ -9,6 +9,13 @@ const speechAvailable=typeof window.speechSynthesis!=="undefined"&&typeof window
 let voices=[],current=null,spokenText="",voiceChangedByUser=false;
 const money=n=>LVSpokenAmounts.speakMoney(n);
 const raw=id=>$(id).value.trim()===""?NaN:Number($(id).value);
+function requireValidInputs(fields){
+  for(const id of fields){
+    const field=$(id);
+    if(field.value.trim()===""||!field.checkValidity())throw new Error("Invalid "+id);
+  }
+}
+
 function inputs(){
  return {value:raw("ref-value"),noi:raw("ref-noi"),payoff:raw("ref-payoff"),costs:raw("ref-costs"),reserves:raw("ref-reserves"),
  rate:raw("ref-rate"),amortYears:raw("ref-amort"),dscrMin:raw("ref-dscr"),ltvMax:raw("ref-ltv"),debtYieldMin:raw("ref-yield")};
@@ -79,6 +86,7 @@ function regenerateVoices(){
  }
 }
 function loanNarration(){
+ requireValidInputs(["loan-principal","loan-rate","loan-term","loan-amort"]);
  const a=LVFinance.loan({principal:raw("loan-principal"),rate:raw("loan-rate"),
  termYears:raw("loan-term"),amortYears:raw("loan-amort"),interestOnly:$("loan-io").checked});
  return "Loan summary. The estimated monthly payment shown on screen is "+money(a.monthlyPayment)+". "+
@@ -90,6 +98,7 @@ function loanNarration(){
  "The payment schedule download retains cents. These estimates exclude property taxes, insurance, lender fees and reserve requirements. They do not constitute an offer of financing.";
 }
 function refinanceNarration(){
+ requireValidInputs(["ref-value","ref-noi","ref-payoff","ref-costs","ref-reserves","ref-rate","ref-amort","ref-dscr","ref-ltv","ref-yield"]);
  const data=inputs(),r=LVFinance.refinance(data);
  const limiting=r.binding||"the calculated loan constraints";
  const gap=LVSpokenAmounts.roundDisplayedDollars(r.gap)>0?
@@ -104,6 +113,7 @@ function refinanceNarration(){
  "Actual lender underwriting, property conditions and available financing terms could change these results. This is educational analysis, not an approval or financing offer.";
 }
 function capitalNarration(){
+ requireValidInputs([...ids.filter(id=>id!=="st-type")]);
  const data=inputs(),p=LVStrategy.capitalPlan(data,config());
  const type=p.type==="preferred-equity"?"current-pay preferred equity":"interest-only junior debt";
  const covered=LVSpokenAmounts.roundDisplayedDollars(p.uncovered)>0?"After accounting for new fees and selected sources, "+money(p.uncovered)+" remains uncovered. ":
@@ -116,6 +126,7 @@ function capitalNarration(){
  "This is an educational structure comparison, not a recommendation or an available financing solution.";
 }
 function capitalStackNarration(){
+ requireValidInputs([...ids.filter(id=>id!=="st-type")]);
  const plan=LVStrategy.capitalPlan(inputs(),config());
  const stack=LVCapitalStack.build(plan);
  const capitalKind=plan.type==="preferred-equity"?"preferred equity":"junior debt";
@@ -175,7 +186,11 @@ function handle(makeText){
  try{narrate(makeText());}
  catch(err){
   stop();
+  spokenText="";
   $("capital-stack-live").textContent="";
+  $("voice-transcript-wrap").hidden=true;
+  $("loan-voice-transcript-wrap").hidden=true;
+  $("capital-stack-transcript-wrap").hidden=true;
   status("Please correct any invalid financial inputs before requesting narration.");
 }
 }
