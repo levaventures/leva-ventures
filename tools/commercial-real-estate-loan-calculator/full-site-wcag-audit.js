@@ -36,7 +36,7 @@ const pages=[
        }));
        const mapped=a.violations.map(v=>({rule:v.id,impact:v.impact,description:v.help,helpUrl:v.helpUrl,
          nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html.slice(0,400)}))}));
-       report.push({page:name,mode,path:filename,violations:mapped,passes:a.passes.length,incomplete:a.incomplete.map(x=>x.id)});
+       report.push({page:name,mode,path:filename,violations:mapped,passes:a.passes.length,incomplete:a.incomplete.map(x=>({rule:x.id,impact:x.impact,nodes:x.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html.slice(0,180)}))}))});
        for(const v of mapped)violations.push({page:name,mode,...v});
        console.log("SCAN",name,mode,JSON.stringify({violations:mapped.length,rules:mapped.map(x=>x.rule+" ("+x.nodes.length+" elements)"),passes:a.passes.length,incomplete:a.incomplete.length}));
      }
