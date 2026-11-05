@@ -76,6 +76,8 @@ const {chromium}=require("playwright");
   await page.locator("#voice-dscr").click();
   assert.match(await page.locator("#voice-transcript").textContent(),/coverage ratio/i);
   await page.locator("#voice-stop").click();
+  // Restore an underfunded plan before testing sponsor cash improvements.
+  await page.locator("#st-cash").fill("0");
   const original=await page.locator("#st-uncovered").innerText();
   await page.locator("#st-cash").fill("400000");
   await page.waitForFunction(previous=>document.querySelector("#st-uncovered").textContent!==previous,original);
