@@ -682,6 +682,18 @@ footer {
 .footer-bottom{color:#c9c8c2!important;font-size:.78rem!important}
 .article-disclaimer,.article-disclaimer strong{color:#c9c8c2!important;font-size:.82rem!important}
 .article-status{color:#c9c8c2!important;font-size:.78rem!important}
+
+.calculator-insights-feature{padding:104px 0;background:#151b25;border-block:1px solid rgba(199,161,90,.28)}
+.calculator-insights-inner{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(250px,.7fr);gap:52px;align-items:center}
+.calculator-insights-feature h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.3rem,4.5vw,4rem);line-height:1.12;margin:14px 0 22px}
+.calculator-insights-feature p{font-size:.87rem;color:#d5d1c8;line-height:1.8;margin-bottom:18px}
+.calculator-insights-feature .btn{display:inline-block;margin:7px 0 0}
+.calculator-insights-feature .calculator-insights-note{font-size:.75rem;color:#c9c8c2;margin-top:17px;max-width:550px}
+.calculator-insights-points{border:1px solid rgba(199,161,90,.38);background:#1b2029;padding:26px;border-radius:8px}
+.calculator-insights-points p{border-bottom:1px solid rgba(199,161,90,.17);padding:11px 0;margin:0}
+.calculator-insights-points p:last-child{border:0}
+.calculator-insights-points strong{color:#f2efe8}
+@media(max-width:760px){.calculator-insights-feature{padding:66px 0}.calculator-insights-inner{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -696,6 +708,7 @@ footer {
       <a href="/#services">What We Do</a>
       <a href="/#about">About</a>
       <a href="/insights/" class="active">Insights</a>
+      <a href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a>
       <a href="/#contact">Contact</a>
       <a href="/#contact" class="btn">Submit an Opportunity</a>
     </nav>
@@ -939,7 +952,24 @@ footer {
     </div>
   </section>
 
-  <section class="cta">
+  <section class="calculator-insights-feature" aria-labelledby="insights-calculator-title">
+  <div class="container calculator-insights-inner">
+    <div>
+      <div class="eyebrow">FREE FINANCING INTELLIGENCE</div>
+      <span class="gold-line"></span>
+      <h2 id="insights-calculator-title">Test the assumptions.<br>Then examine the structure.</h2>
+      <p>Reading about commercial debt and equity is one thing; modeling the numbers is another. Explore payments, balloon balances, refinancing limits and capital shortfalls with Leva’s free interactive commercial real estate loan calculator.</p>
+      <a class="btn" href="/tools/commercial-real-estate-loan-calculator/">Open Free Commercial Real Estate Loan Calculator</a>
+      <p class="calculator-insights-note">Includes optional narrated explanations and a readable capital-stack table. All estimates are illustrative—not funding offers or commitments.</p>
+    </div>
+    <div class="calculator-insights-points" aria-label="Key calculator capabilities">
+      <p><strong>Monthly payment</strong> — amortizing and interest-only structures</p>
+      <p><strong>Refinance capacity</strong> — DSCR, LTV and debt yield</p>
+      <p><strong>Funding shortfall</strong> — sources, uses and sponsor equity</p>
+    </div>
+  </div>
+</section>
+<section class="cta">
     <div class="container cta-inner">
       <div class="eyebrow">Have an Opportunity?</div>
       <span class="gold-line"></span>
@@ -966,7 +996,7 @@ footer {
         <a href="/#about">About</a>
         <a href="/insights/">Insights</a>
         <a href="/#contact">Contact</a>
-        <a href="/#privacy">Privacy</a>
+        <a href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a><a href="/#privacy">Privacy</a>
         <a href="/#disclosures">Disclosures</a><a href="/accessibility/">Accessibility</a>
       </div>
     </div>
