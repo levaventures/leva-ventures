@@ -19,10 +19,18 @@
 @media(max-width:850px){.tool,.articlegrid{grid-template-columns:1fr}.hero{padding-top:42px}.navlinks{gap:12px}.navlinks a{font-size:11px}.compare{grid-template-columns:1fr 1fr}}
 @media(max-width:540px){.fields,.metrics,.compare{grid-template-columns:1fr}.panel{padding:18px}.brand{letter-spacing:.08em}.navlinks a:first-child{display:none}.chartrow{grid-template-columns:79px 1fr auto}.tab{flex:1;padding:12px 10px;font-size:12px}}
 @media print{header,.tabs,.actions,.plus,.bodysection,.closing,.fields,.panelheading,.notice{display:none!important}body{background:#fff;color:#111}.hero{padding:5px 0}.intro{color:#333}.tool,.metrics{display:block}.panel{border:none;padding:6px;color:#111;background:#fff!important}.panel.results{background:#fff}.metric,.metricmain,.scenario,.insight{break-inside:avoid;background:#fff;color:#111;border-color:#aaa}.metricnumber,.scenario strong{color:#111}.metriclabel,.metric .metriclabel,.helper{color:#444}.printonly{display:block}}
+
+/* Advanced modeling workspace */
+.advanced{margin-top:25px}.advanced-title{padding:26px 0 16px}.advanced-title h2{margin:8px 0}.advanced-two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.moretop{margin-top:18px}.advanced .panel h2{margin:9px 0 16px}.advanced .panel h3{margin-bottom:8px}.advanced-fields{margin:16px 0}.tablewrap{width:100%;overflow-x:auto;margin-top:18px;border:1px solid #47443f;border-radius:7px}.data-table{width:100%;border-collapse:collapse;min-width:500px;font-size:12px;line-height:1.4}.data-table th,.data-table td{padding:13px 10px;border-bottom:1px solid #3a3d41;text-align:right;white-space:nowrap}.data-table th:first-child,.data-table td:first-child{text-align:left}.data-table th{color:#e2cd9d;background:#202630;font-weight:600}.data-table tbody tr:last-child td{border-bottom:0}.data-table td.heat-low{background:#1c332c;color:#b3e6c7}.data-table td.heat-mid{background:#393321;color:#e9d6a3}.data-table td.heat-high{background:#40292b;color:#ffbdb7}.data-table td.heat-current{outline:2px solid #e0c27a;outline-offset:-3px}.driver{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #353634;font-size:12px}.driver strong{font-weight:600;color:#e0c27a}.advanced #st-flags{white-space:pre-line}.advanced #st-brief{max-height:none;line-height:1.65;min-height:180px}.advanced .notice{line-height:1.6}
+@media(max-width:850px){.advanced-two{grid-template-columns:1fr}}
+@media print{.advanced{display:block}.advanced-two{display:block}.advanced .fields,.advanced .actions,.advanced .helper{display:none!important}.advanced .panel{break-inside:avoid;margin:12px 0}.advanced .tablewrap{border-color:#777}.advanced .data-table th,.advanced .data-table td{color:#111!important;background:#fff!important;border-color:#aaa}.advanced #st-brief{white-space:pre-wrap;color:#111}.advanced .metricmain{color:#111}.advanced .insight{color:#111}}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Commercial Real Estate Loan Calculator & Refinance Intelligence","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://levaventures.com/tools/commercial-real-estate-loan-calculator/","publisher":{"@type":"Organization","name":"Leva Ventures, LLC","url":"https://levaventures.com/"}}</script>
 <script src="./finance.js" defer></script>
+<script src="./strategy.js" defer></script>
 <script src="./app.js" defer></script>
+<script src="./advanced.js" defer></script>
 </head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="/"><span class="mark">LV</span><span>LEVA VENTURES</span></a><nav class="navlinks" aria-label="Main navigation"><a href="/">Home</a><a href="/insights/">Insights</a><a href="#how-it-works">How it works</a></nav></div></header>
@@ -79,6 +87,76 @@
 <div class="actions"><button class="btn primary" type="button" id="ref-print">Print / Save PDF</button><button class="btn secondary" type="button" id="ref-copy">Copy results</button></div>
 <div class="notice">Senior debt and added capital can be restricted by loan documents, lien priority, DSCR, covenants, and applicable laws. A positive result does not establish financeability.</div>
 </div></div></section>
+
+<section class="advanced" id="advanced-workspace" aria-labelledby="advanced-heading">
+<div class="advanced-title">
+  <div class="eyebrow">DEEPER ANALYSIS · FREE INTERACTIVE MODEL</div>
+  <h2 id="advanced-heading">Capital Gap Solution Builder</h2>
+  <p class="helper">Explore ways a funding shortfall could change under different assumptions. This model does not verify the availability, eligibility or legal feasibility of any source of capital.</p>
+</div>
+<div class="advanced-two">
+  <div class="panel">
+    <h3>Build a hypothetical capital plan</h3>
+    <p class="helper">Senior loan proceeds are imported from Refinance Intelligence. Enter independent sources below.</p>
+    <div class="fields advanced-fields">
+      <div class="field"><label for="st-cash">Sponsor cash contribution ($)</label><input id="st-cash" type="number" min="0" step="10000" value="150000"></div>
+      <div class="field"><label for="st-capital">Additional capital ($)</label><input id="st-capital" type="number" min="0" step="10000" value="300000"></div>
+      <div class="field"><label for="st-type">Capital structure</label><select id="st-type"><option value="junior-debt">Junior debt — interest only</option><option value="preferred-equity">Preferred equity — current pay</option></select></div>
+      <div class="field"><label for="st-return">Assumed annual cash cost (%)</label><input id="st-return" type="number" min="0" max="100" step=".25" value="12"></div>
+      <div class="field full"><label for="st-fee">Upfront additional-capital fee (%)</label><input id="st-fee" type="number" min="0" max="100" step=".25" value="2"></div>
+    </div>
+    <div class="notice">Junior debt assumes interest-only servicing and full principal repayment at exit. Preferred equity assumes current-pay distributions and return of contributed capital at exit, not a guaranteed distribution. Neither models taxes, compounding, catch-ups, participation rights, or legal terms.</div>
+  </div>
+  <div class="panel results">
+    <div class="eyebrow">CAPITAL PLAN RESULTS</div>
+    <div class="metricmain"><div class="metriclabel">Funding still uncovered, including added fees</div><div class="metricnumber" id="st-uncovered">—</div><div class="helper" id="st-coverage-label">Scenario estimates only</div></div>
+    <div class="metrics">
+      <div class="metric"><span class="metriclabel">Senior loan proceeds</span><strong id="st-senior">—</strong></div>
+      <div class="metric"><span class="metriclabel">Total modeled sources</span><strong id="st-sources">—</strong></div>
+      <div class="metric"><span class="metriclabel">Annual cash obligations</span><strong id="st-obligations">—</strong></div>
+      <div class="metric"><span class="metriclabel">Cash obligation coverage</span><strong id="st-coverage">—</strong></div>
+      <div class="metric"><span class="metriclabel">Extra upfront fee</span><strong id="st-fees">—</strong></div>
+      <div class="metric"><span class="metriclabel">Additional capital due at exit</span><strong id="st-exit">—</strong></div>
+    </div>
+    <h3 class="subhead">Scenario limitations</h3><div class="insight" id="st-flags" role="status">Enter an assumption set.</div>
+    <div class="error" id="st-error" role="alert"></div>
+  </div>
+</div>
+<div class="advanced-two moretop">
+  <div class="panel"><div class="eyebrow">STRESS TEST</div><h2>How resilient is the refinance?</h2>
+    <p class="helper">The grid measures estimated funding gaps as NOI and rates move independently. Other assumptions stay constant.</p>
+    <div class="tablewrap"><table class="data-table" id="st-heatmap"><caption>Funding shortfall: rows are NOI changes, columns are changes in interest rate</caption><thead></thead><tbody></tbody></table></div>
+    <p class="helper">Cells show total calculated funding gap before hypothetical additional sponsor cash or junior financing.</p>
+  </div>
+  <div class="panel"><div class="eyebrow">KEY DRIVERS</div><h2>What would have to change?</h2>
+    <p class="helper">Understand important downside sensitivities and an indicative target for closing the gap using senior financing alone.</p>
+    <div id="st-drivers"></div>
+    <div class="notice" id="st-target">Calculating target financing inputs.</div>
+  </div>
+</div>
+<div class="panel moretop">
+  <div class="eyebrow">STRUCTURE COMPARISON</div>
+  <h2>Compare funding assumptions side by side</h2>
+  <p class="helper">Compare baseline senior terms, a user-defined alternative senior scenario and the layered capital plan above. The alternative is a hypothetical case—not a market quote or lender offer.</p>
+  <div class="fields advanced-fields comparison-inputs">
+    <div class="field"><label for="alt-rate">Alternative interest rate (%)</label><input id="alt-rate" type="number" min="0" max="100" step=".125" value="9.25"></div>
+    <div class="field"><label for="alt-amort">Alternative amortization (years)</label><input id="alt-amort" type="number" min=".083333" max="100" step="1" value="25"></div>
+    <div class="field"><label for="alt-dscr">Alternative minimum DSCR</label><input id="alt-dscr" type="number" min=".01" step=".05" value="1.2"></div>
+    <div class="field"><label for="alt-ltv">Alternative maximum LTV (%)</label><input id="alt-ltv" type="number" min="0" max="100" step="1" value="70"></div>
+    <div class="field"><label for="alt-yield">Alternative minimum debt yield (%)</label><input id="alt-yield" type="number" min=".01" max="100" step=".25" value="9"></div>
+    <div class="field"><label for="alt-fees">Additional alternative senior fees ($)</label><input id="alt-fees" type="number" min="0" step="1000" value="25000"></div>
+  </div>
+  <div class="tablewrap"><table class="data-table" id="st-compare"><caption>Illustrative structure comparison: financing cost and funding shortfalls</caption><thead><tr><th>Metric</th><th>Baseline senior</th><th>Alternative senior</th><th>Layered capital</th></tr></thead><tbody></tbody></table></div>
+  <div class="error" id="st-compare-error" role="alert"></div>
+  <div class="notice">Annual cash coverage for layered capital is NOI divided by senior debt service plus modeled junior debt interest or current-pay preferred distributions. This is not the senior lender's DSCR test. The comparison excludes taxes, exit fees, amortization on additional capital, and other transaction-specific terms.</div>
+</div>
+<div class="panel moretop" id="blueprint-preview">
+  <div class="eyebrow">PREVIEW · NOT A PAID PRODUCT</div><h2>Leva Commercial Financing Blueprint — Sample</h2>
+  <p class="helper">This free preview assembles the current assumptions and calculated constraints into a short on-screen transaction brief. The proposed full blueprint would add deeper saved scenarios, documentation review, supporting schedules, and a designed PDF after validation.</p>
+  <div class="summary" id="st-brief" aria-live="polite"></div>
+  <div class="actions"><button class="btn secondary" type="button" id="st-copy">Copy sample blueprint</button><button class="btn secondary" type="button" id="st-print">Print current analysis</button></div>
+</div>
+</section>
 <section class="plus" aria-labelledby="blueprint-title"><div class="eyebrow">OPTIONAL PREMIUM ANALYSIS · PROPOSED</div><h3 id="blueprint-title">Leva Commercial Financing Blueprint</h3><p>Beyond the free results: detailed sensitivity tables, multiple saved scenarios, sources-and-uses, financing constraints and a transaction preparation checklist. A sample report and paid service are in development—not yet available for purchase.</p><div class="mini"><span>Proposed $79 introductory price</span><span>No checkout active</span><span>Human-reviewed services separate</span></div><p>Have an active capital requirement? <a href="/#contact">Explore a confidential opportunity inquiry</a>. Submitting an inquiry is voluntary and separate from calculator use.</p></section>
 </div></section>
 <section class="bodysection" id="how-it-works"><div class="wrap articlegrid"><div class="copy">
