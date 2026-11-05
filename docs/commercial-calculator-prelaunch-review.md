@@ -28,7 +28,7 @@
 ## Automated test evidence
 
 - GitHub Actions run [41971448168](https://github.com/levaventures/leva-ventures/actions/runs/41971448168) passed: loan and refinance formula tests, strategy and capital-stack tests, exact narrated amounts, desktop/mobile browser flow, offline standalone preview, and axe automated WCAG rule checks.
-- After the prelaunch copy changes, re-run the same suite and retain the new workflow reference here before a release.
+- After the prelaunch copy changes, GitHub Actions run [41972918262](https://github.com/levaventures/leva-ventures/actions/runs/41972918262) passed: financial unit tests, full browser QA, offline HTML QA, automated accessibility scans, screenshots and preview artifact packaging.
 - Exact spoken text sent to speechSynthesis has been verified with an injected UK voice mock. This does not prove actual audible voice quality on every user's browser.
 - Browser automation is not financial/legal approval, user acceptance testing, or an accessibility conformance statement.
 
