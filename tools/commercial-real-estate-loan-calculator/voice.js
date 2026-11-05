@@ -132,7 +132,7 @@ function capitalStackNarration(){
  const capitalKind=plan.type==="preferred-equity"?"preferred equity":"junior debt";
  const result=stack.shortage>0?
    "An estimated "+money(stack.shortage)+" is still uncovered. ":
-   "All modeled funding uses are covered, although the funding is not confirmed. ";
+   "The remaining modeled funding gap is "+money(stack.shortage)+". All modeled funding uses are covered, although the funding is not confirmed. ";
  const excess=stack.excess>0?
    "Modeled sources exceed the funding required by "+money(stack.excess)+". "+
    "The chart shows amounts allocated to uses, while the table also shows proposed full contributions. ":"";
