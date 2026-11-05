@@ -93,12 +93,14 @@ function preview(input,capital,sensitivity,comparison,target){
  "Minimum NOI for DSCR and debt yield: "+money(target.minimumNOI),
  "",
  "QUESTIONS AND DOCUMENTS TO VERIFY",
- "1. Recent trailing 12-month operating statement and defensible NOI adjustments",
- "2. Current lender payoff and maturity documentation",
+ "1. Recent trailing 12-month operating statement, rent roll and defensible NOI adjustments",
+ "2. Current lender payoff, maturity date, prepayment and extension provisions",
  "3. Property valuation and appraisal basis",
  "4. Loan fees, reserves, occupancy, rollover and capital expenditure requirements",
- "5. Senior lender restrictions on subordinate debt or preferred equity",
- "6. Sponsor liquidity and authority to enter the financing transaction",
+ ...(base.gap>0?["5. Evidence of sponsor liquidity or a credible approach to the modeled funding gap"]:[]),
+ ...(capital.additionalCapital>0?["6. Senior loan documents: restrictions on subordinate debt, preferred equity, liens and distributions"]:[]),
+ ...(capital.combinedCashCoverage!=null&&capital.combinedCashCoverage<1?["7. Additional support for cash requirements that exceed modeled NOI"]:[]),
+ "8. Sponsor authority and entity documentation for the contemplated transaction",
  "",
  "IMPORTANT LIMITATIONS",
  ...capital.flags.map(f=>"- "+f),
@@ -134,7 +136,11 @@ function render(){
  }
 }
 function init(){
- [...refIds,...editIds].forEach(id=>$(id).addEventListener("input",render));
+  const showAdvanced=()=>{$("advanced-workspace").hidden=$("refi-panel").hidden;};
+  $("tab-loan").addEventListener("click",showAdvanced);
+  $("tab-refi").addEventListener("click",showAdvanced);
+  showAdvanced();
+  [...refIds,...editIds].forEach(id=>$(id).addEventListener("input",render));
  $("st-type").addEventListener("change",render);
  $("st-copy").addEventListener("click",()=>{
   if(!lastPreview)return;
