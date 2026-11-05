@@ -28,3 +28,10 @@ jobs:
           for(const script of ['finance.js','strategy.js','app.js','advanced.js'])if(!html.includes('src="./'+script+'"'))throw new Error('Missing script '+script);
           console.log('Required markup references verified');
           NODE
+
+      - name: Install browser smoke test dependencies
+        run: |
+          npm install --no-save playwright
+          npx playwright install chromium --with-deps
+      - name: Run Chromium desktop and mobile smoke tests
+        run: node tools/commercial-real-estate-loan-calculator/browser.test.js
