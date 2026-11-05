@@ -5,6 +5,11 @@ on:
       - 'tools/commercial-real-estate-loan-calculator/**'
       - '.github/workflows/finance-calculator-tests.yml'
       - 'previews/**'
+      - 'index.html'
+      - 'insights/**'
+      - 'accessibility/**'
+      - 'sitemap.xml'
+      - 'robots.txt'
   workflow_dispatch:
 jobs:
   calculation-tests:
@@ -34,6 +39,8 @@ jobs:
         run: |
           npm install --no-save playwright axe-core
           npx playwright install chromium --with-deps
+      - name: Production-style static-site launch integration checks
+        run: node tools/commercial-real-estate-loan-calculator/site-launch-integration.test.js
       - name: Run Chromium desktop and mobile smoke tests
         run: node tools/commercial-real-estate-loan-calculator/browser.test.js
 
