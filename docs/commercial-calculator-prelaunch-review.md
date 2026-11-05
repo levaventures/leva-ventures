@@ -7,6 +7,17 @@
 
 **Conditional readiness only.** The financial engine, interactive source-allocation and browser experience have repeatable automated tests. This is not a lender-underwriting application, a financing offer or a source of actual market terms. The scope of any public offering and paid services needs counsel review before launch. A full WCAG 2.2 AA claim cannot be made from an automated test alone.
 
+## Accelerated open-source accessibility verification — November 2026
+
+- **63/63 additional local Chromium/Playwright checks passed**, covering keyboard operation, labeled controls, semantic source tables, tab navigation, slider adjustments, invalid values, forced-colors and reduced-motion behavior, JavaScript exceptions and responsive layouts at 1280, 768, 390 and 320 CSS pixels.
+- Existing automated axe-core WCAG 2.2 A/AA tests of both calculator modes and all functional/browser regressions passed in Actions run [41972918262](https://github.com/levaventures/leva-ventures/actions/runs/41972918262).
+- **Real NVDA screen-reader automation:** Guidepup + NVDA on Windows GitHub Actions [run 41976441723](https://github.com/levaventures/leva-ventures/actions/runs/41976441723) PASSED 2/2 tests. Verified actual spoken headings for loan calculator, focus speech for the refinance tab, and speech identifying the scrollable capital stack table region.
+- Earlier automated NVDA tests failed because scripted heading traversal retained stale browse-mode content after tab switching; targeted focus-and-region checks now pass, but the limitation remains an **untested end-to-end browse-mode flow**, not proof of full accessibility.
+- These checks are a **technical accessibility evaluation, not a complete WCAG conformance report**. Do not claim certification or guaranteed ADA compliance.
+- User confirms financial model has been individually validated as accurate. Capture independent validation details in the release record if available.
+
+**Fast-track release recommendation:** Do not impose an arbitrary two-week hold. Prepare launch integration on a draft branch immediately. Before publication, resolve any observed critical blocker, verify privacy/financial/legal claims, obtain explicit launch approval, and avoid unverified WCAG compliance claims. Continue broader assistive-technology usability work after launch if no release-blocking defect remains.
+
 ## Findings and actions
 
 | ID | Priority | Workstream | Finding | Action or release criterion | Current status |
