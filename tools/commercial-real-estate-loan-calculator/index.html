@@ -81,6 +81,11 @@
 .data-table caption{text-align:left;padding:12px 10px;color:#d9c8a6;font-size:12px}
 .capital-data-table th,.capital-data-table td{white-space:nowrap}
 
+.accessible-summary:not(:empty){border:1px solid #625840;color:#f2efe8;background:#22272e;border-radius:6px;padding:9px 13px;max-width:720px;line-height:1.65}
+#capital-stack-audio-status{width:100%;min-height:20px}
+#capital-stack-transcript-wrap{width:100%;border-top:1px solid #544d3f;margin:8px 0 16px}
+#capital-stack-transcript{font-size:14px;line-height:1.7}
+@media print{#capital-stack-announce,#capital-stack-stop,#capital-stack-audio-status,#capital-stack-transcript-wrap{display:none!important}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Commercial Real Estate Loan Calculator & Refinance Intelligence","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://levaventures.com/tools/commercial-real-estate-loan-calculator/","publisher":{"@type":"Organization","name":"Leva Ventures, LLC","url":"https://levaventures.com/"}}</script>
 <script src="./finance.js" defer></script>
@@ -102,7 +107,7 @@
 <p class="intro">Calculate commercial loan payments and balloon balances—or go deeper with Leva Refinance Intelligence to estimate borrowing capacity, identify the constraint on proceeds and understand a potential funding shortfall.</p>
 <div class="trust"><span>Free, no registration</span><span>Immediate results</span><span>Private calculations in your browser</span></div>
 <div class="tabs" role="tablist" aria-label="Calculator mode"><button type="button" class="tab" id="tab-loan" role="tab" aria-controls="loan-panel" aria-selected="true" tabindex="0">Commercial Loan Calculator</button><button type="button" class="tab" id="tab-refi" role="tab" aria-controls="refi-panel" aria-selected="false" tabindex="-1">Refinance Intelligence</button></div>
-<div class="access-tools"><button type="button" id="accessible-announce" class="btn secondary">Announce current results</button><p class="sr-only" id="accessible-status" role="status" aria-live="polite" aria-atomic="true"></p></div>
+<div class="access-tools"><button type="button" id="accessible-announce" class="btn secondary">Show current results summary</button><p class="accessible-summary" id="accessible-status" role="status" aria-live="polite" aria-atomic="true"></p></div>
 <section id="loan-panel" role="tabpanel" aria-labelledby="tab-loan" tabindex="0">
 <div class="tool">
 <div class="panel"><div class="panelheading"><h2>Calculate your loan</h2><p class="helper">Adjust the assumptions to update your estimated payments.</p></div>
@@ -235,7 +240,10 @@
  </table></div>
  <div class="capital-bottomline"><span>Modeled total sources: <strong id="capital-stack-sources">—</strong></span><span>Potential excess sources: <strong id="capital-stack-surplus">—</strong></span></div>
  <p class="helper" id="capital-stack-note">The graphic will update as you adjust the financing assumptions.</p>
- <button type="button" class="btn secondary capital-announce" id="capital-stack-announce">Announce capital stack results</button>
+ <button type="button" class="btn secondary capital-announce" id="capital-stack-announce">Listen to capital stack summary</button>
+ <button type="button" class="btn secondary capital-announce" id="capital-stack-stop">Stop narration</button>
+ <p id="capital-stack-audio-status" class="voice-status" role="status">Audio starts only when you select Listen. A written transcript is always available.</p>
+ <details class="voice-transcript" id="capital-stack-transcript-wrap" hidden><summary>Read the capital stack narration</summary><p id="capital-stack-transcript"></p></details>
  <p class="sr-only" id="capital-stack-live" role="status" aria-live="polite" aria-atomic="true"></p>
  <div class="notice">For clarity, the graphic allocates modeled sources to funding uses in display order, not legal priority. Excess sources are reported separately. Actual financing may be unavailable or prohibited by senior loan terms.</div>
 </section>
