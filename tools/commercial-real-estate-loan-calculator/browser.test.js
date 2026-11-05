@@ -18,6 +18,8 @@ const {chromium}=require("playwright");
   assert.match(await page.locator("#ref-gap").innerText(),/^\$/);
   assert.equal(await page.locator("#st-heatmap tbody tr").count(),5);
   assert.equal(await page.locator("#st-compare tbody tr").count(),6);
+  const voiceOptions=await page.locator("#voice-choice option").allTextContents();
+  assert.ok(!voiceOptions.some(x=>/automatic voice/i.test(x)),"Automatic voice option must be removed.");
   await page.locator("#voice-panel summary").first().click();
   await page.locator("#voice-results").click();
   await page.waitForFunction(()=>document.querySelector("#voice-transcript").textContent.includes("supportable senior loan"));
