@@ -25,12 +25,36 @@
 @media(max-width:850px){.advanced-two{grid-template-columns:minmax(0,1fr)}}
 @media print{.advanced{display:block}.advanced-two{display:block}.advanced .fields,.advanced .actions,.advanced .helper{display:none!important}.advanced .panel{break-inside:avoid;margin:12px 0}.advanced .tablewrap{border-color:#777}.advanced .data-table th,.advanced .data-table td{color:#111!important;background:#fff!important;border-color:#aaa}.advanced #st-brief{white-space:pre-wrap;color:#111}.advanced .metricmain{color:#111}.advanced .insight{color:#111}}
 
+
+/* Clear financing visuals plus optional guided narration */
+.financing-graphic{margin:16px 0 19px;padding:17px;border:1px solid #504732;border-radius:9px;background:#1d2229}
+.graphic-header{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#d9d0bd;margin-bottom:10px}.graphic-header strong{color:var(--text)}
+.funding-bar{height:22px;display:flex;width:100%;background:#292d35;border-radius:5px;overflow:hidden;gap:2px}
+.funding-bar-senior{background:#ab8b52;width:0;transition:width .2s ease}.funding-bar-gap{background:#b96c60;width:0;transition:width .2s ease}
+.graphic-key{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin:10px 0;font-size:11px;color:#c6c0b4}
+.graphic-key span{display:inline-flex;align-items:center;gap:5px}.graphic-key strong{color:var(--ivory)}
+.key-dot{width:10px;height:10px;border-radius:3px;display:inline-block}.key-senior{background:#ab8b52}.key-gap{background:#b96c60}
+.guided{margin:15px 0;border:1px solid #5c503e;border-radius:9px;background:#1c2028}
+.guided>summary{padding:15px 18px;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:10px;color:var(--light);font-weight:600}
+.guided>summary small{font-size:11px;font-weight:400;color:#c0b9ab}.guided-inner{padding:5px 16px 18px}
+.voice-buttons{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}.voice-metrics .btn{padding:7px 12px;min-height:34px}
+.voice-settings{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:15px}
+.voice-settings label{font-size:11px}.voice-settings select{width:auto;max-width:220px;min-height:38px;padding:7px;font-size:12px}
+.voice-status{font-size:12px;color:#c9c2b5;min-height:20px;margin:10px 0}
+.voice-transcript{border-top:1px solid #49433a;padding-top:10px;margin:12px 0}
+.voice-transcript summary{cursor:pointer;color:var(--light);font-size:13px}
+.voice-transcript p{color:#d8d2c7;font-size:13px;line-height:1.8}
+@media(max-width:540px){.graphic-header{flex-wrap:wrap}.voice-settings{align-items:stretch}.voice-settings select{max-width:100%;flex:1 1 140px}.voice-buttons .btn{flex:1 1 auto}}
+@media(prefers-reduced-motion:reduce){.funding-bar-senior,.funding-bar-gap{transition:none}}
+@media print{.guided{display:none!important}.financing-graphic{break-inside:avoid;border-color:#555;background:#fff}.graphic-header,.graphic-key,.graphic-header strong,.graphic-key strong{color:#111}}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Commercial Real Estate Loan Calculator & Refinance Intelligence","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://levaventures.com/tools/commercial-real-estate-loan-calculator/","publisher":{"@type":"Organization","name":"Leva Ventures, LLC","url":"https://levaventures.com/"}}</script>
 <script src="./finance.js" defer></script>
 <script src="./strategy.js" defer></script>
 <script src="./app.js" defer></script>
 <script src="./advanced.js" defer></script>
+<script src="./voice.js" defer></script>
 </head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="/"><span class="mark">LV</span><span>LEVA VENTURES</span></a><nav class="navlinks" aria-label="Main navigation"><a href="/">Home</a><a href="/insights/">Insights</a><a href="#how-it-works">How it works</a></nav></div></header>
@@ -57,7 +81,7 @@
 <div class="metricmain"><div class="metriclabel">Estimated monthly payment</div><div class="metricnumber" id="loan-payment">—</div><div class="helper">Excludes taxes, insurance, lender fees and reserves</div></div>
 <div class="metrics"><div class="metric"><span class="metriclabel">Annual debt service</span><strong id="loan-annual">—</strong></div><div class="metric"><span class="metriclabel">Balloon balance at maturity</span><strong id="loan-balloon">—</strong></div><div class="metric"><span class="metriclabel">Interest paid during loan term</span><strong id="loan-interest">—</strong></div><div class="metric"><span class="metriclabel">Principal repaid</span><strong id="loan-repaid">—</strong></div></div>
 <div class="insight" id="loan-insight">Enter your assumptions to see your results.</div>
-<div class="actions"><button class="btn primary" id="loan-print" type="button">Print / Save PDF</button><button class="btn secondary" id="loan-csv" type="button">Download payment schedule (CSV)</button></div>
+<div class="actions"><button class="btn primary" id="loan-print" type="button">Print / Save PDF</button><button class="btn secondary" id="loan-csv" type="button">Download payment schedule (CSV)</button><button class="btn secondary" id="loan-voice" type="button">Listen to loan summary</button><button class="btn secondary" id="loan-voice-stop" type="button">Stop voice</button></div>
 <div class="notice">Illustrative calculations only. This does not establish lender eligibility, an available interest rate, or an offer of financing.</div>
 </div></div></section>
 <section id="refi-panel" role="tabpanel" aria-labelledby="tab-refi" hidden>
@@ -78,9 +102,31 @@
 </div>
 <div class="panel results"><div class="panelheading"><div class="eyebrow">UNDERWRITING ESTIMATE</div><h2>Financing capacity</h2></div>
 <div class="metricmain"><div class="metriclabel">Potential refinance funding shortfall</div><div class="metricnumber" id="ref-gap">—</div><div class="helper" id="ref-gap-label">Estimated amount required beyond modeled loan proceeds</div></div>
+<div class="financing-graphic" id="ref-financing-graphic">
+ <div class="graphic-header"><span>How the funding requirement is covered</span><strong id="ref-graphic-total">—</strong></div>
+ <div class="funding-bar" aria-hidden="true"><div id="ref-bar-senior" class="funding-bar-senior"></div><div id="ref-bar-gap" class="funding-bar-gap"></div></div>
+ <div class="graphic-key"><span><i class="key-dot key-senior"></i>Senior proceeds <strong id="ref-graphic-senior">—</strong></span><span><i class="key-dot key-gap"></i>Shortfall <strong id="ref-graphic-gap">—</strong></span></div>
+ <p class="helper" id="ref-graphic-explanation">This graphic compares modeled loan proceeds with the payoff, costs and reserves.</p>
+ </div>
 <div class="metrics"><div class="metric"><span class="metriclabel">Estimated loan proceeds</span><strong id="ref-proceeds">—</strong></div><div class="metric"><span class="metriclabel">Payoff + costs + reserves</span><strong id="ref-required">—</strong></div><div class="metric"><span class="metriclabel">Calculated DSCR</span><strong id="ref-actual-dscr">—</strong></div><div class="metric"><span class="metriclabel">Calculated LTV</span><strong id="ref-actual-ltv">—</strong></div></div>
 <h3 class="subhead">What limits your loan?</h3><div id="constraint-bars" aria-label="Loan sizing limits"></div>
 <div class="insight" id="ref-insight">Adjust the inputs to see which metric limits the estimated loan.</div>
+<details class="guided" id="voice-panel">
+ <summary><span aria-hidden="true">◖))</span> Leva Guided Insights <small>Optional spoken explanations</small></summary>
+ <div class="guided-inner">
+ <p class="helper">Hear an explanation of the figures you entered. Playback starts only when you select an option. The transcript is available even without audio.</p>
+ <div class="voice-buttons"><button class="btn primary" id="voice-results" type="button">Explain my results</button>
+ <button class="btn secondary" id="voice-options" type="button">Explain my capital plan</button></div>
+ <div class="voice-buttons voice-metrics"><span class="helper">Explain a metric:</span>
+ <button class="btn secondary" id="voice-dscr" type="button">DSCR</button><button class="btn secondary" id="voice-ltv" type="button">LTV</button><button class="btn secondary" id="voice-yield" type="button">Debt yield</button></div>
+ <div class="voice-settings"><label for="voice-choice">Voice</label><select id="voice-choice"><option value="auto">Automatic voice</option></select>
+ <label for="voice-rate">Speed</label><select id="voice-rate"><option value=".85">Slower</option><option value="1" selected>Normal</option><option value="1.15">Faster</option></select>
+ <button class="btn secondary" id="voice-stop" type="button">Stop narration</button></div>
+ <p class="voice-status" id="voice-status" role="status">Select an explanation to hear the analysis.</p>
+ <details class="voice-transcript" id="voice-transcript-wrap" hidden><summary>Read the narration transcript</summary><p id="voice-transcript"></p></details>
+ <p class="helper">Speech uses your browser's available voices. Depending on device and voice selection, the speech service may process spoken text online. No microphone is used.</p>
+ </div>
+ </details>
 <h3 class="subhead">Compare three scenarios</h3>
 <p class="helper">The following scenarios each change one assumption independently. They are not lender offers and cannot be added together.</p>
 <div class="compare" id="scenario-cards" aria-live="polite"></div>
