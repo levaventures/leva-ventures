@@ -55,7 +55,7 @@ const {chromium}=require("playwright");
   assert.equal(await page.locator("#stack-slider-cash-value").innerText(),"$200,000");
   assert.ok((await page.locator("#capital-stack-table tbody").innerText()).includes("200,000"));
   await page.locator("#capital-stack-announce").click();
-  assert.ok((await page.locator("#capital-stack-live").textContent()).includes("Modeled"));
+  assert.match(await page.locator("#capital-stack-live").textContent(),/modeled/i);
   // WAI-ARIA tab keyboard arrow navigation must switch panels and update tab order.
   await page.locator("#tab-refi").focus();
   await page.keyboard.press("ArrowLeft");
