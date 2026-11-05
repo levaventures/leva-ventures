@@ -9,7 +9,7 @@ const fs=require("node:fs");
  try{
   const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
   page.on("pageerror",err=>{throw err;});
-  const url="file://"+path.resolve("previews/leva-financing-intelligence-exact-narration-review.html");
+  const url="file://"+path.resolve("previews/leva-financing-intelligence-accessible-capital-stack-review.html");
   await page.goto(url,{waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>document.querySelector("#loan-payment").textContent!=="—");
   await page.screenshot({path:path.join(output,"01-desktop-commercial-loan.png"),fullPage:true});
