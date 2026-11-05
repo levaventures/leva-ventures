@@ -1,0 +1,127 @@
+/* Leva Guided Insights — optional, user-initiated explanatory narration.
+   Calculations come exclusively from Leva's deterministic finance/strategy modules.
+   Browser speech engines and installed voices may have their own data practices. */
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const ids=["ref-value","ref-noi","ref-payoff","ref-costs","ref-reserves","ref-rate","ref-amort","ref-dscr","ref-ltv","ref-yield","st-cash","st-capital","st-type","st-return","st-fee"];
+const speechAvailable=typeof window.speechSynthesis!=="undefined"&&typeof window.SpeechSynthesisUtterance!=="undefined";
+let voices=[],current=null,spokenText="";
+const money=n=>{
+  if(n>=1000000)return (n/1000000).toFixed(2).replace(/\.00$/,"")+" million dollars";
+  if(n>=1000)return Math.round(n/1000).toLocaleString("en-US")+" thousand dollars";
+  return Math.round(n).toLocaleString("en-US")+" dollars";
+};
+const raw=id=>$(id).value.trim()===""?NaN:Number($(id).value);
+function inputs(){
+ return {value:raw("ref-value"),noi:raw("ref-noi"),payoff:raw("ref-payoff"),costs:raw("ref-costs"),reserves:raw("ref-reserves"),
+ rate:raw("ref-rate"),amortYears:raw("ref-amort"),dscrMin:raw("ref-dscr"),ltvMax:raw("ref-ltv"),debtYieldMin:raw("ref-yield")};
+}
+function config(){
+ return {sponsorCash:raw("st-cash"),additionalCapital:raw("st-capital"),type:$("st-type").value,
+  annualReturn:raw("st-return"),feePercent:raw("st-fee")};
+}
+function status(msg){$("voice-status").textContent=msg;}
+function stop(){
+ if(!speechAvailable)return;
+ window.speechSynthesis.cancel();
+ current=null;
+ status("Narration stopped. Your calculations have not changed.");
+}
+function regenerateVoices(){
+ if(!speechAvailable)return;
+ const choices=$("voice-choice"),selected=choices.value;
+ voices=window.speechSynthesis.getVoices()||[];
+ choices.replaceChildren();
+ const opt=document.createElement("option");opt.value="auto";opt.textContent="Automatic voice";choices.append(opt);
+ voices.filter(v=>v.lang&&/^en\b|^en-/i.test(v.lang)).forEach(v=>{
+   const option=document.createElement("option");
+   option.value=v.voiceURI;option.textContent=v.name+(v.localService?" (device)":" (service)");
+   choices.append(option);
+ });
+ choices.value=[...choices.options].some(o=>o.value===selected)?selected:"auto";
+}
+function loanNarration(){
+ const a=LVFinance.loan({principal:raw("loan-principal"),rate:raw("loan-rate"),
+ termYears:raw("loan-term"),amortYears:raw("loan-amort"),interestOnly:$("loan-io").checked});
+ return "Your estimated monthly payment is "+money(a.monthlyPayment)+". "+
+ "Annual scheduled debt service is "+money(a.annualDebtService)+". "+
+ (a.balloon>1?"At loan maturity, an estimated balloon balance of "+money(a.balloon)+" remains to be repaid. ":"Under these assumptions the loan has no balloon balance at maturity. ")+
+ "These estimates exclude property taxes, insurance, lender fees and reserve requirements. They do not constitute an offer of financing.";
+}
+function refinanceNarration(){
+ const data=inputs(),r=LVFinance.refinance(data);
+ const limiting=r.binding||"the calculated loan constraints";
+ const gap=r.gap>1?
+   "That leaves an estimated refinancing funding shortfall of "+money(r.gap)+". ":
+   "These assumptions show no financing gap, although cash-out proceeds and actual eligibility are not confirmed. ";
+ return "Leva Refinance Intelligence. Based on your entered property value of "+money(r.value)+
+ ", and annual net operating income of "+money(r.noi)+
+ ", your estimated supportable senior loan is "+money(r.proceeds)+
+ ". The current loan payoff, fees and reserves require "+money(r.required)+". "+
+ gap+"The binding financing constraint is "+limiting+
+ ". In this model the lender tests debt service coverage, loan to value and debt yield, and the lowest resulting maximum loan controls the estimate. "+
+ "Actual lender underwriting, property conditions and available financing terms could change these results. This is educational analysis, not an approval or financing offer.";
+}
+function capitalNarration(){
+ const data=inputs(),p=LVStrategy.capitalPlan(data,config());
+ const type=p.type==="preferred-equity"?"current-pay preferred equity":"interest-only junior debt";
+ const covered=p.uncovered>1?"After accounting for new fees and selected sources, "+money(p.uncovered)+" remains uncovered. ":
+ "Under these assumptions the modeled funding uses are fully covered, but no additional capital source has been confirmed. ";
+ return "Your hypothetical capital plan uses senior loan proceeds of "+money(p.seniorLoan)+
+ ", sponsor cash of "+money(p.sponsorCash)+", and "+money(p.additionalCapital)+
+ " of "+type+". Additional capital fees total "+money(p.additionalFees)+". "+
+ covered+"Modeled annual cash obligations are "+money(p.annualCashObligations)+
+ ". Additional capital can be restricted by senior loan documents, financial covenants, lien priority and legal requirements. "+
+ "This is an educational structure comparison, not a recommendation or an available financing solution.";
+}
+const explanations={
+ dscr:"Debt service coverage ratio, or D S C R, compares a property's annual net operating income with annual scheduled loan debt service. A ratio of one point two five means there is one dollar and twenty-five cents of modeled net operating income for each dollar of scheduled senior loan debt service. Lenders may adjust the income and expenses they use.",
+ ltv:"Loan to value ratio, or L T V, measures loan principal compared with the property's assessed value. For example, a seventy percent maximum L T V limits modeled loan proceeds to seventy cents per dollar of property value before other lender constraints are applied.",
+ yield:"Debt yield is annual net operating income divided by loan principal. A nine percent minimum debt yield means that, under that test alone, a property's annual net operating income must be at least nine cents for every dollar of loan principal. This test does not depend on the amortization schedule."
+};
+function chosenVoice(){
+ const voiceURI=$("voice-choice").value;
+ if(voiceURI!=="auto")return voices.find(v=>v.voiceURI===voiceURI)||null;
+ return voices.find(v=>v.localService&&/^en-US$/i.test(v.lang))||
+   voices.find(v=>v.localService&&/^en/i.test(v.lang))||
+   voices.find(v=>/^en-US$/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang))||null;
+}
+function narrate(text){
+ spokenText=text;
+ $("voice-transcript").textContent=text;
+ $("voice-transcript-wrap").hidden=false;
+ if(!speechAvailable){status("Voice playback is not available in this browser. The narration transcript is shown below.");return;}
+ const synth=window.speechSynthesis;
+ synth.cancel();
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang="en-US";utterance.rate=Number($("voice-rate").value)||1;
+ const voice=chosenVoice();if(voice)utterance.voice=voice;
+ current=utterance;
+ utterance.onend=()=>{if(current===utterance){current=null;status("Finished speaking. Choose another explanation at any time.");}};
+ utterance.onerror=()=>{if(current===utterance){current=null;status("Voice playback was interrupted. You can still read the transcript below.");}};
+ status("Narrating now. Press Stop at any time.");
+ synth.speak(utterance);
+}
+function handle(makeText){
+ try{narrate(makeText());}
+ catch(err){stop();$("voice-transcript-wrap").hidden=true;status("Please correct any invalid financial inputs before using narration.");}
+}
+function init(){
+ const controlMap={"voice-results":refinanceNarration,"voice-options":capitalNarration,
+ "voice-dscr":()=>explanations.dscr,"voice-ltv":()=>explanations.ltv,"voice-yield":()=>explanations.yield};
+ Object.entries(controlMap).forEach(([id,makeText])=>$(id).addEventListener("click",()=>handle(makeText)));
+ $("voice-stop").addEventListener("click",stop);
+ $("loan-voice").addEventListener("click",()=>handle(loanNarration));
+ $("loan-voice-stop").addEventListener("click",stop);
+ $("tab-loan").addEventListener("click",()=>{if(speechAvailable)window.speechSynthesis.cancel();});
+ $("tab-refi").addEventListener("click",()=>{if(speechAvailable)window.speechSynthesis.cancel();});
+ [...ids,"loan-principal","loan-rate","loan-term","loan-amort","loan-io"].forEach(id=>$(id).addEventListener("input",()=>{
+  if(speechAvailable&&window.speechSynthesis.speaking)stop();
+  if(spokenText)status("Inputs changed. Select an explanation to hear the updated numbers.");
+ }));
+ if(!speechAvailable)status("Audio narration is unavailable here. Explanations can still be viewed as text.");
+ else{regenerateVoices();window.speechSynthesis.addEventListener?.("voiceschanged",regenerateVoices);}
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
