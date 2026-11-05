@@ -18,6 +18,53 @@ const {chromium}=require("playwright");
   assert.match(await page.locator("#ref-gap").innerText(),/^\$/);
   assert.equal(await page.locator("#st-heatmap tbody tr").count(),5);
   assert.equal(await page.locator("#st-compare tbody tr").count(),6);
+  // Interactive capital-stack amounts must follow the same financing model.
+  assert.equal(await page.locator("#capital-stack-table tbody tr").count(),4);
+  const initialStack=await page.evaluate(()=>{
+    const model=LVCapitalStack.build(LVStrategy.capitalPlan({
+      value:Number(document.querySelector("#ref-value").value),
+      noi:Number(document.querySelector("#ref-noi").value),
+      payoff:Number(document.querySelector("#ref-payoff").value),
+      costs:Number(document.querySelector("#ref-costs").value),
+      reserves:Number(document.querySelector("#ref-reserves").value),
+      rate:Number(document.querySelector("#ref-rate").value),
+      amortYears:Number(document.querySelector("#ref-amort").value),
+      dscrMin:Number(document.querySelector("#ref-dscr").value),
+      ltvMax:Number(document.querySelector("#ref-ltv").value),
+      debtYieldMin:Number(document.querySelector("#ref-yield").value)
+    },{
+      sponsorCash:Number(document.querySelector("#st-cash").value),
+      additionalCapital:Number(document.querySelector("#st-capital").value),
+      type:document.querySelector("#st-type").value,
+      annualReturn:Number(document.querySelector("#st-return").value),
+      feePercent:Number(document.querySelector("#st-fee").value)
+    }));
+    return {
+      modeled:model,
+      gap:document.querySelector("#capital-stack-gap").textContent,
+      rows:[...document.querySelectorAll("#capital-stack-table tbody tr")].map(r=>r.innerText)
+    };
+  });
+  assert.equal(initialStack.gap,new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(initialStack.modeled.shortage));
+  assert.ok(initialStack.rows.some(r=>r.includes("Junior debt")));
+  await page.locator("#st-type").selectOption("preferred-equity");
+  assert.ok((await page.locator("#capital-stack-table tbody").innerText()).includes("Preferred equity"));
+  await page.locator("#st-type").selectOption("junior-debt");
+  await page.locator("#stack-slider-cash").fill("200000");
+  await page.waitForFunction(()=>document.querySelector("#st-cash").value==="200000");
+  assert.equal(await page.locator("#stack-slider-cash-value").innerText(),"$200,000");
+  assert.ok((await page.locator("#capital-stack-table tbody").innerText()).includes("200,000"));
+  await page.locator("#capital-stack-announce").click();
+  assert.ok((await page.locator("#capital-stack-live").textContent()).includes("Modeled"));
+  // WAI-ARIA tab keyboard arrow navigation must switch panels and update tab order.
+  await page.locator("#tab-refi").focus();
+  await page.keyboard.press("ArrowLeft");
+  assert.equal(await page.locator("#tab-loan").getAttribute("aria-selected"),"true");
+  assert.equal(await page.locator("#tab-refi").getAttribute("tabindex"),"-1");
+  await page.keyboard.press("ArrowRight");
+  assert.equal(await page.locator("#tab-refi").getAttribute("aria-selected"),"true");
+  await page.locator("#accessible-announce").click();
+  assert.ok((await page.locator("#accessible-status").textContent()).includes("Refinance results"));
   const voiceOptions=await page.locator("#voice-choice option").allTextContents();
   assert.ok(!voiceOptions.some(x=>/automatic voice/i.test(x)),"Automatic voice option must be removed.");
   await page.locator("#voice-panel summary").first().click();
