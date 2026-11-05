@@ -949,6 +949,13 @@ footer {
     line-height: 1.7;
   }
 }  
+
+/* WCAG 2.2 AA remediation — readable small print and publication notices.
+   The original dark-and-gold identity is preserved, but muted essential text
+   must meet at least a 4.5:1 contrast ratio. */
+.footer-bottom{color:#c9c8c2!important;font-size:.78rem!important}
+.article-disclaimer,.article-disclaimer strong{color:#c9c8c2!important;font-size:.82rem!important}
+.article-status{color:#c9c8c2!important;font-size:.78rem!important}
 </style>
 </head>
 
@@ -956,8 +963,8 @@ footer {
 
 <header>
   <div class="container nav">
-    <a href="#top" class="brand" aria-label="Leva Ventures home">
-      <div class="monogram">Lᵛ</div>
+    <a href="#top" class="brand">
+      <div class="monogram" aria-hidden="true">Lᵛ</div>
       <div class="brand-name">
         Leva Ventures
         <small>LLC</small>
@@ -1088,7 +1095,7 @@ footer {
 
 <section class="about" id="about">
   <div class="container about-grid">
-    <div class="about-visual" aria-label="Leva Ventures private investment office"></div>
+    <div class="about-visual"></div>
     <div class="about-copy">
       <div class="eyebrow">About Leva Ventures</div>
       <span class="gold-line"></span>
@@ -1222,7 +1229,7 @@ footer {
     <div class="footer-top">
       <div>
         <a href="#top" class="brand">
-          <div class="monogram">Lᵛ</div>
+          <div class="monogram" aria-hidden="true">Lᵛ</div>
           <div class="brand-name">Leva Ventures<small>LLC</small></div>
         </a>
         <div class="footer-tagline">Connecting Opportunity to Capital.</div>
