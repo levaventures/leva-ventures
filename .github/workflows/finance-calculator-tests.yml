@@ -14,17 +14,17 @@ jobs:
         with:
           node-version: '22'
       - name: Test financial formulas
-        run: node --test tools/commercial-real-estate-loan-calculator/finance.test.js
+        run: node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js
       - name: Verify HTML internal targets and required assets
         run: |
           node - <<'NODE'
           const fs=require('node:fs');
           const base='tools/commercial-real-estate-loan-calculator/';
           const html=fs.readFileSync(base+'index.html','utf8');
-          const app=fs.readFileSync(base+'app.js','utf8');
+          const app=fs.readFileSync(base+'app.js','utf8')+'\n'+fs.readFileSync(base+'advanced.js','utf8');
           for (const match of app.matchAll(/\$\("([^"]+)"\)/g)){
             if(!html.includes('id="'+match[1]+'"'))throw new Error('Missing HTML control '+match[1]);
           }
-          if(!html.includes('src="./finance.js"')||!html.includes('src="./app.js"'))throw new Error('Missing script source');
+          for(const script of ['finance.js','strategy.js','app.js','advanced.js'])if(!html.includes('src="./'+script+'"'))throw new Error('Missing script '+script);
           console.log('Required markup references verified');
           NODE
