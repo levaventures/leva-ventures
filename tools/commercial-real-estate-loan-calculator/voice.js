@@ -21,7 +21,7 @@ function config(){
  return {sponsorCash:raw("st-cash"),additionalCapital:raw("st-capital"),type:$("st-type").value,
   annualReturn:raw("st-return"),feePercent:raw("st-fee")};
 }
-function status(msg){$("voice-status").textContent=msg;}
+function status(msg){$("voice-status").textContent=msg;$("loan-voice-status").textContent=msg;}
 function stop(){
  if(!speechAvailable)return;
  window.speechSynthesis.cancel();
@@ -90,7 +90,9 @@ function chosenVoice(){
 function narrate(text){
  spokenText=text;
  $("voice-transcript").textContent=text;
+ $("loan-voice-transcript").textContent=text;
  $("voice-transcript-wrap").hidden=false;
+ $("loan-voice-transcript-wrap").hidden=false;
  if(!speechAvailable){status("Voice playback is not available in this browser. The narration transcript is shown below.");return;}
  const synth=window.speechSynthesis;
  synth.cancel();
@@ -105,7 +107,7 @@ function narrate(text){
 }
 function handle(makeText){
  try{narrate(makeText());}
- catch(err){stop();$("voice-transcript-wrap").hidden=true;status("Please correct any invalid financial inputs before using narration.");}
+ catch(err){stop();$("voice-transcript-wrap").hidden=true;$("loan-voice-transcript-wrap").hidden=true;status("Please correct any invalid financial inputs before using narration.");}
 }
 function init(){
  const controlMap={"voice-results":refinanceNarration,"voice-options":capitalNarration,
