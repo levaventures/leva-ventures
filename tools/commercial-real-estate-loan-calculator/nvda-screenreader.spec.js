@@ -30,6 +30,11 @@ test("NVDA can identify Refinance Intelligence and capital-stack content",async(
  // the active ARIA tab, which triggers automatic forms/focus mode in NVDA.
  await page.locator("#main-content").focus();
  await nvda.navigateToWebContent();
+ // NVDA enters focus mode automatically on ARIA tabs and interactive controls.
+ // Explicitly return to document browse mode and refresh its virtual buffer
+ // before heading navigation.
+ await nvda.perform(nvda.keyboardCommands.exitFocusMode);
+ await nvda.perform(nvda.keyboardCommands.refreshBrowseDocument);
  const spoken=[];
  for(let n=0;n<24;n++){
    await nvda.nextHeading();
