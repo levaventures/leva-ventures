@@ -22,11 +22,11 @@ jobs:
           const fs=require('node:fs');
           const base='tools/commercial-real-estate-loan-calculator/';
           const html=fs.readFileSync(base+'index.html','utf8');
-          const app=fs.readFileSync(base+'app.js','utf8')+'\n'+fs.readFileSync(base+'advanced.js','utf8');
+          const app=fs.readFileSync(base+'app.js','utf8')+'\n'+fs.readFileSync(base+'advanced.js','utf8')+'\n'+fs.readFileSync(base+'voice.js','utf8');
           for (const match of app.matchAll(/\$\("([^"]+)"\)/g)){
             if(!html.includes('id="'+match[1]+'"'))throw new Error('Missing HTML control '+match[1]);
           }
-          for(const script of ['finance.js','strategy.js','app.js','advanced.js'])if(!html.includes('src="./'+script+'"'))throw new Error('Missing script '+script);
+          for(const script of ['finance.js','strategy.js','app.js','advanced.js','voice.js'])if(!html.includes('src="./'+script+'"'))throw new Error('Missing script '+script);
           console.log('Required markup references verified');
           NODE
 
@@ -39,7 +39,7 @@ jobs:
 
       - name: Validate standalone interactive preview
         env:
-          LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-interactive-review.html
+          LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-voice-review.html
         run: node tools/commercial-real-estate-loan-calculator/browser.test.js
       - name: Capture visual preview screenshots
         run: node tools/commercial-real-estate-loan-calculator/preview-screenshots.js
