@@ -18,10 +18,10 @@ for (const path of pages) {
   assert.match(html,/object-src 'none'/,path+" must disable plugin objects");
   assert.match(html,/base-uri 'self'/,path+" must restrict base URI");
   assert.match(html,/upgrade-insecure-requests/,path+" must upgrade mixed content");
-  for (const match of html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)) {
   for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
-    if (body && !/type=["']application\\/ld\\+json["']/i.test(attrs)) {
+    const attrs = match[1], body = match[2].trim();
     if (body && !/type=["']application\/ld\+json["']/i.test(attrs)) {
+      assert.fail(path+" has executable inline script");
     }
   }
   assert.doesNotMatch(html,/\son(?:click|load|error|submit|change|mouseover)\s*=/i,path+" has inline event handler");
