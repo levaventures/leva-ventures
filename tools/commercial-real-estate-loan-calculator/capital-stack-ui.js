@@ -91,9 +91,8 @@
        $(id).dispatchEvent(new Event("input",{bubbles:true}));
      });
    }
-   $("capital-stack-announce").addEventListener("click",()=>{
-      $("capital-stack-live").textContent=priorMessage||"Valid financing values are required to calculate the capital stack.";
-   });
+   // Audio narration and visible transcripts are handled by voice.js.
+   // The visual model deliberately does not speak or announce every keystroke.
  }
  return {render,reset,init};
 });
