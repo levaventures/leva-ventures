@@ -112,6 +112,13 @@ function preview(input,capital,sensitivity,comparison,target){
 let lastPreview="";
 function render(){
  try {
+  for(const id of [...refIds,...editIds]){
+    const el=$(id);
+    if(el.type!=="number")continue;
+    if(el.value.trim()===""||!el.checkValidity()){
+      throw new Error("Please enter a valid value for "+(document.querySelector('label[for="'+id+'"]')?.textContent||id)+".");
+    }
+  }
   const input=ref(),strategy=LVStrategy.sensitivities(input);
   const capital=LVStrategy.capitalPlan(input,plan());
   const comparison=LVStrategy.compare(input,alt(),plan());
