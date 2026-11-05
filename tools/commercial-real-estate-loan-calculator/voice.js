@@ -7,11 +7,7 @@ const $=id=>document.getElementById(id);
 const ids=["ref-value","ref-noi","ref-payoff","ref-costs","ref-reserves","ref-rate","ref-amort","ref-dscr","ref-ltv","ref-yield","st-cash","st-capital","st-type","st-return","st-fee"];
 const speechAvailable=typeof window.speechSynthesis!=="undefined"&&typeof window.SpeechSynthesisUtterance!=="undefined";
 let voices=[],current=null,spokenText="",voiceChangedByUser=false;
-const money=n=>{
-  if(n>=1000000)return (n/1000000).toFixed(2).replace(/\.00$/,"")+" million dollars";
-  if(n>=1000)return Math.round(n/1000).toLocaleString("en-US")+" thousand dollars";
-  return Math.round(n).toLocaleString("en-US")+" dollars";
-};
+const money=n=>LVSpokenAmounts.speakMoney(n);
 const raw=id=>$(id).value.trim()===""?NaN:Number($(id).value);
 function inputs(){
  return {value:raw("ref-value"),noi:raw("ref-noi"),payoff:raw("ref-payoff"),costs:raw("ref-costs"),reserves:raw("ref-reserves"),
@@ -82,15 +78,18 @@ function regenerateVoices(){
 function loanNarration(){
  const a=LVFinance.loan({principal:raw("loan-principal"),rate:raw("loan-rate"),
  termYears:raw("loan-term"),amortYears:raw("loan-amort"),interestOnly:$("loan-io").checked});
- return "Your estimated monthly payment is "+money(a.monthlyPayment)+". "+
+ return "Loan summary. The estimated monthly payment shown on screen is "+money(a.monthlyPayment)+". "+
  "Annual scheduled debt service is "+money(a.annualDebtService)+". "+
- (a.balloon>1?"At loan maturity, an estimated balloon balance of "+money(a.balloon)+" remains to be repaid. ":"Under these assumptions the loan has no balloon balance at maturity. ")+
- "These estimates exclude property taxes, insurance, lender fees and reserve requirements. They do not constitute an offer of financing.";
+ "The estimated balloon balance at maturity is "+money(a.balloon)+". "+
+ "Total interest paid during the loan term is "+money(a.interestPaid)+". "+
+ "Principal repaid during the loan term is "+money(a.principalRepaid)+". "+
+ "All spoken amounts are rounded to the nearest dollar, exactly as displayed on screen. "+
+ "The payment schedule download retains cents. These estimates exclude property taxes, insurance, lender fees and reserve requirements. They do not constitute an offer of financing.";
 }
 function refinanceNarration(){
  const data=inputs(),r=LVFinance.refinance(data);
  const limiting=r.binding||"the calculated loan constraints";
- const gap=r.gap>1?
+ const gap=LVSpokenAmounts.roundDisplayedDollars(r.gap)>0?
    "That leaves an estimated refinancing funding shortfall of "+money(r.gap)+". ":
    "These assumptions show no financing gap, although cash-out proceeds and actual eligibility are not confirmed. ";
  return "Leva Refinance Intelligence. Based on your entered property value of "+money(r.value)+
@@ -104,7 +103,7 @@ function refinanceNarration(){
 function capitalNarration(){
  const data=inputs(),p=LVStrategy.capitalPlan(data,config());
  const type=p.type==="preferred-equity"?"current-pay preferred equity":"interest-only junior debt";
- const covered=p.uncovered>1?"After accounting for new fees and selected sources, "+money(p.uncovered)+" remains uncovered. ":
+ const covered=LVSpokenAmounts.roundDisplayedDollars(p.uncovered)>0?"After accounting for new fees and selected sources, "+money(p.uncovered)+" remains uncovered. ":
  "Under these assumptions the modeled funding uses are fully covered, but no additional capital source has been confirmed. ";
  return "Your hypothetical capital plan uses senior loan proceeds of "+money(p.seniorLoan)+
  ", sponsor cash of "+money(p.sponsorCash)+", and "+money(p.additionalCapital)+
