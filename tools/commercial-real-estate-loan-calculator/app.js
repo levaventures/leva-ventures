@@ -53,7 +53,16 @@ function updateRef(){
     setText("ref-proceeds",money(r.proceeds));setText("ref-required",money(r.required));setText("ref-actual-dscr",multiplier(r.dscr));setText("ref-actual-ltv",pct(r.ltv));
     setText("ref-insight",r.proceeds===0?"Based on these inputs, the model supports no loan proceeds.":r.binding+" is the limiting constraint under your assumptions. Actual financing may be constrained by additional lender criteria.");
     renderLimits(r);renderScenarios(params,r);
-  }catch(e){lastRef=null;setText("ref-error",e.message);["ref-gap","ref-proceeds","ref-required","ref-actual-dscr","ref-actual-ltv"].forEach(id=>setText(id,"—"));$("constraint-bars").replaceChildren();$("scenario-cards").replaceChildren();setText("ref-insight","Correct the input above to see the modeled financing constraints.");}
+    const total=Math.max(0,r.required),senior=Math.min(total,r.proceeds),shortfall=Math.max(0,total-senior);
+    const seniorShare=total>0?100*senior/total:0;
+    const gapShare=total>0?100*shortfall/total:0;
+    $("ref-bar-senior").style.width=seniorShare.toFixed(3)+"%";
+    $("ref-bar-gap").style.width=gapShare.toFixed(3)+"%";
+    setText("ref-graphic-total",money(total)+" required");
+    setText("ref-graphic-senior",money(senior));
+    setText("ref-graphic-gap",money(shortfall));
+    setText("ref-graphic-explanation",r.proceeds>total?"The modeled senior loan exceeds the stated funding requirement; excess potential proceeds are not shown in the bar.":"The bar compares modeled senior proceeds with payoff, costs and reserves.");
+  }catch(e){lastRef=null;setText("ref-error",e.message);["ref-gap","ref-proceeds","ref-required","ref-actual-dscr","ref-actual-ltv"].forEach(id=>setText(id,"—"));$("constraint-bars").replaceChildren();$("scenario-cards").replaceChildren();$("ref-bar-senior").style.width="0%";$("ref-bar-gap").style.width="0%";["ref-graphic-total","ref-graphic-senior","ref-graphic-gap"].forEach(id=>setText(id,"—"));setText("ref-insight","Correct the input above to see the modeled financing constraints.");}
 }
 function setTab(tab){
   const ref=tab==="refi";
