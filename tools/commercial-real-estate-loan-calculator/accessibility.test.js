@@ -9,7 +9,7 @@ const path=require("node:path");
   await page.waitForFunction(()=>document.querySelector("#loan-payment").textContent!=="—");
   for(const mode of ["loan","refi"]){
    await page.locator(mode==="loan"?"#tab-loan":"#tab-refi").click();
-   if(mode==="refi")await page.waitForFunction(()=>document.querySelector("#capital-stack-table tbody tr").length===4);
+   if(mode==="refi")await page.waitForFunction(()=>document.querySelectorAll("#capital-stack-table tbody tr").length===4);
    await page.addScriptTag({path:require.resolve("axe-core/axe.min.js")});
    const report=await page.evaluate(async()=>await window.axe.run(document,{
      runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]},
