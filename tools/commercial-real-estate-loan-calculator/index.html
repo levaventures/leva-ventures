@@ -48,18 +48,46 @@
 @media(prefers-reduced-motion:reduce){.funding-bar-senior,.funding-bar-gap{transition:none}}
 @media print{.guided{display:none!important}.financing-graphic{break-inside:avoid;border-color:#555;background:#fff}.graphic-header,.graphic-key,.graphic-header strong,.graphic-key strong{color:#111}}
 
+
+/* Accessible capital stack; visual-only bar always has table equivalent */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.skip-link{position:absolute;left:12px;top:-100px;z-index:100;background:#e0c27a;color:#10141c;padding:12px 18px;font-weight:700;border-radius:4px}.skip-link:focus{top:12px;color:#10141c}
+.capital-stack-panel{margin-top:18px;min-width:0}.capital-stack-panel h2{margin:6px 0 10px}.capital-topline{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:20px 0 10px}
+.capital-topline>div{display:flex;flex-direction:column;gap:3px}.capital-topline strong{font-size:clamp(20px,2.5vw,28px);color:var(--light)}
+.capital-stack-visual{display:flex;align-items:stretch;gap:2px;overflow:hidden;height:38px;background:#35383d;border-radius:6px}
+.capital-segment{height:100%;min-width:0;transition:width .16s ease}.capital-senior{background:#c7a15a}.capital-supplemental{background:#719ba6}.capital-sponsor{background:#a7b995}.capital-gap{background:#b86c63}
+.capital-summary{color:#ddd4c5;font-size:13px;margin:12px 0 17px}
+.capital-sliders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.capital-sliders .field{background:#181e27;padding:13px;border:1px solid #474947;border-radius:7px}
+.capital-sliders .field label{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.capital-sliders .field label strong{color:var(--light)}
+.capital-sliders input[type=range]{padding:0;min-height:30px;accent-color:var(--gold);background:transparent;border:0;cursor:pointer}
+.capital-data-table{min-width:550px}.capital-data-table tbody th{font-weight:500;text-align:left;padding:13px 10px;border-bottom:1px solid #3a3d41;white-space:nowrap}
+.capital-data-table tfoot th{text-align:left}.capital-data-table tfoot th,.capital-data-table tfoot td{border-top:2px solid #6c624f;padding:12px 10px}
+.capital-swatch{display:inline-block;width:12px;height:12px;margin-right:9px;border-radius:2px;vertical-align:middle}
+.capital-bottomline{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:14px 0}
+.capital-bottomline strong{color:var(--light)}
+.capital-announce{margin:14px 0}
+[aria-invalid=true]{border-color:#f2b8ad!important;outline-offset:3px}
+:focus-visible{outline:3px solid #f0cf85;outline-offset:3px}
+@media(max-width:700px){.capital-sliders{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.capital-segment{transition:none}}
+@media print{.capital-sliders,.capital-announce{display:none!important}.capital-stack-visual{print-color-adjust:exact;-webkit-print-color-adjust:exact}.capital-stack-panel{break-inside:avoid}}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Commercial Real Estate Loan Calculator & Refinance Intelligence","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://levaventures.com/tools/commercial-real-estate-loan-calculator/","publisher":{"@type":"Organization","name":"Leva Ventures, LLC","url":"https://levaventures.com/"}}</script>
 <script src="./finance.js" defer></script>
 <script src="./strategy.js" defer></script>
+<script src="./capital-stack.js" defer></script>
+<script src="./capital-stack-ui.js" defer></script>
 <script src="./app.js" defer></script>
 <script src="./advanced.js" defer></script>
 <script src="./spoken-amounts.js" defer></script>
 <script src="./voice.js" defer></script>
 </head>
-<body>
+<body><a class="skip-link" href="#main-content">Skip to calculator</a>
 <header><div class="wrap nav"><a class="brand" href="/"><span class="mark">LV</span><span>LEVA VENTURES</span></a><nav class="navlinks" aria-label="Main navigation"><a href="/">Home</a><a href="/insights/">Insights</a><a href="#how-it-works">How it works</a></nav></div></header>
-<main>
+<main id="main-content" tabindex="-1">
 <section class="hero"><div class="wrap">
 <div class="eyebrow">LEVA CAPITAL INTELLIGENCE / FREE FINANCIAL TOOLS</div>
 <h1>Commercial Real Estate<br>Loan Calculator</h1>
@@ -170,6 +198,39 @@
     <div class="error" id="st-error" role="alert"></div>
   </div>
 </div>
+<section class="panel capital-stack-panel moretop" id="capital-stack-section" aria-labelledby="capital-stack-heading">
+ <div class="eyebrow">INTERACTIVE FUNDING ALLOCATION</div>
+ <h2 id="capital-stack-heading">Your capital stack, visually explained</h2>
+ <p class="helper" id="capital-stack-intro">Explore how modeled senior financing, supplemental capital and sponsor cash could cover your refinancing requirement. These are hypothetical sources, not committed financing.</p>
+ <div class="capital-topline">
+  <div><span class="metriclabel">Total funding uses, including additional capital fees</span><strong id="capital-stack-uses">—</strong></div>
+  <div><span class="metriclabel">Unfunded gap</span><strong id="capital-stack-gap">—</strong></div>
+ </div>
+ <div id="capital-stack-visual" class="capital-stack-visual" aria-hidden="true"></div>
+ <p id="capital-stack-summary" class="capital-summary">Change financing assumptions to calculate the allocation.</p>
+ <div class="capital-sliders">
+  <div class="field">
+   <label for="stack-slider-cash">Adjust sponsor cash <strong id="stack-slider-cash-value">—</strong></label>
+   <input type="range" id="stack-slider-cash" min="0" max="5000000" step="10000" value="150000">
+  </div>
+  <div class="field">
+   <label for="stack-slider-capital">Adjust supplemental capital <strong id="stack-slider-capital-value">—</strong></label>
+   <input type="range" id="stack-slider-capital" min="0" max="5000000" step="10000" value="300000">
+  </div>
+ </div>
+ <div class="tablewrap capital-tablewrap">
+ <table class="data-table capital-data-table" id="capital-stack-table">
+  <caption>Accessible capital stack amounts: hypothetical sources, amounts applied, and percent of uses</caption>
+  <thead><tr><th scope="col">Capital source</th><th scope="col">Modeled amount</th><th scope="col">Applied to uses</th><th scope="col">Share of uses</th></tr></thead>
+  <tbody></tbody><tfoot></tfoot>
+ </table></div>
+ <div class="capital-bottomline"><span>Modeled total sources: <strong id="capital-stack-sources">—</strong></span><span>Potential excess sources: <strong id="capital-stack-surplus">—</strong></span></div>
+ <p class="helper" id="capital-stack-note">The graphic will update as you adjust the financing assumptions.</p>
+ <button type="button" class="btn secondary capital-announce" id="capital-stack-announce">Announce capital stack results</button>
+ <p class="sr-only" id="capital-stack-live" role="status" aria-live="polite" aria-atomic="true"></p>
+ <div class="notice">For clarity, the graphic allocates modeled sources to funding uses in display order, not legal priority. Excess sources are reported separately. Actual financing may be unavailable or prohibited by senior loan terms.</div>
+</section>
+
 <div class="advanced-two moretop">
   <div class="panel"><div class="eyebrow">STRESS TEST</div><h2>How resilient is the refinance?</h2>
     <p class="helper">The grid measures estimated funding gaps as NOI and rates move independently. Other assumptions stay constant.</p>
