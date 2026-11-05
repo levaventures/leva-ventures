@@ -7,7 +7,7 @@ const {chromium}=require("playwright");
  try{
   const page=await browser.newPage({viewport:{width:1366,height:900},acceptDownloads:true});
   page.on("pageerror",error=>{console.error("Browser exception:",error);process.exitCode=1;});
-  const url="file://"+path.join(__dirname,"index.html");
+  const url="file://"+path.resolve(__dirname,process.env.LEVA_PREVIEW_FILE || "index.html");
   await page.goto(url,{waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>document.querySelector("#loan-payment").textContent!=="—");
   assert.match(await page.locator("#loan-payment").innerText(),/^\$/);
