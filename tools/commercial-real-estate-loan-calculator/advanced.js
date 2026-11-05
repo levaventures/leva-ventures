@@ -124,6 +124,7 @@ function render(){
   set("st-fees",money(capital.additionalFees));set("st-exit",money(capital.capitalDueAtExit));
   set("st-flags",capital.flags.length?capital.flags.join("\n"):"No additional-capital restrictions modeled. Actual underwriting and availability are not confirmed.");
   heatmap(strategy);drivers(strategy,target,input);compareTable(comparison);
+  LVStackUI.render(capital);
   lastPreview=preview(input,capital,strategy,comparison,target);
   set("st-brief",lastPreview);
  }catch(e){
@@ -133,9 +134,11 @@ function render(){
   set("st-coverage-label","No current estimate");set("st-flags","Calculations unavailable until inputs are corrected.");
   set("st-brief","Correct invalid inputs to generate this sample.");$("st-heatmap").querySelector("tbody").replaceChildren();
   $("st-drivers").replaceChildren();$("st-compare").querySelector("tbody").replaceChildren();
+  LVStackUI.reset();
  }
 }
 function init(){
+  LVStackUI.init();
   const showAdvanced=()=>{$("advanced-workspace").hidden=$("refi-panel").hidden;};
   $("tab-loan").addEventListener("click",showAdvanced);
   $("tab-refi").addEventListener("click",showAdvanced);
