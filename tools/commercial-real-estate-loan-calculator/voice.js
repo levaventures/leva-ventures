@@ -17,10 +17,13 @@ function config(){
  return {sponsorCash:raw("st-cash"),additionalCapital:raw("st-capital"),type:$("st-type").value,
   annualReturn:raw("st-return"),feePercent:raw("st-fee")};
 }
-function status(msg){$("voice-status").textContent=msg;$("loan-voice-status").textContent=msg;}
+function status(msg){
+ $("voice-status").textContent=msg;
+ $("loan-voice-status").textContent=msg;
+ $("capital-stack-audio-status").textContent=msg;
+}
 function stop(){
- if(!speechAvailable)return;
- window.speechSynthesis.cancel();
+ if(speechAvailable)window.speechSynthesis.cancel();
  current=null;
  status("Narration stopped. Your calculations have not changed.");
 }
@@ -112,6 +115,25 @@ function capitalNarration(){
  ". Additional capital can be restricted by senior loan documents, financial covenants, lien priority and legal requirements. "+
  "This is an educational structure comparison, not a recommendation or an available financing solution.";
 }
+function capitalStackNarration(){
+ const plan=LVStrategy.capitalPlan(inputs(),config());
+ const stack=LVCapitalStack.build(plan);
+ const capitalKind=plan.type==="preferred-equity"?"preferred equity":"junior debt";
+ const result=stack.shortage>0?
+   "An estimated "+money(stack.shortage)+" is still uncovered. ":
+   "All modeled funding uses are covered, although the funding is not confirmed. ";
+ const excess=stack.excess>0?
+   "Modeled sources exceed the funding required by "+money(stack.excess)+". "+
+   "The chart shows amounts allocated to uses, while the table also shows proposed full contributions. ":"";
+ return "Leva Capital Stack Summary. Total modeled funding uses, including any added capital fee, are "+
+   money(stack.uses)+". The estimated senior loan is "+money(plan.seniorLoan)+
+   ". The hypothetical supplemental "+capitalKind+" is "+money(plan.additionalCapital)+
+   ". Sponsor cash is "+money(plan.sponsorCash)+
+   ". These together represent total modeled capital sources of "+money(stack.modeledSources)+". "+
+   "Additional capital fees included in the funding requirement are "+money(plan.additionalFees)+". "+
+   result+excess+
+   "These are illustrative assumptions, not confirmed or available funding. The chart display order does not represent lien or repayment priority.";
+}
 const explanations={
  dscr:"Debt service coverage ratio, or D S C R, compares a property's annual net operating income with annual scheduled loan debt service. A ratio of one point two five means there is one dollar and twenty-five cents of modeled net operating income for each dollar of scheduled senior loan debt service. Lenders may adjust the income and expenses they use.",
  ltv:"Loan to value ratio, or L T V, measures loan principal compared with the property's assessed value. For example, a seventy percent maximum L T V limits modeled loan proceeds to seventy cents per dollar of property value before other lender constraints are applied.",
@@ -125,14 +147,22 @@ function narrate(text){
  spokenText=text;
  $("voice-transcript").textContent=text;
  $("loan-voice-transcript").textContent=text;
+ $("capital-stack-transcript").textContent=text;
  $("voice-transcript-wrap").hidden=false;
  $("loan-voice-transcript-wrap").hidden=false;
+ $("capital-stack-transcript-wrap").hidden=false;
+ // In a screen reader the transcript remains accessible; do not duplicate
+ // speech via a second live region when speech synthesis is also speaking.
  if(!speechAvailable){status("Voice playback is not available in this browser. The narration transcript is shown below.");return;}
  const synth=window.speechSynthesis;
  synth.cancel();
  const utterance=new SpeechSynthesisUtterance(text);
  const voice=chosenVoice();
- if(!voice){status("No English voice is available. Read the transcript below.");return;}
+ if(!voice){
+   status("No English voice is available here. Read the full transcript below.");
+   $("capital-stack-live").textContent=text;
+   return;
+ }
  utterance.lang=voice.lang||"en-GB";utterance.voice=voice;
  utterance.rate=Number($("voice-rate").value)||1;
  current=utterance;
@@ -143,7 +173,11 @@ function narrate(text){
 }
 function handle(makeText){
  try{narrate(makeText());}
- catch(err){stop();$("voice-transcript-wrap").hidden=true;$("loan-voice-transcript-wrap").hidden=true;status("Please correct any invalid financial inputs before using narration.");}
+ catch(err){
+  stop();
+  $("capital-stack-live").textContent="";
+  status("Please correct any invalid financial inputs before requesting narration.");
+}
 }
 function init(){
  const controlMap={"voice-results":refinanceNarration,"voice-options":capitalNarration,
@@ -152,6 +186,11 @@ function init(){
  $("voice-stop").addEventListener("click",stop);
  $("loan-voice").addEventListener("click",()=>handle(loanNarration));
  $("loan-voice-stop").addEventListener("click",stop);
+ $("capital-stack-announce").addEventListener("click",()=>{
+   $("capital-stack-live").textContent="";
+   handle(capitalStackNarration);
+ });
+ $("capital-stack-stop").addEventListener("click",stop);
  $("tab-loan").addEventListener("click",()=>{if(speechAvailable)window.speechSynthesis.cancel();});
  $("tab-refi").addEventListener("click",()=>{if(speechAvailable)window.speechSynthesis.cancel();});
  [...ids,"loan-principal","loan-rate","loan-term","loan-amort","loan-io"].forEach(id=>$(id).addEventListener("input",()=>{
