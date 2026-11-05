@@ -1,0 +1,29 @@
+name: Leva Real NVDA Screen Reader Audit
+on:
+  pull_request:
+    paths:
+      - 'tools/commercial-real-estate-loan-calculator/**'
+      - 'previews/**'
+      - '.github/workflows/leva-nvda-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  nvda:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install open-source NVDA test tooling
+        run: npm install --no-save @guidepup/playwright @guidepup/guidepup @guidepup/setup @playwright/test
+      - name: Install Chromium for Playwright
+        run: npx playwright install chromium
+      - name: Prepare the Windows NVDA screen reader
+        run: npx @guidepup/setup setup --ci
+      - name: Install NVDA screen-reader assets
+        run: npx @guidepup/setup install
+      - name: Test actual spoken headings and capital-stack navigation
+        run: npx playwright test -c tools/commercial-real-estate-loan-calculator/nvda-playwright.config.cjs

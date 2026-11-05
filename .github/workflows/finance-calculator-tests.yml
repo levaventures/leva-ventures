@@ -1,0 +1,81 @@
+name: Commercial Financing Calculator Tests
+on:
+  pull_request:
+    paths:
+      - 'tools/commercial-real-estate-loan-calculator/**'
+      - '.github/workflows/finance-calculator-tests.yml'
+      - 'previews/**'
+      - 'index.html'
+      - 'insights/**'
+      - 'accessibility/**'
+      - 'sitemap.xml'
+      - 'robots.txt'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  calculation-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static website security policy and sink regression checks
+        run: node tools/commercial-real-estate-loan-calculator/site-security.test.js
+      - name: Test financial formulas
+        run: node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/spoken-amounts.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js
+      - name: Verify HTML internal targets and required assets
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const base='tools/commercial-real-estate-loan-calculator/';
+          const html=fs.readFileSync(base+'index.html','utf8');
+          const app=fs.readFileSync(base+'app.js','utf8')+'\n'+fs.readFileSync(base+'advanced.js','utf8')+'\n'+fs.readFileSync(base+'voice.js','utf8')+'\n'+fs.readFileSync(base+'capital-stack-ui.js','utf8')+'\n'+fs.readFileSync(base+'accessibility.js','utf8');
+          for (const match of app.matchAll(/\$\("([^"]+)"\)/g)){
+            if(!html.includes('id="'+match[1]+'"'))throw new Error('Missing HTML control '+match[1]);
+          }
+          for(const script of ['finance.js','strategy.js','capital-stack.js','capital-stack-ui.js','app.js','advanced.js','spoken-amounts.js','voice.js','accessibility.js'])if(!html.includes('src="./'+script+'"'))throw new Error('Missing script '+script);
+          console.log('Required markup references verified');
+          NODE
+
+      - name: Install browser smoke test dependencies
+        run: |
+          npm install --no-save playwright axe-core
+          npx playwright install chromium --with-deps
+      - name: Production-style static-site launch integration checks
+        run: node tools/commercial-real-estate-loan-calculator/site-launch-integration.test.js
+      - name: Run Chromium desktop and mobile smoke tests
+        run: node tools/commercial-real-estate-loan-calculator/browser.test.js
+
+      - name: Comprehensive calculator, voice, validation, export, and mobile QA
+        run: node tools/commercial-real-estate-loan-calculator/full-qa.test.js
+      - name: Comprehensive offline preview QA
+        env:
+          LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-full-qa-offline-review.html
+        run: node tools/commercial-real-estate-loan-calculator/full-qa.test.js
+      - name: Automated WCAG 2.2 accessibility checks
+        run: node tools/commercial-real-estate-loan-calculator/accessibility.test.js
+      - name: Validate standalone interactive preview
+        env:
+          LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-full-qa-offline-review.html
+        run: node tools/commercial-real-estate-loan-calculator/browser.test.js
+      - name: Capture visual preview screenshots
+        run: node tools/commercial-real-estate-loan-calculator/preview-screenshots.js
+      - name: Publish complete site launch screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-site-launch-preview-screenshots
+          path: |
+            preview-artifacts/leva-homepage-launch-*.png
+            preview-artifacts/leva-insights-launch-*.png
+            preview-artifacts/leva-calculator-launch-*.png
+          retention-days: 30
+      - name: Publish review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-financing-intelligence-full-qa-offline-review
+          path: |
+            previews/leva-financing-intelligence-full-qa-offline-review.html
+            preview-artifacts/*.png
+          retention-days: 30

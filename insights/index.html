@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Leva Insights provides practical perspectives on private capital, residential and commercial real estate financing, development, business acquisitions, deal preparation, and market trends.">
 <link rel="canonical" href="https://levaventures.com/insights/">
@@ -675,20 +677,40 @@ footer {
   .footer-links { margin-top: 32px; }
   .footer-bottom p + p { margin-top: 12px; }
 }
+
+/* WCAG 2.2 AA remediation — readable small print and publication notices.
+   The original dark-and-gold identity is preserved, but muted essential text
+   must meet at least a 4.5:1 contrast ratio. */
+.footer-bottom{color:#c9c8c2!important;font-size:.78rem!important}
+.article-disclaimer,.article-disclaimer strong{color:#c9c8c2!important;font-size:.82rem!important}
+.article-status{color:#c9c8c2!important;font-size:.78rem!important}
+
+.calculator-insights-feature{padding:104px 0;background:#151b25;border-block:1px solid rgba(199,161,90,.28)}
+.calculator-insights-inner{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(250px,.7fr);gap:52px;align-items:center}
+.calculator-insights-feature h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.3rem,4.5vw,4rem);line-height:1.12;margin:14px 0 22px}
+.calculator-insights-feature p{font-size:.87rem;color:#d5d1c8;line-height:1.8;margin-bottom:18px}
+.calculator-insights-feature .btn{display:inline-block;margin:7px 0 0}
+.calculator-insights-feature .calculator-insights-note{font-size:.75rem;color:#c9c8c2;margin-top:17px;max-width:550px}
+.calculator-insights-points{border:1px solid rgba(199,161,90,.38);background:#1b2029;padding:26px;border-radius:8px}
+.calculator-insights-points p{border-bottom:1px solid rgba(199,161,90,.17);padding:11px 0;margin:0}
+.calculator-insights-points p:last-child{border:0}
+.calculator-insights-points strong{color:#f2efe8}
+@media(max-width:760px){.calculator-insights-feature{padding:66px 0}.calculator-insights-inner{grid-template-columns:1fr}}
 </style>
 </head>
 
 <body>
 <header>
   <div class="container nav">
-    <a href="/" class="brand" aria-label="Leva Ventures home">
-      <div class="monogram">Lᵛ</div>
+    <a href="/" class="brand">
+      <div class="monogram" aria-hidden="true">Lᵛ</div>
       <div class="brand-name">Leva Ventures<small>LLC</small></div>
     </a>
     <nav class="nav-links" aria-label="Primary navigation">
       <a href="/#services">What We Do</a>
       <a href="/#about">About</a>
       <a href="/insights/" class="active">Insights</a>
+      <a href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a>
       <a href="/#contact">Contact</a>
       <a href="/#contact" class="btn">Submit an Opportunity</a>
     </nav>
@@ -708,7 +730,7 @@ footer {
   </section>
 
   <div class="container categories-strip">
-    <div class="category-nav" aria-label="Filter insight topics">
+    <div class="category-nav" role="group" aria-label="Filter insight topics">
       <button class="filter-btn active" type="button" data-filter="all">All Insights</button>
       <button class="filter-btn" type="button" data-filter="capital">Private Capital</button>
       <button class="filter-btn" type="button" data-filter="real-estate">Real Estate Capital</button>
@@ -932,7 +954,24 @@ footer {
     </div>
   </section>
 
-  <section class="cta">
+  <section class="calculator-insights-feature" aria-labelledby="insights-calculator-title">
+  <div class="container calculator-insights-inner">
+    <div>
+      <div class="eyebrow">FREE FINANCING INTELLIGENCE</div>
+      <span class="gold-line"></span>
+      <h2 id="insights-calculator-title">Test the assumptions.<br>Then examine the structure.</h2>
+      <p>Reading about commercial debt and equity is one thing; modeling the numbers is another. Explore payments, balloon balances, refinancing limits and capital shortfalls with Leva’s free interactive commercial real estate loan calculator.</p>
+      <a class="btn" href="/tools/commercial-real-estate-loan-calculator/">Open Free Commercial Real Estate Loan Calculator</a>
+      <p class="calculator-insights-note">Includes optional narrated explanations and a readable capital-stack table. All estimates are illustrative—not funding offers or commitments.</p>
+    </div>
+    <div class="calculator-insights-points" aria-label="Key calculator capabilities">
+      <p><strong>Monthly payment</strong> — amortizing and interest-only structures</p>
+      <p><strong>Refinance capacity</strong> — DSCR, LTV and debt yield</p>
+      <p><strong>Funding shortfall</strong> — sources, uses and sponsor equity</p>
+    </div>
+  </div>
+</section>
+<section class="cta">
     <div class="container cta-inner">
       <div class="eyebrow">Have an Opportunity?</div>
       <span class="gold-line"></span>
@@ -949,7 +988,7 @@ footer {
     <div class="footer-top">
       <div>
         <a href="/" class="brand">
-          <div class="monogram">Lᵛ</div>
+          <div class="monogram" aria-hidden="true">Lᵛ</div>
           <div class="brand-name">Leva Ventures<small>LLC</small></div>
         </a>
         <div class="footer-tagline">Connecting Opportunity to Capital.</div>
@@ -959,8 +998,8 @@ footer {
         <a href="/#about">About</a>
         <a href="/insights/">Insights</a>
         <a href="/#contact">Contact</a>
-        <a href="/#privacy">Privacy</a>
-        <a href="/#disclosures">Disclosures</a>
+        <a href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a><a href="/#privacy">Privacy</a>
+        <a href="/#disclosures">Disclosures</a><a href="/accessibility/">Accessibility</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -971,27 +1010,6 @@ footer {
 </footer>
 
 
-<script>
-  const filterButtons = document.querySelectorAll('[data-filter]');
-  const articleCards = document.querySelectorAll('.article-card');
-
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const filter = button.dataset.filter;
-
-      filterButtons.forEach((item) => {
-        item.classList.remove('active');
-        item.setAttribute('aria-pressed', 'false');
-      });
-
-      button.classList.add('active');
-      button.setAttribute('aria-pressed', 'true');
-
-      articleCards.forEach((card) => {
-        card.hidden = filter !== 'all' && card.dataset.category !== filter;
-      });
-    });
-  });
-</script>
+<script src="/assets/leva-insights-filters.js" defer></script>
 </body>
 </html>

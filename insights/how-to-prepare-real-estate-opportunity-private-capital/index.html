@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Learn how to prepare a residential, commercial, investment, or development real estate opportunity for private capital review.">
 <link rel="canonical" href="https://levaventures.com/insights/how-to-prepare-real-estate-opportunity-private-capital/">
@@ -608,14 +610,29 @@ footer {
   .footer-bottom p + p { margin-top: 12px; }
   .preview-note { left: 12px; right: 12px; bottom: 12px; text-align: center; }
 }
+
+/* WCAG 2.2 AA remediation — readable small print and publication notices.
+   The original dark-and-gold identity is preserved, but muted essential text
+   must meet at least a 4.5:1 contrast ratio. */
+.footer-bottom{color:#c9c8c2!important;font-size:.78rem!important}
+.article-disclaimer,.article-disclaimer strong{color:#c9c8c2!important;font-size:.82rem!important}
+.article-status{color:#c9c8c2!important;font-size:.78rem!important}
+
+.tool-related{background:#151b25;border-top:1px solid rgba(199,161,90,.25);border-bottom:1px solid rgba(199,161,90,.25);padding:64px 0}
+.tool-related-inner{max-width:870px}
+.tool-related h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.16;margin:14px 0 20px}
+.tool-related p{color:#d5d1c8;font-size:.88rem;line-height:1.8;margin:0 0 20px}
+.tool-related .btn{display:inline-block}
+.tool-related .tool-related-note{margin:17px 0 0;font-size:.76rem;color:#c9c8c2}
+@media(max-width:600px){.tool-related{padding:48px 0}}
 </style>
 </head>
 
 <body>
 <header>
   <div class="container nav">
-    <a href="/" class="brand" aria-label="Leva Ventures home">
-      <div class="monogram">Lᵛ</div>
+    <a href="/" class="brand">
+      <div class="monogram" aria-hidden="true">Lᵛ</div>
       <div class="brand-name">Leva Ventures<small>LLC</small></div>
     </a>
     <nav class="nav-links" aria-label="Primary navigation">
@@ -630,7 +647,7 @@ footer {
 </header>
 
 <main>
-  <div class="container breadcrumbs" aria-label="Breadcrumb">
+  <div class="container breadcrumbs" role="navigation" aria-label="Breadcrumb">
     <a href="/">Leva Ventures</a><span>/</span><a href="/insights/">Insights</a><span>/</span>Real Estate Capital
   </div>
 
@@ -646,7 +663,7 @@ footer {
         <span>Approx. 12 minute read</span>
       </div>
 
-      <div class="hero-brief" aria-label="Article coverage">
+      <div class="hero-brief" role="group" aria-label="Article coverage">
         <div><span>Residential</span><strong>Primary &amp; Investment</strong></div>
         <div><span>Commercial</span><strong>Acquisition &amp; Refinance</strong></div>
         <div><span>Development</span><strong>Land &amp; Construction</strong></div>
@@ -934,7 +951,14 @@ footer {
     </div>
   </article>
 
-  <section class="cta">
+  <section class="tool-related" aria-labelledby="tool-related-heading"><div class="container tool-related-inner">
+ <div class="eyebrow">PRACTICAL FINANCIAL MODELING</div>
+ <h2 id="tool-related-heading">Test the financing assumptions before outreach</h2>
+ <p>For commercial real estate transactions, estimate the debt service, refinance constraints and modeled sources-and-uses gap before discussing capital options. The free Leva calculator includes optional spoken results and a complete numeric capital-stack table.</p>
+ <a class="btn" href="/tools/commercial-real-estate-loan-calculator/">Open Free Commercial Real Estate Loan Calculator</a>
+ <p class="tool-related-note">Educational, assumption-based estimates only. Results are not financing offers, lender approvals or available capital.</p>
+ </div></section>
+<section class="cta">
     <div class="container cta-inner">
       <div class="eyebrow">Have a Real Estate Opportunity?</div>
       <span class="gold-line"></span>
@@ -951,7 +975,7 @@ footer {
     <div class="footer-top">
       <div>
         <a href="/" class="brand">
-          <div class="monogram">Lᵛ</div>
+          <div class="monogram" aria-hidden="true">Lᵛ</div>
           <div class="brand-name">Leva Ventures<small>LLC</small></div>
         </a>
         <div class="footer-tagline">Connecting Opportunity to Capital.</div>
@@ -961,8 +985,8 @@ footer {
         <a href="/#about">About</a>
         <a href="/insights/">Insights</a>
         <a href="/#contact">Contact</a>
-        <a href="/#privacy">Privacy</a>
-        <a href="/#disclosures">Disclosures</a>
+        <a href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a><a href="/#privacy">Privacy</a>
+        <a href="/#disclosures">Disclosures</a><a href="/accessibility/">Accessibility</a>
       </div>
     </div>
     <div class="footer-bottom">

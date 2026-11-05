@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Calculate commercial real estate loan payments, balloon balances, DSCR, LTV, debt yield, maximum refinancing proceeds and potential funding shortfalls with Leva Ventures' free calculators.">
+
+<link rel="icon" href="https://levaventures.com/favicon.svg" type="image/svg+xml">
+<title>Leva Financing Intelligence — Private Interactive Preview</title>
+<meta property="og:title" content="Commercial Real Estate Loan Calculator | Leva Ventures">
+<meta property="og:description" content="Free commercial loan payments and refinance gap analysis. Explore loan limits, DSCR, LTV and debt yield.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://levaventures.com/tools/commercial-real-estate-loan-calculator/">
+<meta property="og:image" content="https://levaventures.com/levaventures-og-image.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+:root{--bg:#080b11;--navy:#10141c;--panel:#171c26;--panel2:#1c2430;--text:#f2efe8;--muted:#aba9a5;--gold:#c7a15a;--light:#e0c27a;--line:#34363a;--danger:#edb3a1;--success:#a8d5bd;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Inter",Arial,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:var(--bg);font:15px/1.65 var(--sans)}a{color:var(--light)}a:hover{text-decoration:underline}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--light);outline-offset:3px}header{border-bottom:1px solid #33312d;background:#0d1119}.wrap{width:min(1160px,calc(100% - 36px));margin:auto}.nav{display:flex;align-items:center;justify-content:space-between;min-height:82px;gap:16px}.brand{color:var(--text);text-decoration:none;display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.19em;text-transform:uppercase}.mark{font:500 40px/1 var(--serif);color:var(--light)}.navlinks{display:flex;gap:22px;font-size:12px}.eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:11px;font-weight:700;color:var(--light)}h1,h2,h3,p{margin:0}h1,h2{font-family:var(--serif);font-weight:500}h1{font-size:clamp(42px,5.3vw,70px);line-height:1.08;margin:13px 0 20px}h2{font-size:clamp(30px,3.6vw,44px);line-height:1.14}h3{font-size:17px;line-height:1.4}p{margin:10px 0}.hero{padding:62px 0 35px;background:radial-gradient(circle at 78% 25%,rgba(199,161,90,.11),transparent 38%)}.intro{color:#c3c0bb;max-width:760px;font-size:16px}.trust{display:flex;flex-wrap:wrap;gap:12px 23px;margin-top:22px;color:#c2bba9;font-size:12px}.trust span:before{content:"✓";color:var(--gold);padding-right:8px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:30px 0 18px}.tab{border:1px solid #625334;background:#181b22;padding:13px 22px;color:var(--text);border-radius:6px;font-weight:600}.tab[aria-selected="true"]{background:var(--gold);color:#10141c;border-color:var(--gold)}.tool{display:grid;grid-template-columns:minmax(310px,.88fr) minmax(320px,1.12fr);gap:18px}.panel{border:1px solid #383633;background:var(--navy);border-radius:12px;padding:24px}.panel.results{background:linear-gradient(145deg,#171e29,#10141c)}.panelheading{margin-bottom:18px}.helper{font-size:12px;color:var(--muted)}.fields{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}label{font-size:12px;color:#d6d0c5;font-weight:600}input,select{width:100%;background:#0b1018;color:var(--text);padding:12px;border:1px solid #5a554b;border-radius:5px;min-height:46px}input[type="checkbox"]{width:17px;height:17px;min-height:0;accent-color:var(--gold)}.checkrow{display:flex;gap:10px;align-items:center;margin-top:12px}.metricmain{background:#25261f;border:1px solid #6c5935;padding:21px;border-radius:8px;margin:17px 0}.metriclabel{color:#d3c9b5;font-size:12px}.metricnumber{font-size:clamp(29px,3vw,42px);font-weight:600;line-height:1.2;margin:6px 0;color:var(--light);overflow-wrap:anywhere}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #343c45;border-radius:7px;padding:14px;background:rgba(255,255,255,.025)}.metric strong{display:block;font-size:19px;overflow-wrap:anywhere;margin-top:5px}.metric .metriclabel{color:#aaa8a4}.subhead{margin:23px 0 12px;font-size:14px;color:var(--light)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.btn{min-height:43px;display:inline-flex;align-items:center;justify-content:center;border-radius:5px;padding:11px 16px;text-decoration:none;font-size:12px;font-weight:700;border:1px solid var(--gold)}.btn.primary{color:#11141a;background:var(--gold)}.btn.secondary{background:transparent;color:var(--light)}.btn:hover{text-decoration:none;filter:brightness(1.09)}.error{color:var(--danger);font-size:13px;min-height:16px;margin-top:12px}.summary{white-space:pre-wrap;word-break:break-word;background:#0d1118;border:1px solid #353b45;border-radius:7px;padding:15px;color:#ccc6bb;font-size:12px;margin-top:16px;max-height:250px;overflow:auto}.summary[hidden],section[hidden],[hidden]{display:none!important}.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.scenario{border:1px solid #414650;padding:12px;border-radius:7px;background:#121823}.scenario strong{font-size:19px;display:block;margin-top:7px;color:var(--light);overflow-wrap:anywhere}.scenario small{font-size:11px;color:var(--muted)}.insight{border-left:3px solid var(--gold);padding:12px 16px;background:#22231f;margin:16px 0;font-size:13px}.chartrow{display:grid;grid-template-columns:100px 1fr auto;gap:10px;align-items:center;margin:12px 0;font-size:12px}.track{background:#31343b;border-radius:6px;height:9px;overflow:hidden}.fill{height:100%;background:var(--gold);border-radius:6px}.chartrow strong{font-size:12px;font-weight:500}.plus{border:1px solid #57503e;border-radius:9px;margin-top:20px;padding:22px;background:#1c1d1a}.plus h3{font-family:var(--serif);font-size:29px;font-weight:500}.plus p{color:#c8c3b8;font-size:13px}.mini{display:flex;gap:12px;flex-wrap:wrap;margin-top:13px}.mini span{background:#2d2a23;padding:5px 9px;border-radius:4px;color:var(--light);font-size:11px}.bodysection{padding:48px 0;border-top:1px solid #333029}.articlegrid{display:grid;grid-template-columns:1.3fr 1fr;gap:40px}.copy p{color:#cbc7bf;margin:15px 0;line-height:1.8}.copy h3{margin-top:24px}.copy ul{color:#c9c3b6;padding-left:24px}.copy li{margin:8px 0}.faq details{border-bottom:1px solid #353634;padding:16px 0}.faq summary{font-weight:600;cursor:pointer}.faq p{font-size:13px;color:#c3bdb2}.closing{font-size:12px;color:#aca8a0;border-top:1px solid #333;padding:25px 0 45px}.notice{background:#1b1e23;padding:13px;border:1px solid #4c4538;border-radius:6px;font-size:12px;color:#c8c0b3;margin-top:17px}.footerlinks{display:flex;gap:20px;flex-wrap:wrap}.footerlinks a{font-size:12px}.nojs{padding:20px;color:#f0c7b2}.printonly{display:none}
+@media(max-width:850px){.tool,.articlegrid{grid-template-columns:1fr}.hero{padding-top:42px}.navlinks{gap:12px}.navlinks a{font-size:11px}.compare{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.fields,.metrics,.compare{grid-template-columns:1fr}.panel{padding:18px}.brand{letter-spacing:.08em}.navlinks a:first-child{display:none}.chartrow{grid-template-columns:79px 1fr auto}.tab{flex:1;padding:12px 10px;font-size:12px}}
+@media print{header,.tabs,.actions,.plus,.bodysection,.closing,.fields,.panelheading,.notice{display:none!important}body{background:#fff;color:#111}.hero{padding:5px 0}.intro{color:#333}.tool,.metrics{display:block}.panel{border:none;padding:6px;color:#111;background:#fff!important}.panel.results{background:#fff}.metric,.metricmain,.scenario,.insight{break-inside:avoid;background:#fff;color:#111;border-color:#aaa}.metricnumber,.scenario strong{color:#111}.metriclabel,.metric .metriclabel,.helper{color:#444}.printonly{display:block}}
+
+/* Advanced modeling workspace */
+.advanced{margin-top:25px}.advanced-title{padding:26px 0 16px}.advanced-title h2{margin:8px 0}.advanced-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;min-width:0}.advanced-two>.panel,.advanced .panel{min-width:0}.moretop{margin-top:18px}.advanced .panel h2{margin:9px 0 16px}.advanced .panel h3{margin-bottom:8px}.advanced-fields{margin:16px 0}.tablewrap{width:100%;overflow-x:auto;margin-top:18px;border:1px solid #47443f;border-radius:7px}.data-table{width:100%;border-collapse:collapse;min-width:500px;font-size:12px;line-height:1.4}.data-table th,.data-table td{padding:13px 10px;border-bottom:1px solid #3a3d41;text-align:right;white-space:nowrap}.data-table th:first-child,.data-table td:first-child{text-align:left}.data-table th{color:#e2cd9d;background:#202630;font-weight:600}.data-table tbody tr:last-child td{border-bottom:0}.data-table td.heat-low{background:#1c332c;color:#b3e6c7}.data-table td.heat-mid{background:#393321;color:#e9d6a3}.data-table td.heat-high{background:#40292b;color:#ffbdb7}.data-table td.heat-current{outline:2px solid #e0c27a;outline-offset:-3px}.driver{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #353634;font-size:12px}.driver strong{font-weight:600;color:#e0c27a}.advanced #st-flags{white-space:pre-line}.advanced #st-brief{max-height:none;line-height:1.65;min-height:180px}.advanced .notice{line-height:1.6}
+@media(max-width:850px){.advanced-two{grid-template-columns:minmax(0,1fr)}}
+@media print{.advanced{display:block}.advanced-two{display:block}.advanced .fields,.advanced .actions,.advanced .helper{display:none!important}.advanced .panel{break-inside:avoid;margin:12px 0}.advanced .tablewrap{border-color:#777}.advanced .data-table th,.advanced .data-table td{color:#111!important;background:#fff!important;border-color:#aaa}.advanced #st-brief{white-space:pre-wrap;color:#111}.advanced .metricmain{color:#111}.advanced .insight{color:#111}}
+
+</style>
+
+<script>
+/* Leva Ventures — deterministic financial calculation engine. Educational estimates only.
+   No user inputs are transmitted or stored by this file. */
+(function (root, factory) {
+  const engine = factory();
+  if (typeof module === "object" && module.exports) module.exports = engine;
+  if (root) root.LVFinance = engine;
+})(typeof globalThis !== "undefined" ? globalThis : this, function () {
+  "use strict";
+  function number(value, label, min = 0) {
+    const n = Number(value);
+    if (!Number.isFinite(n) || n < min) throw new Error(label + " must be at least " + min + ".");
+    return n;
+  }
+  function positive(value, label) {
+    const n = number(value, label);
+    if (n <= 0) throw new Error(label + " must be greater than zero.");
+    return n;
+  }
+  function periodMonths(years, label) {
+    const count = Math.round(positive(years, label) * 12);
+    if (count < 1 || count > 1200) throw new Error(label + " must be between 1 month and 100 years.");
+    return count;
+  }
+  function monthlyFactor(ratePercent, months) {
+    const rate = number(ratePercent, "Interest rate") / 1200;
+    if (!Number.isSafeInteger(months) || months < 1) throw new Error("Invalid amortization period.");
+    return rate === 0 ? 1 / months : rate / (1 - Math.pow(1 + rate, -months));
+  }
+  function remainingBalance(principal, ratePercent, payment, paidMonths) {
+    const rate = number(ratePercent, "Interest rate") / 1200;
+    if (rate === 0) return Math.max(0, principal - payment * paidMonths);
+    const growth = Math.pow(1 + rate, paidMonths);
+    return Math.max(0, principal * growth - payment * (growth - 1) / rate);
+  }
+  function loan(input) {
+    const principal = positive(input.principal, "Loan amount");
+    const rate = number(input.rate, "Interest rate");
+    const months = periodMonths(input.termYears, "Loan term");
+    const amortMonths = periodMonths(input.amortYears, "Amortization");
+    const interestOnly = Boolean(input.interestOnly);
+    if (!interestOnly && months > amortMonths) throw new Error("Loan term cannot exceed amortization for a fully amortizing payment schedule.");
+    const monthlyPayment = interestOnly ? principal * rate / 1200 : principal * monthlyFactor(rate, amortMonths);
+    const balloon = interestOnly ? principal : (months === amortMonths ? 0 : remainingBalance(principal, rate, monthlyPayment, months));
+    const principalRepaid = principal - balloon;
+    const interestPaid = Math.max(0, monthlyPayment * months - principalRepaid);
+    const monthlyRate = rate / 1200;
+    let balance = principal;
+    const schedule = [];
+    for (let m = 1; m <= months; m++) {
+      const interest = balance * monthlyRate;
+      const principalPortion = interestOnly ? 0 : Math.min(balance, Math.max(0, monthlyPayment - interest));
+      balance = Math.max(0, balance - principalPortion);
+      schedule.push({ month: m, payment: monthlyPayment, principal: principalPortion, interest, remaining: balance });
+    }
+    return { principal, rate, months, amortMonths, interestOnly, monthlyPayment,
+      annualDebtService: monthlyPayment * 12, balloon, principalRepaid, interestPaid, schedule };
+  }
+  function refinance(input) {
+    const value = positive(input.value, "Property value");
+    const noi = number(input.noi, "Annual NOI");
+    const payoff = number(input.payoff, "Existing loan payoff");
+    const costs = number(input.costs, "Closing costs and fees");
+    const reserves = number(input.reserves, "Reserves");
+    const rate = number(input.rate, "Interest rate");
+    const amortMonths = periodMonths(input.amortYears, "Amortization");
+    const dscrMin = positive(input.dscrMin, "Minimum DSCR");
+    const ltvMax = number(input.ltvMax, "Maximum LTV");
+    const debtYieldMin = positive(input.debtYieldMin, "Minimum debt yield");
+    if (ltvMax > 100 || debtYieldMin > 100) throw new Error("LTV and debt yield percentages cannot exceed 100.");
+    const factor = monthlyFactor(rate, amortMonths);
+    const dscrLimit = noi / (dscrMin * 12 * factor);
+    const ltvLimit = value * ltvMax / 100;
+    const debtYieldLimit = noi / (debtYieldMin / 100);
+    const limits = { DSCR: dscrLimit, LTV: ltvLimit, "Debt yield": debtYieldLimit };
+    const proceeds = Math.max(0, Math.min(dscrLimit, ltvLimit, debtYieldLimit));
+    const binding = Object.keys(limits).filter(key => Math.abs(limits[key] - proceeds) < 0.01).join(" & ");
+    const required = payoff + costs + reserves;
+    const gap = Math.max(0, required - proceeds);
+    const surplus = Math.max(0, proceeds - required);
+    const annualDebtService = proceeds * factor * 12;
+    return { value, noi, payoff, costs, reserves, required, rate, dscrMin, ltvMax, debtYieldMin,
+      limits, proceeds, binding, gap, surplus, monthlyPayment: proceeds * factor,
+      annualDebtService, dscr: annualDebtService > 0 ? noi / annualDebtService : null,
+      ltv: 100 * proceeds / value,
+      debtYield: proceeds > 0 ? 100 * noi / proceeds : null };
+  }
+  return { monthlyFactor, remainingBalance, loan, refinance };
+});
+
+</script>
+<script>
+/* Leva Ventures — scenario intelligence built on a deterministic refinance model.
+   Scenario assumptions are not offers or recommendations.
+   No information is transmitted by this module. */
+(function(root,factory){
+  const engine=factory(typeof module==="object"&&module.exports?require("./finance.js"):root.LVFinance);
+  if(typeof module==="object"&&module.exports)module.exports=engine;
+  if(root)root.LVStrategy=engine;
+})(typeof globalThis!=="undefined"?globalThis:this,function(F){
+"use strict";
+if(!F||typeof F.refinance!=="function")throw new Error("Load Leva finance engine first.");
+const EPS=.000001;
+function amount(value,label){const n=Number(value);if(!Number.isFinite(n)||n<0)throw new Error(label+" must be a nonnegative number.");return n;}
+function positive(value,label){const n=amount(value,label);if(n<=0)throw new Error(label+" must be positive.");return n;}
+function percentage(value,label){const n=amount(value,label);if(n>100)throw new Error(label+" cannot exceed 100%.");return n;}
+function scenario(input,changes){return F.refinance(Object.assign({},input,changes||{}));}
+function sensitivities(input){
+  const basis=scenario(input);
+  const shifts=[-20,-10,0,10,20];
+  const rateShifts=[-1,-.5,0,.5,1];
+  const matrix=shifts.map(noiChange=>rateShifts.map(rateChange=>{
+    const rate=Math.max(0,Number(input.rate)+rateChange);
+    const noi=Number(input.noi)*(1+noiChange/100);
+    const result=scenario(input,{rate,noi});
+    return {noiChange,rateChange,rate,noi,gap:result.gap,proceeds:result.proceeds,binding:result.binding};
+  }));
+  const drivers=[
+    {name:"Rate +1.0 pp",changes:{rate:Number(input.rate)+1}},
+    {name:"NOI -10%",changes:{noi:Number(input.noi)*.9}},
+    {name:"Value -10%",changes:{value:Number(input.value)*.9}},
+    {name:"Max LTV -5 pp",changes:{ltvMax:Math.max(0,Number(input.ltvMax)-5)}},
+    {name:"Minimum DSCR +0.10x",changes:{dscrMin:Number(input.dscrMin)+.10}}
+  ].map(x=>{
+    const result=scenario(input,x.changes);
+    return {name:x.name,gap:result.gap,increaseInGap:result.gap-basis.gap,binding:result.binding};
+  }).sort((a,b)=>b.increaseInGap-a.increaseInGap);
+  return {basis,matrix,noiChanges:shifts,rateChanges:rateShifts,drivers};
+}
+function breakEvenRequirements(input){
+  const total=amount(input.payoff,"Payoff")+amount(input.costs,"Costs")+amount(input.reserves,"Reserves");
+  const ltv=percentage(input.ltvMax,"LTV")/100;
+  const dscr=positive(input.dscrMin,"DSCR");
+  const yieldRate=positive(input.debtYieldMin,"Debt yield")/100;
+  const months=Math.round(positive(input.amortYears,"Amortization")*12);
+  const factor=F.monthlyFactor(input.rate,months);
+  const noiForDSCR=total*factor*12*dscr;
+  const noiForDebtYield=total*yieldRate;
+  return {targetLoan:total,minimumPropertyValue:ltv>0?total/ltv:null,
+     minimumNOI:Math.max(noiForDSCR,noiForDebtYield),
+     noiForDSCR,noiForDebtYield, additionalSponsorCash:Math.max(0,total-F.refinance(input).proceeds)};
+}
+function capitalPlan(input,config){
+  const result=scenario(input);
+  const sponsorCash=amount(config.sponsorCash,"Sponsor cash");
+  const additionalCapital=amount(config.additionalCapital,"Additional capital");
+  const annualReturn=percentage(config.annualReturn,"Annual financing cost");
+  const feePercent=percentage(config.feePercent,"Upfront capital fee");
+  const type=config.type||"junior-debt";
+  if(!["junior-debt","preferred-equity"].includes(type))throw new Error("Choose junior debt or preferred equity.");
+  const additionalFees=additionalCapital*feePercent/100;
+  // Junior debt is modeled as interest-only; preferred equity as a hypothetical
+  // current-pay preferred distribution. Both require independent term verification.
+  const annualCashPay=additionalCapital*annualReturn/100;
+  const totalUses=result.required+additionalFees;
+  const totalSources=result.proceeds+additionalCapital+sponsorCash;
+  const uncovered=Math.max(0,totalUses-totalSources);
+  const surplus=Math.max(0,totalSources-totalUses);
+  const annualCashObligations=result.annualDebtService+annualCashPay;
+  const combinedCashCoverage=annualCashObligations>EPS?result.noi/annualCashObligations:null;
+  const totalDebt=result.proceeds+(type==="junior-debt"?additionalCapital:0);
+  const combinedLTV=totalDebt/result.value*100;
+  const capitalToValue=(result.proceeds+additionalCapital)/result.value*100;
+  const flags=[];
+  if(uncovered>EPS)flags.push("The scenario remains underfunded after the selected contributions.");
+  if(annualCashObligations>result.noi+EPS)flags.push("Modeled annual cash obligations exceed NOI; other cash sources would be necessary.");
+  if(type==="junior-debt"&&additionalCapital>0)flags.push("Additional debt can be prohibited by the senior lender or subject to lien and intercreditor restrictions.");
+  if(type==="preferred-equity"&&additionalCapital>0)flags.push("Preferred equity rights, distributions and exit priority require legal and transaction-specific review.");
+  if(additionalCapital>0)flags.push("No source of additional capital has been identified or confirmed.");
+  return {type,sponsorCash,additionalCapital,annualReturn,feePercent,additionalFees,
+    totalUses,totalSources,uncovered,surplus,seniorLoan:result.proceeds,
+    seniorAnnualDebtService:result.annualDebtService,annualCashPay,annualCashObligations,
+    combinedCashCoverage,combinedLTV,capitalToValue,totalDebt,
+    capitalDueAtExit:additionalCapital,flags};
+}
+function compare(input,alternative,planConfig){
+  const baseline=scenario(input);
+  const altInputs=Object.assign({},input,{
+    rate:amount(alternative.rate,"Alternative interest rate"),
+    dscrMin:positive(alternative.dscrMin,"Alternative DSCR"),
+    ltvMax:percentage(alternative.ltvMax,"Alternative LTV"),
+    debtYieldMin:positive(alternative.debtYieldMin,"Alternative debt yield"),
+    costs:amount(input.costs,"Costs")+amount(alternative.extraCosts,"Alternative fees"),
+    amortYears:positive(alternative.amortYears,"Alternative amortization")
+  });
+  const alt=scenario(altInputs);
+  const layered=capitalPlan(input,planConfig);
+  return [
+    {name:"Baseline senior loan",proceeds:baseline.proceeds,uncovered:baseline.gap,
+      annualCash:baseline.annualDebtService,leverage:baseline.ltv,
+      cashCoverage:baseline.dscr,fees:baseline.costs+baseline.reserves,kind:"senior"},
+    {name:"Alternative senior assumptions",proceeds:alt.proceeds,uncovered:alt.gap,
+      annualCash:alt.annualDebtService,leverage:alt.ltv,
+      cashCoverage:alt.dscr,fees:alt.costs+alt.reserves,kind:"senior"},
+    {name:"Senior + additional capital",proceeds:layered.seniorLoan+layered.additionalCapital,
+      uncovered:layered.uncovered,annualCash:layered.annualCashObligations,
+      leverage:layered.capitalToValue,cashCoverage:layered.combinedCashCoverage,
+      fees:baseline.costs+baseline.reserves+layered.additionalFees,kind:"layered"}
+  ];
+}
+return {sensitivities,breakEvenRequirements,capitalPlan,compare};
+});
+
+</script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const money=n=>Number.isFinite(n)?new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(n):"—";
+const pct=n=>Number.isFinite(n)?n.toFixed(1)+"%":"—";
+const multiplier=n=>Number.isFinite(n)?n.toFixed(2)+"x":"—";
+const numeric=id=>{const raw=$(id).value;if(raw.trim()==="")return NaN;return Number(raw);};
+const loanInputs=["loan-principal","loan-rate","loan-term","loan-amort","loan-io"];
+const refInputs=["ref-value","ref-noi","ref-payoff","ref-costs","ref-reserves","ref-rate","ref-amort","ref-dscr","ref-ltv","ref-yield"];
+let lastLoan=null,lastRef=null;
+function loanParams(){return {principal:numeric("loan-principal"),rate:numeric("loan-rate"),termYears:numeric("loan-term"),amortYears:numeric("loan-amort"),interestOnly:$("loan-io").checked};}
+function refParams(){return {value:numeric("ref-value"),noi:numeric("ref-noi"),payoff:numeric("ref-payoff"),costs:numeric("ref-costs"),reserves:numeric("ref-reserves"),rate:numeric("ref-rate"),amortYears:numeric("ref-amort"),dscrMin:numeric("ref-dscr"),ltvMax:numeric("ref-ltv"),debtYieldMin:numeric("ref-yield")};}
+function setText(id,value){$(id).textContent=value;}
+function updateLoan(){
+  try {
+    const a=LVFinance.loan(loanParams());lastLoan=a;
+    setText("loan-error","");setText("loan-payment",money(a.monthlyPayment));setText("loan-annual",money(a.annualDebtService));
+    setText("loan-balloon",money(a.balloon));setText("loan-interest",money(a.interestPaid));setText("loan-repaid",money(a.principalRepaid));
+    setText("loan-insight",a.interestOnly?"Interest-only payments do not reduce principal; the full loan amount remains due at maturity.":a.balloon>1?"With a term shorter than the amortization period, a balloon balance remains due at maturity.":"Based on these assumptions the loan is fully amortized by maturity.");
+  }catch(e){lastLoan=null;setText("loan-error",e.message);["loan-payment","loan-annual","loan-balloon","loan-interest","loan-repaid"].forEach(id=>setText(id,"—"));setText("loan-insight","Correct the input above to calculate your loan.");}
+}
+function create(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
+function renderLimits(result){
+  const target=$("constraint-bars");target.replaceChildren();
+  const highest=Math.max(1,...Object.values(result.limits));
+  Object.keys(result.limits).forEach(key=>{
+    const row=create("div","chartrow");
+    row.append(create("span","",key));
+    const track=create("div","track");track.setAttribute("aria-hidden","true");
+    const bar=create("div","fill");bar.style.width=Math.max(0,100*result.limits[key]/highest)+"%";
+    track.append(bar);row.append(track);row.append(create("strong","",money(result.limits[key])));target.append(row);
+  });
+}
+function renderScenarios(params,baseline){
+  const scenarios=[
+    {name:"Rate -0.50%",change:{rate:Math.max(0,params.rate-.5)},note:"Assumes a lower rate; not a quote"},
+    {name:"NOI +10%",change:{noi:params.noi*1.1},note:"Assumes improved net income"},
+    {name:"Sponsor cash +$100K",cash:100000,note:"Additional equity reduces shortfall"}
+  ];
+  const target=$("scenario-cards");target.replaceChildren();
+  scenarios.forEach(s=>{
+    const result=s.cash?baseline:LVFinance.refinance(Object.assign({},params,s.change));
+    const gap=Math.max(0,result.gap-(s.cash||0));
+    const card=create("div","scenario");card.append(create("small","",s.name),create("strong","",money(gap)),create("small","",""));
+    card.lastElementChild.textContent=s.note;
+    target.append(card);
+  });
+}
+function updateRef(){
+  try{
+    const params=refParams(),r=LVFinance.refinance(params);lastRef={params,result:r};
+    setText("ref-error","");setText("ref-gap",money(r.gap));setText("ref-gap-label",r.gap>0?"Estimated additional cash required beyond modeled proceeds":"No modeled shortfall; potential surplus: "+money(r.surplus));
+    setText("ref-proceeds",money(r.proceeds));setText("ref-required",money(r.required));setText("ref-actual-dscr",multiplier(r.dscr));setText("ref-actual-ltv",pct(r.ltv));
+    setText("ref-insight",r.proceeds===0?"Based on these inputs, the model supports no loan proceeds.":r.binding+" is the limiting constraint under your assumptions. Actual financing may be constrained by additional lender criteria.");
+    renderLimits(r);renderScenarios(params,r);
+  }catch(e){lastRef=null;setText("ref-error",e.message);["ref-gap","ref-proceeds","ref-required","ref-actual-dscr","ref-actual-ltv"].forEach(id=>setText(id,"—"));$("constraint-bars").replaceChildren();$("scenario-cards").replaceChildren();setText("ref-insight","Correct the input above to see the modeled financing constraints.");}
+}
+function setTab(tab){
+  const ref=tab==="refi";
+  $("loan-panel").hidden=ref;$("refi-panel").hidden=!ref;
+  $("tab-loan").setAttribute("aria-selected",String(!ref));$("tab-refi").setAttribute("aria-selected",String(ref));
+  if(ref)updateRef();else updateLoan();
+}
+function csvCell(value){return '"'+String(value).replace(/"/g,'""')+'"';}
+function download(name,text){
+  const blob=new Blob([text],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200);
+}
+function loanCsv(){
+  if(!lastLoan)return;
+  const rows=[["Month","Monthly payment","Interest","Principal","Remaining principal"],...lastLoan.schedule.map(r=>[r.month,r.payment.toFixed(2),r.interest.toFixed(2),r.principal.toFixed(2),r.remaining.toFixed(2)])];
+  download("leva-commercial-loan-payment-schedule.csv",rows.map(r=>r.map(csvCell).join(",")).join("\r\n"));
+}
+function summaryForRef(){
+  if(!lastRef)return "";
+  const p=lastRef.params,r=lastRef.result;
+  return ["LEVA VENTURES — REFINANCE INTELLIGENCE ESTIMATE","Assumptions are user-supplied; these are not lender-approved terms.","",
+    "Property value: "+money(p.value),"Annual NOI: "+money(p.noi),"Payoff: "+money(p.payoff),
+    "Closing costs: "+money(p.costs),"Reserves: "+money(p.reserves),
+    "Rate: "+pct(p.rate),"Amortization: "+p.amortYears+" years","Minimum DSCR: "+multiplier(p.dscrMin),"Maximum LTV: "+pct(p.ltvMax),"Minimum debt yield: "+pct(p.debtYieldMin),"",
+    "Loan limit by DSCR: "+money(r.limits.DSCR),"Loan limit by LTV: "+money(r.limits.LTV),
+    "Loan limit by debt yield: "+money(r.limits["Debt yield"]),
+    "Estimated proceeds: "+money(r.proceeds),"Binding constraint: "+r.binding,
+    "Payoff + costs + reserves: "+money(r.required),"Estimated funding gap: "+money(r.gap),
+    "Actual DSCR on modeled loan: "+multiplier(r.dscr),"LTV on modeled loan: "+pct(r.ltv),"",
+    "Illustrative educational estimates only; not an offer, commitment, financing quote, or investment advice."].join("\n");
+}
+function printMode(mode){setTab(mode);window.print();}
+function initialize(){
+  $("tab-loan").addEventListener("click",()=>setTab("loan"));
+  $("tab-refi").addEventListener("click",()=>setTab("refi"));
+  for(const id of loanInputs)$(id).addEventListener(id==="loan-io"?"change":"input",updateLoan);
+  for(const id of refInputs)$(id).addEventListener("input",updateRef);
+  $("loan-csv").addEventListener("click",loanCsv);
+  $("loan-print").addEventListener("click",()=>printMode("loan"));
+  $("ref-print").addEventListener("click",()=>printMode("refi"));
+  $("ref-copy").addEventListener("click",()=>{
+    if(!lastRef)return;
+    const content=summaryForRef();
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(content).then(()=>setText("ref-insight","Results copied. Verify inputs and assumptions before sharing.")).catch(()=>setText("ref-insight","Clipboard unavailable. Use Print / Save PDF instead."));
+    else setText("ref-insight","Clipboard unavailable. Use Print / Save PDF instead.");
+  });
+  updateLoan();updateRef();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initialize);else initialize();
+})();
+
+</script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const money=n=>n==null||!Number.isFinite(n)?"—":new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(n);
+const pct=n=>n==null||!Number.isFinite(n)?"—":n.toFixed(1)+"%";
+const cover=n=>n==null||!Number.isFinite(n)?"N/A":n.toFixed(2)+"x";
+const num=id=>$(id).value.trim()===""?NaN:Number($(id).value);
+const refIds=["ref-value","ref-noi","ref-payoff","ref-costs","ref-reserves","ref-rate","ref-amort","ref-dscr","ref-ltv","ref-yield"];
+const editIds=["st-cash","st-capital","st-type","st-return","st-fee","alt-rate","alt-amort","alt-dscr","alt-ltv","alt-yield","alt-fees"];
+const ref=()=>({value:num("ref-value"),noi:num("ref-noi"),payoff:num("ref-payoff"),costs:num("ref-costs"),reserves:num("ref-reserves"),rate:num("ref-rate"),amortYears:num("ref-amort"),dscrMin:num("ref-dscr"),ltvMax:num("ref-ltv"),debtYieldMin:num("ref-yield")});
+const plan=()=>({sponsorCash:num("st-cash"),additionalCapital:num("st-capital"),type:$("st-type").value,annualReturn:num("st-return"),feePercent:num("st-fee")});
+const alt=()=>({rate:num("alt-rate"),amortYears:num("alt-amort"),dscrMin:num("alt-dscr"),ltvMax:num("alt-ltv"),debtYieldMin:num("alt-yield"),extraCosts:num("alt-fees")});
+function node(tag,text,cls){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;}
+function set(id,text){$(id).textContent=text;}
+function writeTable(tableId,rows){
+ const body=$(tableId).querySelector("tbody");body.replaceChildren();
+ for(const row of rows){const tr=node("tr");for(const cell of row){tr.append(node("td",cell));}body.append(tr);}
+}
+function heatmap(data){
+ const table=$("st-heatmap"),thead=table.querySelector("thead"),body=table.querySelector("tbody");
+ thead.replaceChildren();body.replaceChildren();
+ const tr=node("tr");tr.append(node("th","NOI / Rate"));
+ data.rateChanges.forEach(ch=>tr.append(node("th",(ch>=0?"+":"")+ch.toFixed(1)+" pp")));
+ thead.append(tr);
+ const all=data.matrix.flat().map(cell=>cell.gap),lo=Math.min(...all),hi=Math.max(...all);
+ for(let i=0;i<data.matrix.length;i++){
+  const row=node("tr"),noiChange=data.noiChanges[i];
+  row.append(node("th",(noiChange>=0?"+":"")+noiChange+"%"));
+  for(let j=0;j<data.matrix[i].length;j++){
+   const cell=data.matrix[i][j],pos=(cell.gap-lo)/Math.max(1,hi-lo);
+   const td=node("td",money(cell.gap),pos<.33?"heat-low":pos<.67?"heat-mid":"heat-high");
+   if(i===2&&j===2)td.classList.add("heat-current");
+   td.title="NOI "+(noiChange>=0?"+":"")+noiChange+"%; rate "+(data.rateChanges[j]>=0?"+":"")+data.rateChanges[j]+" percentage points. Binding: "+cell.binding;
+   row.append(td);
+  }
+  body.append(row);
+ }
+}
+function drivers(sensitivity,target,input){
+ const container=$("st-drivers");container.replaceChildren();
+ for(const d of sensitivity.drivers){
+   const row=node("div",undefined,"driver");
+   row.append(node("span",d.name),node("strong",(d.increaseInGap>1?"+":"")+money(d.increaseInGap)+" gap"));
+   container.append(row);
+ }
+ const value=target.minimumPropertyValue===null?"Not available at 0% LTV":money(target.minimumPropertyValue);
+ set("st-target","To fund the existing payoff, fees and reserves using modeled senior financing alone, indicative requirements include property value of at least "+value+" and NOI of at least "+money(target.minimumNOI)+" under these assumed loan terms. These conditions must both hold; they do not guarantee lender approval. Current NOI: "+money(input.noi)+".");
+}
+function compareTable(results){
+ const labels=[
+  ["Estimated financing sources",r=>money(r.proceeds)],
+  ["Remaining funding gap",r=>money(r.uncovered)],
+  ["Modeled annual cash obligation",r=>money(r.annualCash)],
+  ["Cash obligation coverage",r=>cover(r.cashCoverage)],
+  ["Debt / capital to property value",r=>pct(r.leverage)],
+  ["Modeled fees and reserves",r=>money(r.fees)]
+ ];
+ const table=$("st-compare");const header=table.querySelector("thead tr");header.replaceChildren();
+ ["Metric",...results.map(x=>x.name)].forEach(t=>header.append(node("th",t)));
+ writeTable("st-compare",labels.map(([label,fn])=>[label,...results.map(fn)]));
+}
+function preview(input,capital,sensitivity,comparison,target){
+ const base=sensitivity.basis;
+ const lines=[
+ "LEVA VENTURES | COMMERCIAL FINANCING BLUEPRINT — FREE SAMPLE",
+ "Educational model based only on user-supplied assumptions; not a lender quote or investment recommendation.",
+ "",
+ "TRANSACTION BASELINE",
+ "Property value: "+money(input.value)+" | NOI: "+money(input.noi),
+ "Existing payoff: "+money(input.payoff)+" | Closing costs: "+money(input.costs)+" | Reserves: "+money(input.reserves),
+ "Assumed senior rate: "+pct(input.rate)+" | Amortization: "+input.amortYears+" years",
+ "Minimum DSCR: "+input.dscrMin.toFixed(2)+"x | LTV cap: "+pct(input.ltvMax)+" | Debt yield floor: "+pct(input.debtYieldMin),
+ "",
+ "SENIOR UNDERWRITING ESTIMATE",
+ "Max by DSCR: "+money(base.limits.DSCR),
+ "Max by LTV: "+money(base.limits.LTV),
+ "Max by debt yield: "+money(base.limits["Debt yield"]),
+ "Binding constraint: "+base.binding+" | Modeled proceeds: "+money(base.proceeds),
+ "Payoff + fees + reserves: "+money(base.required)+" | Funding shortfall: "+money(base.gap),
+ "",
+ "HYPOTHETICAL CAPITAL PLAN",
+ "Sponsor cash: "+money(capital.sponsorCash)+" | Additional "+capital.type+": "+money(capital.additionalCapital),
+ "Extra upfront fee: "+money(capital.additionalFees)+" | Unfunded after modeled sources: "+money(capital.uncovered),
+ "Senior debt service plus junior interest / preferred current pay: "+money(capital.annualCashObligations)+"/year",
+ "Illustrative cash obligation coverage: "+cover(capital.combinedCashCoverage),
+ "",
+ "COMPARATIVE SCENARIOS",
+ ...comparison.map(s=>s.name+": sources "+money(s.proceeds)+", gap "+money(s.uncovered)+", cash obligations "+money(s.annualCash)+"/year"),
+ "",
+ "POTENTIAL TARGET METRICS (SENIOR ONLY)",
+ "To fully meet total payoff, fees and reserves with modeled senior debt alone:",
+ "Minimum value at assumed LTV: "+(target.minimumPropertyValue==null?"Not available":money(target.minimumPropertyValue)),
+ "Minimum NOI for DSCR and debt yield: "+money(target.minimumNOI),
+ "",
+ "QUESTIONS AND DOCUMENTS TO VERIFY",
+ "1. Recent trailing 12-month operating statement, rent roll and defensible NOI adjustments",
+ "2. Current lender payoff, maturity date, prepayment and extension provisions",
+ "3. Property valuation and appraisal basis",
+ "4. Loan fees, reserves, occupancy, rollover and capital expenditure requirements",
+ ...(base.gap>0?["5. Evidence of sponsor liquidity or a credible approach to the modeled funding gap"]:[]),
+ ...(capital.additionalCapital>0?["6. Senior loan documents: restrictions on subordinate debt, preferred equity, liens and distributions"]:[]),
+ ...(capital.combinedCashCoverage!=null&&capital.combinedCashCoverage<1?["7. Additional support for cash requirements that exceed modeled NOI"]:[]),
+ "8. Sponsor authority and entity documentation for the contemplated transaction",
+ "",
+ "IMPORTANT LIMITATIONS",
+ ...capital.flags.map(f=>"- "+f),
+ "No lender availability, interest rate, eligibility, underwriting approval or capital placement is represented.",
+ "This sample is not a completed paid report and does not include independent professional review."
+ ];
+ return lines.join("\n");
+}
+let lastPreview="";
+function render(){
+ try {
+  const input=ref(),strategy=LVStrategy.sensitivities(input);
+  const capital=LVStrategy.capitalPlan(input,plan());
+  const comparison=LVStrategy.compare(input,alt(),plan());
+  const target=LVStrategy.breakEvenRequirements(input);
+  set("st-error","");set("st-compare-error","");
+  set("st-uncovered",money(capital.uncovered));
+  set("st-coverage-label",capital.uncovered>0?"Scenario still has a funding gap":"Modeled sources cover modeled uses; no capital availability is confirmed.");
+  set("st-senior",money(capital.seniorLoan));set("st-sources",money(capital.totalSources));
+  set("st-obligations",money(capital.annualCashObligations));set("st-coverage",cover(capital.combinedCashCoverage));
+  set("st-fees",money(capital.additionalFees));set("st-exit",money(capital.capitalDueAtExit));
+  set("st-flags",capital.flags.length?capital.flags.join("\n"):"No additional-capital restrictions modeled. Actual underwriting and availability are not confirmed.");
+  heatmap(strategy);drivers(strategy,target,input);compareTable(comparison);
+  lastPreview=preview(input,capital,strategy,comparison,target);
+  set("st-brief",lastPreview);
+ }catch(e){
+  lastPreview="";
+  set("st-error",e.message);set("st-compare-error","Fix invalid inputs to recalculate.");
+  ["st-uncovered","st-senior","st-sources","st-obligations","st-coverage","st-fees","st-exit"].forEach(id=>set(id,"—"));
+  set("st-coverage-label","No current estimate");set("st-flags","Calculations unavailable until inputs are corrected.");
+  set("st-brief","Correct invalid inputs to generate this sample.");$("st-heatmap").querySelector("tbody").replaceChildren();
+  $("st-drivers").replaceChildren();$("st-compare").querySelector("tbody").replaceChildren();
+ }
+}
+function init(){
+  const showAdvanced=()=>{$("advanced-workspace").hidden=$("refi-panel").hidden;};
+  $("tab-loan").addEventListener("click",showAdvanced);
+  $("tab-refi").addEventListener("click",showAdvanced);
+  showAdvanced();
+  [...refIds,...editIds].forEach(id=>$(id).addEventListener("input",render));
+ $("st-type").addEventListener("change",render);
+ $("st-copy").addEventListener("click",()=>{
+  if(!lastPreview)return;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+   navigator.clipboard.writeText(lastPreview).then(()=>{$("st-copy").textContent="Copied";}).catch(()=>{$("st-copy").textContent="Copy unavailable";});
+  }else $("st-copy").textContent="Copy unavailable";
+ });
+ $("st-print").addEventListener("click",()=>{if(!lastPreview)return;$("tab-refi").click();window.print();});
+ render();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
+
+</script>
+</head>
+<body>
+<div style="background:#c7a15a;color:#080b11;text-align:center;padding:9px 18px;font:600 13px Inter,Arial,sans-serif">PRIVATE DEVELOPMENT PREVIEW — Not live or lender-approved. All free calculations run in your browser.</div>
+<header><div class="wrap nav"><a class="brand" href="https://levaventures.com/"><span class="mark">LV</span><span>LEVA VENTURES</span></a><nav class="navlinks" aria-label="Main navigation"><a href="https://levaventures.com/">Home</a><a href="https://levaventures.com/insights/">Insights</a><a href="#how-it-works">How it works</a></nav></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<div class="eyebrow">LEVA CAPITAL INTELLIGENCE / FREE FINANCIAL TOOLS</div>
+<h1>Commercial Real Estate<br>Loan Calculator</h1>
+<p class="intro">Calculate commercial loan payments and balloon balances—or go deeper with Leva Refinance Intelligence to estimate borrowing capacity, identify the constraint on proceeds and understand a potential funding shortfall.</p>
+<div class="trust"><span>Free, no registration</span><span>Immediate results</span><span>Private calculations in your browser</span></div>
+<div class="tabs" role="tablist" aria-label="Calculator mode"><button type="button" class="tab" id="tab-loan" role="tab" aria-controls="loan-panel" aria-selected="true">Commercial Loan Calculator</button><button type="button" class="tab" id="tab-refi" role="tab" aria-controls="refi-panel" aria-selected="false">Refinance Intelligence</button></div>
+<section id="loan-panel" role="tabpanel" aria-labelledby="tab-loan">
+<div class="tool">
+<div class="panel"><div class="panelheading"><h2>Calculate your loan</h2><p class="helper">Adjust the assumptions to update your estimated payments.</p></div>
+<div class="fields">
+<div class="field full"><label for="loan-principal">Loan amount ($)</label><input id="loan-principal" type="number" min="1" step="1000" value="2500000" inputmode="decimal"></div>
+<div class="field"><label for="loan-rate">Annual interest rate (%)</label><input id="loan-rate" type="number" min="0" max="100" step=".125" value="7.5" inputmode="decimal"></div>
+<div class="field"><label for="loan-term">Loan term (years)</label><input id="loan-term" type="number" min=".0833333" max="100" step="1" value="10" inputmode="decimal"></div>
+<div class="field"><label for="loan-amort">Amortization (years)</label><input id="loan-amort" type="number" min=".0833333" max="100" step="1" value="25" inputmode="decimal"></div>
+</div>
+<label class="checkrow" for="loan-io"><input type="checkbox" id="loan-io">Interest-only payments through maturity</label>
+<div class="error" id="loan-error" role="alert"></div>
+</div>
+<div class="panel results"><div class="panelheading"><div class="eyebrow">YOUR LOAN ESTIMATE</div><h2>Payment & maturity</h2></div>
+<div class="metricmain"><div class="metriclabel">Estimated monthly payment</div><div class="metricnumber" id="loan-payment">—</div><div class="helper">Excludes taxes, insurance, lender fees and reserves</div></div>
+<div class="metrics"><div class="metric"><span class="metriclabel">Annual debt service</span><strong id="loan-annual">—</strong></div><div class="metric"><span class="metriclabel">Balloon balance at maturity</span><strong id="loan-balloon">—</strong></div><div class="metric"><span class="metriclabel">Interest paid during loan term</span><strong id="loan-interest">—</strong></div><div class="metric"><span class="metriclabel">Principal repaid</span><strong id="loan-repaid">—</strong></div></div>
+<div class="insight" id="loan-insight">Enter your assumptions to see your results.</div>
+<div class="actions"><button class="btn primary" id="loan-print" type="button">Print / Save PDF</button><button class="btn secondary" id="loan-csv" type="button">Download payment schedule (CSV)</button></div>
+<div class="notice">Illustrative calculations only. This does not establish lender eligibility, an available interest rate, or an offer of financing.</div>
+</div></div></section>
+<section id="refi-panel" role="tabpanel" aria-labelledby="tab-refi" hidden>
+<div class="tool"><div class="panel"><div class="panelheading"><div class="eyebrow">LEVA REFINANCE INTELLIGENCE</div><h2>Find your funding gap</h2><p class="helper">Use illustrative underwriting assumptions—not quoted lender terms—to estimate loan capacity.</p></div>
+<div class="fields">
+<div class="field"><label for="ref-value">Property value ($)</label><input id="ref-value" type="number" min="1" step="10000" value="5000000" inputmode="decimal"></div>
+<div class="field"><label for="ref-noi">Annual NOI ($)</label><input id="ref-noi" type="number" min="0" step="5000" value="350000" inputmode="decimal"></div>
+<div class="field"><label for="ref-payoff">Existing loan payoff ($)</label><input id="ref-payoff" type="number" min="0" step="10000" value="3400000" inputmode="decimal"></div>
+<div class="field"><label for="ref-costs">Closing costs and fees ($)</label><input id="ref-costs" type="number" min="0" step="1000" value="75000" inputmode="decimal"></div>
+<div class="field"><label for="ref-reserves">Additional cash reserves ($)</label><input id="ref-reserves" type="number" min="0" step="1000" value="0" inputmode="decimal"></div>
+<div class="field"><label for="ref-rate">Assumed interest rate (%)</label><input id="ref-rate" type="number" min="0" step=".125" value="8" inputmode="decimal"></div>
+<div class="field"><label for="ref-amort">Amortization (years)</label><input id="ref-amort" type="number" min=".0833333" max="100" step="1" value="25" inputmode="decimal"></div>
+<div class="field"><label for="ref-dscr">Minimum DSCR (x)</label><input id="ref-dscr" type="number" min=".01" step=".05" value="1.25" inputmode="decimal"></div>
+<div class="field"><label for="ref-ltv">Maximum LTV (%)</label><input id="ref-ltv" type="number" min="0" max="100" step="1" value="70" inputmode="decimal"></div>
+<div class="field"><label for="ref-yield">Minimum debt yield (%)</label><input id="ref-yield" type="number" min=".01" max="100" step=".25" value="9" inputmode="decimal"></div>
+</div><div class="error" id="ref-error" role="alert"></div>
+<div class="notice">Assumptions are examples and not current market offers. The actual lender may adjust NOI, expenses, valuation, reserves, and loan terms.</div>
+</div>
+<div class="panel results"><div class="panelheading"><div class="eyebrow">UNDERWRITING ESTIMATE</div><h2>Financing capacity</h2></div>
+<div class="metricmain"><div class="metriclabel">Potential refinance funding shortfall</div><div class="metricnumber" id="ref-gap">—</div><div class="helper" id="ref-gap-label">Estimated amount required beyond modeled loan proceeds</div></div>
+<div class="metrics"><div class="metric"><span class="metriclabel">Estimated loan proceeds</span><strong id="ref-proceeds">—</strong></div><div class="metric"><span class="metriclabel">Payoff + costs + reserves</span><strong id="ref-required">—</strong></div><div class="metric"><span class="metriclabel">Calculated DSCR</span><strong id="ref-actual-dscr">—</strong></div><div class="metric"><span class="metriclabel">Calculated LTV</span><strong id="ref-actual-ltv">—</strong></div></div>
+<h3 class="subhead">What limits your loan?</h3><div id="constraint-bars" aria-label="Loan sizing limits"></div>
+<div class="insight" id="ref-insight">Adjust the inputs to see which metric limits the estimated loan.</div>
+<h3 class="subhead">Compare three scenarios</h3>
+<p class="helper">The following scenarios each change one assumption independently. They are not lender offers and cannot be added together.</p>
+<div class="compare" id="scenario-cards" aria-live="polite"></div>
+<div class="actions"><button class="btn primary" type="button" id="ref-print">Print / Save PDF</button><button class="btn secondary" type="button" id="ref-copy">Copy results</button></div>
+<div class="notice">Senior debt and added capital can be restricted by loan documents, lien priority, DSCR, covenants, and applicable laws. A positive result does not establish financeability.</div>
+</div></div></section>
+
+<section class="advanced" id="advanced-workspace" hidden aria-labelledby="advanced-heading">
+<div class="advanced-title">
+  <div class="eyebrow">DEEPER ANALYSIS · FREE INTERACTIVE MODEL</div>
+  <h2 id="advanced-heading">Capital Gap Solution Builder</h2>
+  <p class="helper">Explore ways a funding shortfall could change under different assumptions. This model does not verify the availability, eligibility or legal feasibility of any source of capital.</p>
+</div>
+<div class="advanced-two">
+  <div class="panel">
+    <h3>Build a hypothetical capital plan</h3>
+    <p class="helper">Senior loan proceeds are imported from Refinance Intelligence. Enter independent sources below.</p>
+    <div class="fields advanced-fields">
+      <div class="field"><label for="st-cash">Sponsor cash contribution ($)</label><input id="st-cash" type="number" min="0" step="10000" value="150000"></div>
+      <div class="field"><label for="st-capital">Additional capital ($)</label><input id="st-capital" type="number" min="0" step="10000" value="300000"></div>
+      <div class="field"><label for="st-type">Capital structure</label><select id="st-type"><option value="junior-debt">Junior debt — interest only</option><option value="preferred-equity">Preferred equity — current pay</option></select></div>
+      <div class="field"><label for="st-return">Assumed annual cash cost (%)</label><input id="st-return" type="number" min="0" max="100" step=".25" value="12"></div>
+      <div class="field full"><label for="st-fee">Upfront additional-capital fee (%)</label><input id="st-fee" type="number" min="0" max="100" step=".25" value="2"></div>
+    </div>
+    <div class="notice">Junior debt assumes interest-only servicing and full principal repayment at exit. Preferred equity assumes current-pay distributions and return of contributed capital at exit, not a guaranteed distribution. Neither models taxes, compounding, catch-ups, participation rights, or legal terms.</div>
+  </div>
+  <div class="panel results">
+    <div class="eyebrow">CAPITAL PLAN RESULTS</div>
+    <div class="metricmain"><div class="metriclabel">Funding still uncovered, including added fees</div><div class="metricnumber" id="st-uncovered">—</div><div class="helper" id="st-coverage-label">Scenario estimates only</div></div>
+    <div class="metrics">
+      <div class="metric"><span class="metriclabel">Senior loan proceeds</span><strong id="st-senior">—</strong></div>
+      <div class="metric"><span class="metriclabel">Total modeled sources</span><strong id="st-sources">—</strong></div>
+      <div class="metric"><span class="metriclabel">Annual cash obligations</span><strong id="st-obligations">—</strong></div>
+      <div class="metric"><span class="metriclabel">Cash obligation coverage</span><strong id="st-coverage">—</strong></div>
+      <div class="metric"><span class="metriclabel">Extra upfront fee</span><strong id="st-fees">—</strong></div>
+      <div class="metric"><span class="metriclabel">Additional capital due at exit</span><strong id="st-exit">—</strong></div>
+    </div>
+    <h3 class="subhead">Scenario limitations</h3><div class="insight" id="st-flags" role="status">Enter an assumption set.</div>
+    <div class="error" id="st-error" role="alert"></div>
+  </div>
+</div>
+<div class="advanced-two moretop">
+  <div class="panel"><div class="eyebrow">STRESS TEST</div><h2>How resilient is the refinance?</h2>
+    <p class="helper">The grid measures estimated funding gaps as NOI and rates move independently. Other assumptions stay constant.</p>
+    <div class="tablewrap"><table class="data-table" id="st-heatmap"><caption>Funding shortfall: rows are NOI changes, columns are changes in interest rate</caption><thead></thead><tbody></tbody></table></div>
+    <p class="helper">Cells show total calculated funding gap before hypothetical additional sponsor cash or junior financing.</p>
+  </div>
+  <div class="panel"><div class="eyebrow">KEY DRIVERS</div><h2>What would have to change?</h2>
+    <p class="helper">Understand important downside sensitivities and an indicative target for closing the gap using senior financing alone.</p>
+    <div id="st-drivers"></div>
+    <div class="notice" id="st-target">Calculating target financing inputs.</div>
+  </div>
+</div>
+<div class="panel moretop">
+  <div class="eyebrow">STRUCTURE COMPARISON</div>
+  <h2>Compare funding assumptions side by side</h2>
+  <p class="helper">Compare baseline senior terms, a user-defined alternative senior scenario and the layered capital plan above. The alternative is a hypothetical case—not a market quote or lender offer.</p>
+  <div class="fields advanced-fields comparison-inputs">
+    <div class="field"><label for="alt-rate">Alternative interest rate (%)</label><input id="alt-rate" type="number" min="0" max="100" step=".125" value="9.25"></div>
+    <div class="field"><label for="alt-amort">Alternative amortization (years)</label><input id="alt-amort" type="number" min=".083333" max="100" step="1" value="25"></div>
+    <div class="field"><label for="alt-dscr">Alternative minimum DSCR</label><input id="alt-dscr" type="number" min=".01" step=".05" value="1.2"></div>
+    <div class="field"><label for="alt-ltv">Alternative maximum LTV (%)</label><input id="alt-ltv" type="number" min="0" max="100" step="1" value="70"></div>
+    <div class="field"><label for="alt-yield">Alternative minimum debt yield (%)</label><input id="alt-yield" type="number" min=".01" max="100" step=".25" value="9"></div>
+    <div class="field"><label for="alt-fees">Additional alternative senior fees ($)</label><input id="alt-fees" type="number" min="0" step="1000" value="25000"></div>
+  </div>
+  <div class="tablewrap"><table class="data-table" id="st-compare"><caption>Illustrative structure comparison: financing cost and funding shortfalls</caption><thead><tr><th>Metric</th><th>Baseline senior</th><th>Alternative senior</th><th>Layered capital</th></tr></thead><tbody></tbody></table></div>
+  <div class="error" id="st-compare-error" role="alert"></div>
+  <div class="notice">Annual cash coverage for layered capital is NOI divided by senior debt service plus modeled junior debt interest or current-pay preferred distributions. This is not the senior lender's DSCR test. The comparison excludes taxes, exit fees, amortization on additional capital, and other transaction-specific terms.</div>
+</div>
+<div class="panel moretop" id="blueprint-preview">
+  <div class="eyebrow">PREVIEW · NOT A PAID PRODUCT</div><h2>Leva Commercial Financing Blueprint — Sample</h2>
+  <p class="helper">This free preview assembles the current assumptions and calculated constraints into a short on-screen transaction brief. The proposed full blueprint would add deeper saved scenarios, documentation review, supporting schedules, and a designed PDF after validation.</p>
+  <div class="summary" id="st-brief" aria-live="polite"></div>
+  <div class="actions"><button class="btn secondary" type="button" id="st-copy">Copy sample blueprint</button><button class="btn secondary" type="button" id="st-print">Print current analysis</button></div>
+</div>
+</section>
+<section class="plus" aria-labelledby="blueprint-title"><div class="eyebrow">OPTIONAL PREMIUM ANALYSIS · PROPOSED</div><h3 id="blueprint-title">Leva Commercial Financing Blueprint</h3><p>Beyond the free results: detailed sensitivity tables, multiple saved scenarios, sources-and-uses, financing constraints and a transaction preparation checklist. A sample report and paid service are in development—not yet available for purchase.</p><div class="mini"><span>Proposed $79 introductory price</span><span>No checkout active</span><span>Human-reviewed services separate</span></div><p>Have an active capital requirement? <a href="https://levaventures.com/#contact">Explore a confidential opportunity inquiry</a>. Submitting an inquiry is voluntary and separate from calculator use.</p></section>
+</div></section>
+<section class="bodysection" id="how-it-works"><div class="wrap articlegrid"><div class="copy">
+<div class="eyebrow">UNDERSTANDING YOUR RESULTS</div><h2>From commercial loan payments to financing feasibility</h2>
+<p>A commercial real estate loan calculator estimates the periodic payment based on principal, interest rate, and amortization. Many commercial loans mature before the amortization period ends. The outstanding principal at that maturity is commonly called the balloon balance.</p>
+<h3>How do DSCR, LTV and debt yield work?</h3>
+<p><strong>Debt service coverage ratio (DSCR)</strong> compares annual net operating income (NOI) with annual loan payments. <strong>Loan-to-value (LTV)</strong> compares debt with the estimated property value. <strong>Debt yield</strong> compares NOI with the loan amount. Different lenders may impose multiple constraints, and the most restrictive assumption can determine estimated proceeds.</p>
+<h3>How is a refinancing gap calculated?</h3>
+<p>Our model uses the lowest of the DSCR, LTV and debt-yield loan limits, then compares those potential proceeds with the existing loan payoff, estimated closing costs and required cash reserves. The difference, when positive, is the modeled funding shortfall.</p>
+<h3>Worked financing example</h3>
+<p>Consider an illustrative $5 million property producing $350,000 in annual NOI, with a $3.4 million loan payoff. At an 8% assumed rate, 25-year amortization, minimum 1.25x DSCR, maximum 70% LTV and minimum 9% debt yield, the income-based constraint may be tighter than the property-value limit. The free analyzer updates the actual calculation as you change these assumptions.</p>
+<p>See also Leva Insights: <a href="https://levaventures.com/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/">Commercial real estate acquisition financing: debt, equity and hybrid structures</a> and <a href="https://levaventures.com/insights/how-to-prepare-real-estate-opportunity-private-capital/">How to prepare a real estate opportunity for private capital</a>.</p>
+</div><div class="faq"><div class="eyebrow">FREQUENT QUESTIONS</div><h2>Frequently asked questions</h2>
+<details><summary>Is this calculator free?</summary><p>Yes. The loan and refinancing calculators work without an account, email address or payment. Premium analysis is a planned, separate product.</p></details>
+<details><summary>Are the financing estimates lender-approved?</summary><p>No. These are illustrations based solely on your inputs and selected assumptions. A lender may use different underwriting data and standards.</p></details>
+<details><summary>What is the difference between loan term and amortization?</summary><p>The loan term determines the maturity date. Amortization determines how the scheduled payments reduce principal. A shorter loan term can create a remaining balloon balance.</p></details>
+<details><summary>Can refinancing require more equity?</summary><p>Yes. If the modeled new loan proceeds are less than the payoff, fees and reserves, the calculator shows the estimated additional amount needed.</p></details>
+<details><summary>Does my information get sent to Leva?</summary><p>No. The free calculations run locally in your browser. Information is submitted only if you separately choose to contact Leva Ventures using its inquiry form.</p></details>
+</div></div></section>
+</main>
+<footer class="wrap closing"><p>© Leva Ventures, LLC · Educational financial estimates, not an offer, commitment, credit decision, investment recommendation, or guarantee of financing. No lender or investor terms are represented. Seek independent financial, legal and tax advice for your transaction.</p><div class="footerlinks"><a href="https://levaventures.com/">Leva Ventures</a><a href="https://levaventures.com/insights/">Insights</a><a href="https://levaventures.com/#contact">Contact</a></div></footer>
+<noscript><p class="nojs">Enable JavaScript to use the financial calculators. Explanatory content remains available without JavaScript.</p></noscript>
+</body>
+</html>

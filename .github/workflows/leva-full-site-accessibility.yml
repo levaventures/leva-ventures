@@ -1,0 +1,34 @@
+name: Leva Full-Site WCAG 2.2 Automated Evaluation
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'insights/**'
+      - 'tools/commercial-real-estate-loan-calculator/**'
+      - '.github/workflows/leva-full-site-accessibility.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full-site-evaluation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install open source browser and accessibility rules
+        run: |
+          npm install --no-save playwright axe-core
+          npx playwright install chromium --with-deps
+      - name: Evaluate all public pages including calculator modes
+        run: node tools/commercial-real-estate-loan-calculator/full-site-wcag-audit.js
+      - name: Save reproducible evaluation results even if issues found
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-full-site-wcag-audit-results
+          path: accessibility-site-audit.json
+          if-no-files-found: warn
+          retention-days: 30
