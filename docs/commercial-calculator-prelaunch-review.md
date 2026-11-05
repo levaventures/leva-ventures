@@ -18,6 +18,21 @@
 
 **Fast-track release recommendation:** Do not impose an arbitrary two-week hold. Prepare launch integration on a draft branch immediately. Before publication, resolve any observed critical blocker, verify privacy/financial/legal claims, obtain explicit launch approval, and avoid unverified WCAG compliance claims. Continue broader assistive-technology usability work after launch if no release-blocking defect remains.
 
+## Site-wide accessibility audit and remediation — November 2026
+
+**Target:** WCAG 2.2 AA, across the current unmerged development branch (not live production).
+
+- Full-site open-source axe-core scan initially found **10 rule violations** across the home page and Insights content: low-contrast small print, branding accessible-name mismatch, and incorrectly labeled role-less containers.
+- Corrected those defects on the development branch and added semantic regions for article breadcrumb groups, capital-stack sample reports and filter controls.
+- Added `accessibility/index.html`, a transparent accessibility/feedback page that avoids unsupported compliance claims; linked to it in site footers.
+- Final full-site automated check [Actions run 41979128411](https://github.com/levaventures/leva-ventures/actions/runs/41979128411): **zero detected violations** across **8 page states**, including both calculator modes and the new accessibility page.
+- Existing calculator financial and browser CI / targeted Windows NVDA speech checks are complementary, not a substitute for full WCAG-EM evaluation.
+- The scan flags some contrast checks over gradients/images as **incomplete** because automatic computation cannot determine the effective background. These still require visual/human validation.
+- The live website has **not** received these fixes; no production claim should be made before explicit deployment authorization and live retesting.
+- The real Formspree/Cloudflare Turnstile contact challenge remains a third-party workflow requiring keyboard and assistive-technology confirmation in its deployed environment.
+
+The [WCAG-EM 2.0 methodology](https://www.w3.org/TR/WCAG-EM/) requires examining complete pages and processes before a whole-site conformance claim. Automated zero violations are not official certification or legal ADA compliance. Optional third-party verification: [WebAIM Accessible Website Certification](https://webaim.org/services/certification/) involves an expert audit, remediation and conformance verification and cannot be issued simply from automated test output.
+
 ## Findings and actions
 
 | ID | Priority | Workstream | Finding | Action or release criterion | Current status |
