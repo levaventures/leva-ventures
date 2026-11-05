@@ -121,6 +121,22 @@ const server=http.createServer((req,res)=>{
  const transcript=await page.locator("#capital-stack-transcript").count();
  assert.equal(transcript,1);
  assert.deepEqual(pageErrors,[],"No page script errors during site navigation");
+ // Capture verifiable static production-style preview images for launch approval.
+ const outputDir=path.join(root,"preview-artifacts");
+ fs.mkdirSync(outputDir,{recursive:true});
+ for(const capture of [
+   {route:"/",name:"leva-homepage-launch-desktop.png",width:1366,height:850},
+   {route:"/insights/",name:"leva-insights-launch-desktop.png",width:1366,height:850},
+   {route:"/tools/commercial-real-estate-loan-calculator/",name:"leva-calculator-launch-desktop.png",width:1366,height:850},
+   {route:"/",name:"leva-homepage-launch-mobile.png",width:390,height:844},
+   {route:"/insights/",name:"leva-insights-launch-mobile.png",width:390,height:844}
+ ]){
+   await page.setViewportSize({width:capture.width,height:capture.height});
+   await page.goto(origin+capture.route,{waitUntil:"domcontentloaded"});
+   if(capture.route.includes("calculator"))await page.waitForFunction(()=>document.querySelector("#loan-payment").textContent!=="—");
+   await page.screenshot({path:path.join(outputDir,capture.name),fullPage:true,animations:"disabled"});
+   console.log("LAUNCH PREVIEW",capture.name);
+ }
  console.log("PRODUCTION-PREVIEW INTEGRATION PASSED; links, SEO, sitemap, JSON-LD, desktop/mobile and calculator");
  await context.close();
  }finally{await browser.close();}
