@@ -95,6 +95,13 @@ const server=http.createServer((req,res)=>{
   await page.setViewportSize({width,height:850});
   await page.goto(origin+"/",{waitUntil:"domcontentloaded"});
   const home=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
+  if(home.scroll>home.client+4){
+   const outliers=await page.evaluate(()=>[...document.body.querySelectorAll("*")].map(el=>{
+     const rect=el.getBoundingClientRect();const css=getComputedStyle(el);
+     return {tag:el.tagName,className:typeof el.className==="string"?el.className.slice(0,100):"",right:Math.round(rect.right),left:Math.round(rect.left),width:Math.round(rect.width),position:css.position,overflowX:css.overflowX};
+   }).filter(o=>o.right>innerWidth+6&&o.left<innerWidth).sort((a,b)=>b.right-a.right).slice(0,15));
+   console.log("MOBILE OVERFLOW DIAGNOSTICS",width,JSON.stringify(outliers));
+  }
   assert.ok(home.scroll<=home.client+4,"Homepage horizontal overflow at "+width+" "+JSON.stringify(home));
   assert.ok(await page.locator(".finance-tool-feature a[href='/tools/commercial-real-estate-loan-calculator/']").isVisible(),"Home spotlight visible "+width);
   await page.goto(origin+"/insights/",{waitUntil:"domcontentloaded"});
