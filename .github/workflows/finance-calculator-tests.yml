@@ -46,8 +46,8 @@ jobs:
       - name: Publish review bundle
         uses: actions/upload-artifact@v4
         with:
-          name: leva-financing-intelligence-review
+          name: leva-financing-intelligence-voice-review
           path: |
-            previews/leva-financing-intelligence-interactive-review.html
+            previews/leva-financing-intelligence-voice-review.html
             preview-artifacts/*.png
           retention-days: 30
