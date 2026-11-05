@@ -25,7 +25,7 @@ const {chromium}=require("playwright");
   assert.match(await page.locator("#ref-graphic-total").innerText(),/required/);
   assert.ok((await page.locator("#ref-graphic-gap").innerText()).startsWith("$"));
   await page.locator("#voice-dscr").click();
-  assert.match(await page.locator("#voice-transcript").innerText(),/coverage ratio/i);
+  assert.match(await page.locator("#voice-transcript").textContent(),/coverage ratio/i);
   await page.locator("#voice-stop").click();
   const original=await page.locator("#st-uncovered").innerText();
   await page.locator("#st-cash").fill("400000");
