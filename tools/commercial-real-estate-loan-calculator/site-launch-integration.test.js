@@ -12,7 +12,8 @@ const root=path.resolve(__dirname,"../..");
 const routes=[
   {path:"/",name:"Home",title:/Leva Ventures/i},
   {path:"/insights/",name:"Insights",title:/Leva Insights/},
-  {path:"/accessibility/",name:"Accessibility",title:/Accessibility.*Leva Ventures/},
+  {path:"/tools/commercial-real-estate-loan-calculator/share/",name:"Share calculator",title:/Share Our Free Commercial Real Estate Loan Calculator/},
+   {path:"/accessibility/",name:"Accessibility",title:/Accessibility.*Leva Ventures/},
   {path:"/tools/commercial-real-estate-loan-calculator/",name:"Calculator",title:/Commercial Real Estate Loan Calculator/},
   {path:"/insights/how-to-prepare-real-estate-opportunity-private-capital/",name:"Capital preparation",title:/How to Prepare a Real Estate Opportunity/},
   {path:"/insights/how-to-finance-investment-property-private-capital/",name:"Investment property",title:/How to Finance an Investment Property/},

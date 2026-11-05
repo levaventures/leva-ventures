@@ -1,0 +1,42 @@
+name: Notify IndexNow of published sitemap URLs
+on:
+  workflow_run:
+    workflows:
+      - "pages build and deployment"
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  notify:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify deployed key and live calculator before notifying
+        env:
+          INDEXNOW_KEY: a358345f2d96bcbeede3ff39287570ac76ec3bda
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 "https://levaventures.com/${INDEXNOW_KEY}.txt" | grep -Fxq "${INDEXNOW_KEY}"
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --output /dev/null "https://levaventures.com/tools/commercial-real-estate-loan-calculator/"
+      - name: Notify IndexNow of canonical published pages
+        env:
+          INDEXNOW_KEY: a358345f2d96bcbeede3ff39287570ac76ec3bda
+        run: |
+          python3 - <<'PY'
+          import json,urllib.request,xml.etree.ElementTree as ET
+          key="a358345f2d96bcbeede3ff39287570ac76ec3bda"
+          root=ET.parse("sitemap.xml").getroot()
+          urls=[n.text for n in root.findall("{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
+          assert urls and all(x.startswith("https://levaventures.com/") for x in urls)
+          data=json.dumps({"host":"levaventures.com","key":key,"keyLocation":"https://levaventures.com/"+key+".txt","urlList":urls}).encode()
+          req=urllib.request.Request("https://api.indexnow.org/indexnow",data=data,headers={"Content-Type":"application/json","User-Agent":"LevaVentures-IndexNow/1.0"},method="POST")
+          try:
+            with urllib.request.urlopen(req,timeout=25) as response:
+              print("IndexNow response:",response.status,"submitted URLs:",len(urls))
+          except urllib.error.HTTPError as e:
+            print("IndexNow rejected notification:",e.code,e.read(300).decode("utf-8","replace"))
+            raise
+          PY

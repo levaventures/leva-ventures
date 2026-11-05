@@ -9,6 +9,7 @@ const fs=require("node:fs");
 const pages=[
   ["Home","index.html"],
   ["Accessibility","accessibility/index.html"],
+   ["Share calculator","tools/commercial-real-estate-loan-calculator/share/index.html"],
   ["Insights","insights/index.html"],
   ["Prepare a real estate opportunity","insights/how-to-prepare-real-estate-opportunity-private-capital/index.html"],
   ["Investment property financing","insights/how-to-finance-investment-property-private-capital/index.html"],
@@ -25,7 +26,7 @@ const pages=[
      const page=await ctx.newPage();
      await page.goto("file://"+path.resolve(filename),{waitUntil:"domcontentloaded"});
      await page.addScriptTag({path:require.resolve("axe-core/axe.min.js")});
-     const modes=filename.includes("commercial-real-estate-loan-calculator/")?["loan","refi"]:["default"];
+     const modes=filename==="tools/commercial-real-estate-loan-calculator/index.html"?["loan","refi"]:["default"];
      for(const mode of modes){
        if(mode==="refi"){
          await page.locator("#tab-refi").click();
