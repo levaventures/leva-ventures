@@ -6,7 +6,7 @@
 const $=id=>document.getElementById(id);
 const ids=["ref-value","ref-noi","ref-payoff","ref-costs","ref-reserves","ref-rate","ref-amort","ref-dscr","ref-ltv","ref-yield","st-cash","st-capital","st-type","st-return","st-fee"];
 const speechAvailable=typeof window.speechSynthesis!=="undefined"&&typeof window.SpeechSynthesisUtterance!=="undefined";
-let voices=[],current=null,spokenText="";
+let voices=[],current=null,spokenText="",voiceChangedByUser=false;
 const money=n=>{
   if(n>=1000000)return (n/1000000).toFixed(2).replace(/\.00$/,"")+" million dollars";
   if(n>=1000)return Math.round(n/1000).toLocaleString("en-US")+" thousand dollars";
@@ -28,18 +28,56 @@ function stop(){
  current=null;
  status("Narration stopped. Your calculations have not changed.");
 }
+function isUKVoice(voice){
+ return /^en[-_]GB$/i.test(voice.lang||"") || /\b(uk|british|united kingdom)\b/i.test(voice.name||"");
+}
+function isFemaleVoiceName(name){
+ // SpeechSynthesisVoice has no gender property. Recognise common UK female voice names.
+ return /\b(female|sonia|libby|hazel|kate|serena|maisie|martha|susan|amy|emma|olivia|sophie|elizabeth|abigail|catherine|hollie)\b/i.test(name||"");
+}
+function preferredVoice(english){
+ return english.find(v=>isUKVoice(v)&&isFemaleVoiceName(v.name)) ||
+        english.find(isUKVoice) ||
+        english.find(v=>isFemaleVoiceName(v.name)) ||
+        english[0] || null;
+}
 function regenerateVoices(){
  if(!speechAvailable)return;
- const choices=$("voice-choice"),selected=choices.value;
- voices=window.speechSynthesis.getVoices()||[];
+ const choices=$("voice-choice");
+ const previouslySelected=choices.value;
+ voices=(window.speechSynthesis.getVoices()||[]).filter(v=>v.lang&&/^en(?:\b|-|_)/i.test(v.lang));
+ const picked=preferredVoice(voices);
  choices.replaceChildren();
- const opt=document.createElement("option");opt.value="auto";opt.textContent="Automatic voice";choices.append(opt);
- voices.filter(v=>v.lang&&/^en\b|^en-/i.test(v.lang)).forEach(v=>{
+ for(const v of voices){
    const option=document.createElement("option");
-   option.value=v.voiceURI;option.textContent=v.name+(v.localService?" (device)":" (service)");
+   option.value=v.voiceURI;
+   option.textContent=v.name+(v.localService?" (device)":" (service)");
    choices.append(option);
- });
- choices.value=[...choices.options].some(o=>o.value===selected)?selected:"auto";
+ }
+ if(!voices.length){
+   const option=document.createElement("option");
+   option.value="";
+   option.textContent="No English voices available";
+   option.disabled=true;
+   choices.append(option);
+   choices.value="";
+   choices.disabled=true;
+   status("No English voices are available yet. The written explanation remains available.");
+   return;
+ }
+ choices.disabled=false;
+ const keepUserSelection=voiceChangedByUser&&voices.some(v=>v.voiceURI===previouslySelected);
+ const selection=keepUserSelection?previouslySelected:picked.voiceURI;
+ choices.value=selection;
+ if(!keepUserSelection && !current){
+   if(isUKVoice(picked)&&isFemaleVoiceName(picked.name)){
+     status("Default voice: "+picked.name+". Choose another voice if preferred.");
+   }else if(isUKVoice(picked)){
+     status("A UK voice is selected. This browser does not identify it as one of the known UK female voices.");
+   }else{
+     status("A UK female voice is not installed in this browser. Using "+picked.name+" instead.");
+   }
+ }
 }
 function loanNarration(){
  const a=LVFinance.loan({principal:raw("loan-principal"),rate:raw("loan-rate"),
@@ -82,10 +120,7 @@ const explanations={
 };
 function chosenVoice(){
  const voiceURI=$("voice-choice").value;
- if(voiceURI!=="auto")return voices.find(v=>v.voiceURI===voiceURI)||null;
- return voices.find(v=>v.localService&&/^en-US$/i.test(v.lang))||
-   voices.find(v=>v.localService&&/^en/i.test(v.lang))||
-   voices.find(v=>/^en-US$/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang))||null;
+ return voices.find(v=>v.voiceURI===voiceURI)||null;
 }
 function narrate(text){
  spokenText=text;
@@ -97,8 +132,10 @@ function narrate(text){
  const synth=window.speechSynthesis;
  synth.cancel();
  const utterance=new SpeechSynthesisUtterance(text);
- utterance.lang="en-US";utterance.rate=Number($("voice-rate").value)||1;
- const voice=chosenVoice();if(voice)utterance.voice=voice;
+ const voice=chosenVoice();
+ if(!voice){status("No English voice is available. Read the transcript below.");return;}
+ utterance.lang=voice.lang||"en-GB";utterance.voice=voice;
+ utterance.rate=Number($("voice-rate").value)||1;
  current=utterance;
  utterance.onend=()=>{if(current===utterance){current=null;status("Finished speaking. Choose another explanation at any time.");}};
  utterance.onerror=()=>{if(current===utterance){current=null;status("Voice playback was interrupted. You can still read the transcript below.");}};
@@ -123,7 +160,11 @@ function init(){
   if(spokenText)status("Inputs changed. Select an explanation to hear the updated numbers.");
  }));
  if(!speechAvailable)status("Audio narration is unavailable here. Explanations can still be viewed as text.");
- else{regenerateVoices();window.speechSynthesis.addEventListener?.("voiceschanged",regenerateVoices);}
+ else{
+   $("voice-choice").addEventListener("change",()=>{voiceChangedByUser=true;});
+   regenerateVoices();
+   window.speechSynthesis.addEventListener?.("voiceschanged",regenerateVoices);
+ }
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
