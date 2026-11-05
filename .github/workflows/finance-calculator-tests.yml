@@ -15,28 +15,30 @@ jobs:
         with:
           node-version: '22'
       - name: Test financial formulas
-        run: node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/spoken-amounts.test.js
+        run: node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/spoken-amounts.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js
       - name: Verify HTML internal targets and required assets
         run: |
           node - <<'NODE'
           const fs=require('node:fs');
           const base='tools/commercial-real-estate-loan-calculator/';
           const html=fs.readFileSync(base+'index.html','utf8');
-          const app=fs.readFileSync(base+'app.js','utf8')+'\n'+fs.readFileSync(base+'advanced.js','utf8')+'\n'+fs.readFileSync(base+'voice.js','utf8');
+          const app=fs.readFileSync(base+'app.js','utf8')+'\n'+fs.readFileSync(base+'advanced.js','utf8')+'\n'+fs.readFileSync(base+'voice.js','utf8')+'\n'+fs.readFileSync(base+'capital-stack-ui.js','utf8')+'\n'+fs.readFileSync(base+'accessibility.js','utf8');
           for (const match of app.matchAll(/\$\("([^"]+)"\)/g)){
             if(!html.includes('id="'+match[1]+'"'))throw new Error('Missing HTML control '+match[1]);
           }
-          for(const script of ['finance.js','strategy.js','app.js','advanced.js','spoken-amounts.js','voice.js'])if(!html.includes('src="./'+script+'"'))throw new Error('Missing script '+script);
+          for(const script of ['finance.js','strategy.js','capital-stack.js','capital-stack-ui.js','app.js','advanced.js','spoken-amounts.js','voice.js','accessibility.js'])if(!html.includes('src="./'+script+'"'))throw new Error('Missing script '+script);
           console.log('Required markup references verified');
           NODE
 
       - name: Install browser smoke test dependencies
         run: |
-          npm install --no-save playwright
+          npm install --no-save playwright axe-core
           npx playwright install chromium --with-deps
       - name: Run Chromium desktop and mobile smoke tests
         run: node tools/commercial-real-estate-loan-calculator/browser.test.js
 
+      - name: Automated WCAG 2.2 accessibility checks
+        run: node tools/commercial-real-estate-loan-calculator/accessibility.test.js
       - name: Validate standalone interactive preview
         env:
           LEVA_PREVIEW_FILE: ../../previews/leva-financing-intelligence-exact-narration-review.html
