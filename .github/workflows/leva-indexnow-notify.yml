@@ -1,5 +1,12 @@
 name: Notify IndexNow of published sitemap URLs
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/leva-indexnow-notify.yml'
+      - 'sitemap.xml'
+      - 'insights/**'
+      - 'tools/commercial-real-estate-loan-calculator/**'
   workflow_run:
     workflows:
       - "pages build and deployment"
@@ -9,7 +16,7 @@ permissions:
   contents: read
 jobs:
   notify:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
