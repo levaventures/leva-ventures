@@ -4,7 +4,7 @@ const path=require("node:path");
 (async()=>{
  const browser=await chromium.launch({headless:true});
  try{
-  const page=await browser.newPage({viewport:{width:1366,height:900}});
+  const page=await browser.newPage({viewport:{width:1366,height:900},bypassCSP:true});
   await page.goto("file://"+path.resolve(__dirname,process.env.LEVA_PREVIEW_FILE||"index.html"));
   await page.waitForFunction(()=>document.querySelector("#loan-payment").textContent!=="—");
   for(const mode of ["loan","refi"]){
