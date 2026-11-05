@@ -23,7 +23,7 @@ const {chromium}=require("playwright");
   await page.waitForFunction(()=>document.querySelector("#voice-transcript").textContent.includes("supportable senior loan"));
   assert.equal(await page.locator("#voice-transcript-wrap").isVisible(),true);
   assert.match(await page.locator("#ref-graphic-total").innerText(),/required/);
-  assert.match(await page.locator("#ref-graphic-gap").innerText(),/^\\$/);
+  assert.ok((await page.locator("#ref-graphic-gap").innerText()).startsWith("$"));
   await page.locator("#voice-dscr").click();
   assert.match(await page.locator("#voice-transcript").innerText(),/coverage ratio/i);
   await page.locator("#voice-stop").click();
