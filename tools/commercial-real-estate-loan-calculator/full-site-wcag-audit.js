@@ -28,9 +28,9 @@ const pages=[
      for(const mode of modes){
        if(mode==="refi"){
          await page.locator("#tab-refi").click();
-         await page.waitForFunction(()=>document.querySelector("#capital-stack-table tbody tr").length>0).catch(()=>{});
+         await page.waitForFunction(()=>document.querySelectorAll("#capital-stack-table tbody tr").length===4).catch(()=>{});
        }
-       const a=await page.evaluate(async()=>await axe.run(document,{
+       const a=await page.evaluate(async()=>await window.axe.run(document,{
          runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]},
          resultTypes:["violations","passes","incomplete","inapplicable"]
        }));
