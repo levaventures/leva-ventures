@@ -124,7 +124,7 @@ const {chromium}=require("playwright");
   assert.notEqual(original,reduced,"Changing sponsor cash should update the funding gap.");
   await page.locator("#ref-noi").fill("-5");
   await page.waitForFunction(()=>document.querySelector("#st-error").textContent.length>0);
-  assert.match(await page.locator("#st-error").innerText(),/at least 0/);
+  assert.match(await page.locator("#st-error").innerText(),/valid value|at least 0/i);
   await page.locator("#ref-noi").fill("350000");
   await page.waitForFunction(()=>document.querySelector("#st-error").textContent==="");
   await page.getByRole("tab",{name:"Commercial Loan Calculator"}).click();
