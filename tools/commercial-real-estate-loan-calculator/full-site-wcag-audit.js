@@ -8,6 +8,7 @@ const path=require("node:path");
 const fs=require("node:fs");
 const pages=[
   ["Home","index.html"],
+  ["Accessibility","accessibility/index.html"],
   ["Insights","insights/index.html"],
   ["Prepare a real estate opportunity","insights/how-to-prepare-real-estate-opportunity-private-capital/index.html"],
   ["Investment property financing","insights/how-to-finance-investment-property-private-capital/index.html"],
