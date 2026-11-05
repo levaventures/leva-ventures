@@ -41,6 +41,42 @@ const {chromium}=require("playwright");
   await page.waitForFunction(()=>document.querySelector("#st-error").textContent==="");
   await page.getByRole("tab",{name:"Commercial Loan Calculator"}).click();
   assert.equal(await page.locator("#advanced-workspace").isVisible(),false);
+  // Narration must spell the exact whole-dollar figures shown in all five loan results.
+  const narratedCases=[
+    {principal:"2500000",rate:"7.5",term:"10",amort:"25",io:false},
+    {principal:"1000000",rate:"6",term:"5",amort:"25",io:true},
+    {principal:"120000",rate:"0",term:"10",amort:"10",io:false},
+    {principal:"1234567",rate:"8.125",term:"7",amort:"30",io:false},
+    {principal:"550000",rate:"4.375",term:"20",amort:"20",io:false}
+  ];
+  for(const scenario of narratedCases){
+    await page.locator("#loan-principal").fill(scenario.principal);
+    await page.locator("#loan-rate").fill(scenario.rate);
+    await page.locator("#loan-term").fill(scenario.term);
+    await page.locator("#loan-amort").fill(scenario.amort);
+    if(scenario.io)await page.locator("#loan-io").check();
+    else await page.locator("#loan-io").uncheck();
+    await page.locator("#loan-voice").click();
+    const proof=await page.evaluate(()=>{
+      const ids=["loan-payment","loan-annual","loan-balloon","loan-interest","loan-repaid"];
+      const transcript=document.querySelector("#loan-voice-transcript").textContent;
+      const screen=ids.map(id=>document.getElementById(id).textContent);
+      const words=screen.map(d=>LVSpokenAmounts.speakMoney(Number(d.replace(/[^0-9]/g,""))));
+      return {transcript,screen,words};
+    });
+    for(let i=0;i<proof.words.length;i++){
+      assert.ok(proof.transcript.includes(proof.words[i]),"Narration mismatch in "+scenario.principal+", "+proof.screen[i]+" expected "+proof.words[i]);
+    }
+  }
+  // Check that a known historically problematic case uses every digit.
+  await page.locator("#loan-principal").fill("2500000");
+  await page.locator("#loan-rate").fill("7.5");
+  await page.locator("#loan-term").fill("10");
+  await page.locator("#loan-amort").fill("25");
+  await page.locator("#loan-io").uncheck();
+  await page.locator("#loan-voice").click();
+  const exactNarration=await page.locator("#loan-voice-transcript").textContent();
+  assert.ok(exactNarration.includes("eighteen thousand four hundred"),"Must not round payment to 18 thousand dollars");
   await page.locator("#loan-io").check();
   await page.waitForFunction(()=>document.querySelector("#loan-insight").textContent.includes("Interest-only"));
   assert.match(await page.locator("#loan-balloon").innerText(),/2,500,000/);
