@@ -17,7 +17,7 @@ assert "form.appendChild(originField)" in app
 assert "if (response.ok)" not in app  # success path checks !response.ok
 assert "if (!response.ok)" in app
 assert "if (success)" in app
-assert "source label" in home.lower()
+assert "source label" in " ".join(home.lower().replace("&ldquo;", "").replace("&rdquo;", "").split())
 assert "No loan amounts" in home
 assert "https://levaventures.com/tools/commercial-real-estate-loan-calculator/" in sitemap
 
