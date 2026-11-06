@@ -1,0 +1,27 @@
+name: CRE financing SEO cluster publication contract
+on:
+  pull_request:
+    paths:
+      - 'insights/**'
+      - 'tools/commercial-real-estate-loan-calculator/index.html'
+      - 'sitemap.xml'
+      - 'tests/test_cre_financing_seo_cluster.py'
+      - '.github/workflows/leva-cre-seo-cluster-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'insights/**'
+      - 'tools/commercial-real-estate-loan-calculator/index.html'
+      - 'sitemap.xml'
+      - 'tests/test_cre_financing_seo_cluster.py'
+      - '.github/workflows/leva-cre-seo-cluster-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-seo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate SEO pages and numerical examples
+        run: python3 tests/test_cre_financing_seo_cluster.py

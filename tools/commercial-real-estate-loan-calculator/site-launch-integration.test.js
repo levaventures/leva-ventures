@@ -17,7 +17,10 @@ const routes=[
   {path:"/tools/commercial-real-estate-loan-calculator/",name:"Calculator",title:/Commercial Real Estate Loan Calculator/},
   {path:"/insights/how-to-prepare-real-estate-opportunity-private-capital/",name:"Capital preparation",title:/How to Prepare a Real Estate Opportunity/},
   {path:"/insights/how-to-finance-investment-property-private-capital/",name:"Investment property",title:/How to Finance an Investment Property/},
-  {path:"/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/",name:"Debt equity hybrid",title:/Commercial Real Estate Acquisition Financing/}
+  {path:"/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/",name:"Debt equity hybrid",title:/Commercial Real Estate Acquisition Financing/},
+  {path:"/insights/commercial-real-estate-refinance-gap-analysis/",name:"Refinance gap analysis",title:/Commercial Real Estate Refinance Gaps/},
+  {path:"/insights/value-add-commercial-real-estate-acquisition-financing/",name:"Value-add acquisition",title:/Value-Add Commercial Real Estate Acquisition Financing/},
+  {path:"/insights/private-capital-real-estate-development-financing/",name:"Development capital",title:/Private Capital for Real Estate Development/}
 ];
 const media={".html":"text/html; charset=utf-8",".js":"application/javascript; charset=utf-8",".css":"text/css; charset=utf-8",".xml":"application/xml; charset=utf-8",".txt":"text/plain; charset=utf-8",".svg":"image/svg+xml",".png":"image/png",".jpg":"image/jpeg"};
 const source=new URL("https://levaventures.com");
@@ -88,7 +91,7 @@ const server=http.createServer((req,res)=>{
  }
  assert.deepEqual(issues,[],"All root-relative site links should resolve");
  assert.ok(allInternal.has("/tools/commercial-real-estate-loan-calculator/"));
- for(const p of ["/","/insights/","/insights/how-to-prepare-real-estate-opportunity-private-capital/","/insights/how-to-finance-investment-property-private-capital/","/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/"]){
+ for(const p of ["/","/insights/","/insights/how-to-prepare-real-estate-opportunity-private-capital/","/insights/how-to-finance-investment-property-private-capital/","/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/","/insights/commercial-real-estate-refinance-gap-analysis/","/insights/value-add-commercial-real-estate-acquisition-financing/","/insights/private-capital-real-estate-development-financing/"]){
   await page.goto(origin+p,{waitUntil:"domcontentloaded"});
   assert.ok(await page.locator('a[href="/tools/commercial-real-estate-loan-calculator/"]').count()>0,"Findable calculator link on "+p);
  }
