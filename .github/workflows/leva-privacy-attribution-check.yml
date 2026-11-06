@@ -1,0 +1,27 @@
+name: Privacy attribution contract
+on:
+  pull_request:
+    paths:
+      - 'assets/leva-site.js'
+      - 'index.html'
+      - 'tools/commercial-real-estate-loan-calculator/index.html'
+      - 'tests/test_calculator_lead_origin.py'
+      - '.github/workflows/leva-privacy-attribution-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'assets/leva-site.js'
+      - 'index.html'
+      - 'tools/commercial-real-estate-loan-calculator/index.html'
+      - 'tests/test_calculator_lead_origin.py'
+      - '.github/workflows/leva-privacy-attribution-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-privacy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tests/test_calculator_lead_origin.py
+      - run: node --check assets/leva-site.js
