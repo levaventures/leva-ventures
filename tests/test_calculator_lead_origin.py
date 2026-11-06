@@ -14,7 +14,7 @@ assert "origin === 'calculator'" in app
 assert "originField.name = 'lead_origin'" in app
 assert "originField.value = 'calculator'" in app
 assert "form.appendChild(originField)" in app
-assert app.index("if (response.ok)") == -1  # avoid duplicate, success path checks !response.ok
+assert "if (response.ok)" not in app  # success path checks !response.ok
 assert "if (!response.ok)" in app
 assert "if (success)" in app
 assert "source label" in home.lower()
