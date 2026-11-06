@@ -15,6 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
+  // Only a fixed, non-personal origin label is included on a voluntary form submit.
+  // Never read calculator fields, URL parameters other than this exact marker,
+  // visitor identifiers, referral URLs or financial data.
+  const origin = new URLSearchParams(window.location.search).get('lv_origin');
+  if (origin === 'calculator') {
+    const originField = document.createElement('input');
+    originField.type = 'hidden';
+    originField.name = 'lead_origin';
+    originField.value = 'calculator';
+    form.appendChild(originField);
+  }
+
   const success = document.querySelector('[data-fs-success]');
   const submitButton = form.querySelector('[data-fs-submit-btn]');
   const originalButtonText = submitButton ? submitButton.textContent : '';
