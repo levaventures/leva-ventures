@@ -109,5 +109,5 @@ function reset(){
  for(const [id,v] of Object.entries(defaults))$(id).value=v;
  $("waterfall-cumulative").checked=true;$("waterfall-compound").checked=false;
 }
-root.LVInvestmentUI={update,reset};
+root.LVInvestmentUI={update,reset,clear(){clearInvestment();clearWaterfall();}};
 })(typeof globalThis!=="undefined"?globalThis:this);
