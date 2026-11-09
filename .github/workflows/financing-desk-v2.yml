@@ -8,6 +8,7 @@ on:
       - 'tools/commercial-real-estate-loan-calculator/investment*'
       - 'tools/commercial-real-estate-loan-calculator/waterfall*'
       - 'tools/commercial-real-estate-loan-calculator/desk-report*'
+      - 'tools/commercial-real-estate-loan-calculator/desk-release-finance.test.js'
       - '.github/workflows/financing-desk-v2.yml'
   workflow_dispatch:
 permissions:
@@ -22,7 +23,7 @@ jobs:
           node-version: '22'
       - name: Validate existing core alongside v2 independent underwriting tests
         run: |
-          node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/desk-core.test.js tools/commercial-real-estate-loan-calculator/desk-bridge.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/investment.test.js tools/commercial-real-estate-loan-calculator/waterfall.test.js tools/commercial-real-estate-loan-calculator/desk-report.test.js
+          node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/desk-core.test.js tools/commercial-real-estate-loan-calculator/desk-bridge.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/investment.test.js tools/commercial-real-estate-loan-calculator/waterfall.test.js tools/commercial-real-estate-loan-calculator/desk-report.test.js tools/commercial-real-estate-loan-calculator/desk-release-finance.test.js previews/leva-financing-desk-v2/release-security.test.js
       - name: Check for private-only preview and local-only calculations
         run: |
           node - <<'NODE'
@@ -47,6 +48,8 @@ jobs:
         run: node previews/leva-financing-desk-v2/report-browser.test.js
       - name: Nonindexed hub and deep-link release checks
         run: node previews/leva-financing-desk-v2/seo-hub.test.js
+      - name: Keyboard-only navigation and input error recovery
+        run: node previews/leva-financing-desk-v2/keyboard-release.test.js
       - name: Automated accessibility checks across all eight desk screens
         run: node previews/leva-financing-desk-v2/accessibility.test.js
       - name: Capture reviewed desk and hub screenshots
