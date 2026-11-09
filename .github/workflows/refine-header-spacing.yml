@@ -1,0 +1,73 @@
+name: Refine Header Spacing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refine-header-spacing.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Refine desktop header spacing
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = "/* Decorative statement divider should not extend beyond small screens */"
+          css = r'''
+/* Desktop header spacing refinement */
+@media (min-width: 901px) {
+  header .nav {
+    width: min(1440px, calc(100% - 72px));
+    height: 96px;
+    gap: 48px;
+  }
+
+  .nav-links {
+    flex: 1;
+    justify-content: flex-end;
+    gap: clamp(26px, 1.8vw, 38px);
+  }
+
+  .nav-links .btn {
+    margin-left: 8px;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .hero-copy {
+    padding-bottom: 78px;
+  }
+}
+
+'''
+          if "/* Desktop header spacing refinement */" not in s:
+              if marker not in s:
+                  raise SystemExit("CSS insertion marker not found")
+              s = s.replace(marker, css + marker, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Verify
+        shell: bash
+        run: |
+          grep -q 'Desktop header spacing refinement' index.html
+          grep -q 'width: min(1440px, calc(100% - 72px))' index.html
+          grep -q 'padding-bottom: 78px' index.html
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name "Leva Ventures Site Automation"
+          git config user.email "matt@levaventures.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Refine desktop header spacing"
+          git push
