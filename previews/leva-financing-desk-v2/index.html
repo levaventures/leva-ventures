@@ -30,8 +30,10 @@
         <button type="button" class="module" data-panel="capital" aria-controls="panel-capital" aria-pressed="false"><img class="module-icon" alt="" aria-hidden="true" src="./vendor/lucide/layers.svg"><span>04</span> Capital Structure</button>
         <button type="button" class="module" data-panel="scenarios" aria-controls="panel-scenarios" aria-pressed="false"><img class="module-icon" alt="" aria-hidden="true" src="./vendor/lucide/chart-column-increasing.svg"><span>05</span> Scenario Lab</button>
         <button type="button" class="module" data-panel="report" aria-controls="panel-report" aria-pressed="false"><img class="module-icon" alt="" aria-hidden="true" src="./vendor/lucide/file-text.svg"><span>06</span> Analysis Report</button>
+        <button type="button" class="module" data-panel="investment" aria-controls="panel-investment" aria-pressed="false"><span>07</span> Investment Returns</button>
+        <button type="button" class="module" data-panel="waterfall" aria-controls="panel-waterfall" aria-pressed="false"><span>08</span> Equity Waterfall</button>
       </nav>
-      <p class="sidebar-note">Phase 1 review: six linked workspaces. Investment IRR and equity waterfalls are not yet included.</p>
+      <p class="sidebar-note">Eight linked review workspaces. Equity waterfall is an explicitly simplified annual distribution model.</p>
       <a class="public-link" href="/tools/commercial-real-estate-loan-calculator/">Return to existing live calculator</a>
     </aside>
     <main id="workspace" class="workspace">
@@ -41,7 +43,7 @@
       </div>
       <div class="work-grid">
         <section class="assumption-panel surface" aria-labelledby="assumption-title">
-          <div class="section-heading"><h3 id="assumption-title">Deal assumptions</h3><p>Shared across all four workspaces</p></div>
+          <div class="section-heading"><h3 id="assumption-title">Deal assumptions</h3><p>Shared across connected workspaces</p></div>
           <fieldset class="input-grid">
             <legend>Property and financing</legend>
             <div class="field"><label for="value">Property value <span>USD</span></label><input id="value" type="number" min="0.01" step="any" inputmode="decimal" value="8000000" required></div>
@@ -137,6 +139,56 @@
             <div class="table-scroll" tabindex="0" role="region" aria-label="Three locally calculated financing scenarios scrollable table"><table class="data-table"><caption>Three locally calculated financing scenarios</caption><thead><tr><th scope="col">Case</th><th scope="col">Senior limit</th><th scope="col">Gap</th><th scope="col">Binding test</th></tr></thead><tbody id="scenario-table"></tbody></table></div>
             <p class="fineprint">Scenario changes are displayed explicitly. No lender offers, rates or funding commitments are inferred.</p>
           </section>
+          <section id="panel-investment" class="result-panel surface" aria-labelledby="investment-title" hidden>
+            <div class="section-heading"><span class="overline">07 / INVESTMENT PERFORMANCE</span><h3 id="investment-title">Investment Returns &amp; IRR</h3><p>Annual levered equity cash-flow projections, linked to shared property NOI and senior financing.</p></div>
+            <fieldset class="module-options investment-options">
+              <legend>Investment and exit assumptions</legend>
+              <div class="field"><label for="investment-price">Purchase price <span>USD</span></label><input id="investment-price" type="number" min="0.01" step="any" value="8000000"></div>
+              <div class="field"><label for="investment-costs">Acquisition costs <span>USD</span></label><input id="investment-costs" type="number" min="0" step="any" value="150000"></div>
+              <div class="field"><label for="investment-hold">Hold period <span>whole years</span></label><input id="investment-hold" type="number" min="1" max="30" step="1" value="5"></div>
+              <div class="field"><label for="investment-growth">Annual NOI growth <span>%</span></label><input id="investment-growth" type="number" min="-99" max="100" step="any" value="2"></div>
+              <div class="field"><label for="investment-exitcap">Exit cap rate <span>%</span></label><input id="investment-exitcap" type="number" min="0.000001" max="100" step="any" value="6.5"></div>
+              <div class="field"><label for="investment-selling">Selling costs <span>%</span></label><input id="investment-selling" type="number" min="0" max="100" step="any" value="2"></div>
+              <div class="field"><label for="investment-discount">NPV discount rate <span>%</span></label><input id="investment-discount" type="number" min="-99" max="1000" step="any" value="10"></div>
+              <div class="field"><label for="investment-debtmode">Acquisition senior debt source</label><select id="investment-debtmode"><option value="modeled">Modeled senior proceeds</option><option value="custom">Hypothetical custom amount</option><option value="none">All-equity acquisition</option></select></div>
+              <div class="field" id="investment-debtgroup" hidden><label for="investment-debt">Custom initial debt <span>USD</span></label><input id="investment-debt" type="number" min="0" step="any" value="3000000"></div>
+            </fieldset>
+            <p class="form-error" id="investment-error" role="alert" hidden></p>
+            <div class="kpi-grid">
+              <div class="kpi"><small>ANNUAL EQUITY IRR</small><strong id="investment-irr">—</strong></div>
+              <div class="kpi"><small>EQUITY MULTIPLE</small><strong id="investment-multiple">—</strong></div>
+              <div class="kpi"><small>INITIAL EQUITY</small><strong id="investment-equity">—</strong></div>
+              <div class="kpi"><small>NPV AT DISCOUNT RATE</small><strong id="investment-npv">—</strong></div>
+            </div>
+            <dl class="ledger"><div><dt>Modeled acquisition loan</dt><dd id="investment-senior">—</dd></div><div><dt>Exit gross property valuation</dt><dd id="investment-exitvalue">—</dd></div><div><dt>Debt paid at exit</dt><dd id="investment-exitdebt">—</dd></div><div><dt>Net exit proceeds to equity</dt><dd id="investment-exitnet">—</dd></div></dl>
+            <h4>Annual equity cash-flow schedule</h4>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Investment return cash-flow schedule, horizontally scrollable">
+              <table class="data-table detail-table"><caption>Annual end-of-period levered investment returns; includes Year 0 investment</caption><thead><tr><th scope="col">Year</th><th scope="col">NOI</th><th scope="col">Debt service</th><th scope="col">Operating cash</th><th scope="col">Net equity cash</th></tr></thead><tbody id="investment-table"></tbody></table>
+            </div>
+            <p id="investment-explanation" class="fineprint">Cash flows are illustrative and exclude income taxes and unmodeled capital expenditures.</p>
+          </section>
+          <section id="panel-waterfall" class="result-panel surface" aria-labelledby="waterfall-title" hidden>
+            <div class="section-heading"><span class="overline">08 / DISTRIBUTION ALLOCATION</span><h3 id="waterfall-title">LP / GP Equity Waterfall</h3><p>Simple annual, project-level allocations using the Investment Returns cash flows. Not a legal partnership waterfall.</p></div>
+            <fieldset class="module-options waterfall-options"><legend>Distribution assumptions</legend>
+              <div class="field"><label for="waterfall-lpshare">LP initial contribution <span>%</span></label><input id="waterfall-lpshare" type="number" min="0" max="100" step="any" value="90"></div>
+              <div class="field"><label for="waterfall-pref">LP preferred return <span>% annually</span></label><input id="waterfall-pref" type="number" min="0" max="100" step="any" value="8"></div>
+              <div class="field"><label for="waterfall-residual">LP share of residual profits <span>%</span></label><input id="waterfall-residual" type="number" min="0" max="100" step="any" value="70"></div>
+              <label class="check"><input id="waterfall-cumulative" type="checkbox" checked> Carry forward unpaid preferred return</label>
+              <label class="check"><input id="waterfall-compound" type="checkbox"> Compound unpaid cumulative pref annually</label>
+            </fieldset>
+            <p class="form-error" id="waterfall-error" role="alert" hidden></p>
+            <div class="kpi-grid">
+              <div class="kpi"><small>LP DISTRIBUTIONS</small><strong id="waterfall-lp">—</strong></div>
+              <div class="kpi"><small>GP DISTRIBUTIONS</small><strong id="waterfall-gp">—</strong></div>
+              <div class="kpi"><small>LP ANNUAL IRR</small><strong id="waterfall-lpirr">—</strong></div>
+              <div class="kpi"><small>UNPAID LP PREFERRED RETURN</small><strong id="waterfall-unpaid">—</strong></div>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="LP GP waterfall annual distribution table, horizontally scrollable">
+              <table class="data-table detail-table"><caption>Annual distributions and equity contributions; all allocated cash reconciles</caption><thead><tr><th scope="col">Year</th><th scope="col">Available cash</th><th scope="col">LP preferred paid</th><th scope="col">LP distributions</th><th scope="col">GP distributions</th><th scope="col">Additional capital calls</th></tr></thead><tbody id="waterfall-table"></tbody></table>
+            </div>
+            <h4>Distribution priority</h4>
+            <p class="fineprint">First, pay the LP preferred return; second, return outstanding contributed capital pro rata; third, distribute residual profits under the stated LP/GP split. Loss years require additional proportional year-end capital contributions. This does not model catch-up, clawback, IRR promote hurdles or contractual exceptions.</p>
+          </section>
           <section id="panel-report" class="result-panel surface" aria-labelledby="report-title" hidden>
             <div class="section-heading"><span class="overline">04 / WORKING REPORT</span><h3 id="report-title">Financing analysis summary</h3></div>
             <p class="fineprint" id="report-meta">Desk model 0.1 · Educational scenario</p>
@@ -148,6 +200,8 @@
             <h4>Loan and structured capital cross-check</h4>
             <dl class="ledger"><div><dt>Modeled loan payment</dt><dd id="report-loan-payment">—</dd></div><div><dt>Modeled loan balloon</dt><dd id="report-balloon">—</dd></div><div><dt>Capital stack remaining gap</dt><dd id="report-stack-gap">—</dd></div></dl>
             <p class="fineprint">Loan payments reflect the separately selected loan term and principal source. Capital-stack results include separately entered hypothetical contributions and fees.</p>
+            <h4>Investment &amp; distribution cross-check</h4>
+            <dl class="ledger"><div><dt>Annual investment IRR</dt><dd id="report-investment-irr">—</dd></div><div><dt>Equity multiple</dt><dd id="report-investment-multiple">—</dd></div><div><dt>LP distributions</dt><dd id="report-waterfall-lp">—</dd></div><div><dt>GP distributions</dt><dd id="report-waterfall-gp">—</dd></div></dl><p class="fineprint">Investment performance and waterfall outputs use separate hypothetical acquisition and distribution assumptions. See the associated module for methodology and limitations.</p>
             <h4>Methodology and limitations</h4>
             <p class="fineprint">The lowest of DSCR, LTV and debt-yield ceilings controls modeled senior proceeds. Monthly debt service uses nominal annual interest divided by 12 and equal end-of-month amortizing payments. Cash gap equals the positive difference between total closing uses and senior proceeds. Results are not underwritten offers, commitments, investment advice or approved financing terms.</p>
             <button class="primary" type="button" id="print">Print / save PDF locally</button>
@@ -175,6 +229,9 @@
   <script src="../../tools/commercial-real-estate-loan-calculator/capital-stack.js" defer></script>
   <script src="../../tools/commercial-real-estate-loan-calculator/desk-bridge.js" defer></script>
   <script src="./vendor/uplot/uPlot.iife.min.js" defer></script>
+  <script src="../../tools/commercial-real-estate-loan-calculator/investment.js" defer></script>
+  <script src="../../tools/commercial-real-estate-loan-calculator/waterfall.js" defer></script>
+  <script src="./investment-ui.js" defer></script>
   <script src="./desk-panels.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
