@@ -18,6 +18,7 @@ const assert=require("node:assert/strict"),path=require("node:path"),{chromium}=
    await page.getByRole("button",{name:/Loan & Balloon/}).click();
    assert.equal(await page.locator("#panel-loan").isVisible(),true);
    assert.equal(await page.locator("#loan-year-table tr").count(),11);
+   await page.waitForFunction(()=>document.querySelector("#amort-chart .uplot")!==null,{},{timeout:2500});
    assert.equal(await page.locator("#amort-chart .uplot").count(),1);
    assert.match(await page.locator("#loan-monthly").innerText(),/^\$/);
    const initialBalloon=await page.locator("#loan-balloon").innerText();
