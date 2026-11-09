@@ -9,7 +9,7 @@ const {chromium}=require("playwright"),axe=require("axe-core");
    await page.addInitScript({content:axe.source});
    await page.goto("file://"+path.resolve(__dirname,"index.html"));
    await page.waitForFunction(()=>document.querySelector("#debt-proceeds").textContent.startsWith("$"));
-   for(const panel of ["debt","loan","refinance","capital","scenarios","report"]){
+   for(const panel of ["debt","loan","refinance","capital","scenarios","investment","waterfall","report"]){
     await page.locator('[data-panel="'+panel+'"]').click();
     if(panel==="loan")await page.waitForFunction(()=>document.querySelector("#amort-chart .uplot"));
     const results=await page.evaluate(async()=>axe.run(document,{
