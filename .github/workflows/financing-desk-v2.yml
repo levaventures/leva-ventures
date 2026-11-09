@@ -36,7 +36,9 @@ jobs:
           NODE
       - name: Install browser testing tools
         run: |
-          npm install --no-save playwright
+          npm install --no-save playwright axe-core
           npx playwright install chromium --with-deps
       - name: Desktop and mobile prototype smoke tests
         run: node previews/leva-financing-desk-v2/browser.test.js
+      - name: Automated accessibility checks across all six desk screens
+        run: node previews/leva-financing-desk-v2/accessibility.test.js
