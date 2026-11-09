@@ -75,6 +75,7 @@ const assert=require("node:assert/strict"),path=require("node:path"),{chromium}=
    assert.equal(await page.locator("#waterfall-error").isVisible(),true);
    await page.locator("#waterfall-cumulative").check();
    assert.equal(await page.locator("#waterfall-error").isVisible(),false);
+   await page.getByRole("button",{name:/Investment Returns/}).click();
    await page.locator("#investment-exitcap").fill("0");
    assert.equal(await page.locator("#investment-error").isVisible(),true);
    await page.locator("#investment-exitcap").fill("6.5");
