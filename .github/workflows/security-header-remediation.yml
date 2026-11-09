@@ -1,0 +1,26 @@
+name: Review Production Security Header Configuration
+on:
+  pull_request:
+    paths:
+      - 'security/**'
+      - '.github/workflows/security-header-remediation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  header-policy-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify route-specific Cloudflare header proposal
+        run: node --test security/security-header-policy.test.js
+      - name: Verify scoped Cloudflare Web Analytics CSP exception and Turnstile/Forms parity
+        run: node --test security/csp-homepage.test.js
+      - name: Confirm GitHub Pages custom domain has not changed
+        run: |
+          test "$(tr -d '\r\n' < CNAME)" = "levaventures.com"
+      - name: Confirm existing site regression security checks
+        run: node tools/commercial-real-estate-loan-calculator/site-security.test.js
