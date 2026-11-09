@@ -17,6 +17,8 @@ jobs:
           node-version: '22'
       - name: Verify route-specific Cloudflare header proposal
         run: node --test security/security-header-policy.test.js
+      - name: Verify scoped Cloudflare Web Analytics CSP exception and Turnstile/Forms parity
+        run: node --test security/csp-homepage.test.js
       - name: Confirm GitHub Pages custom domain has not changed
         run: |
           test "$(tr -d '\r\n' < CNAME)" = "levaventures.com"
