@@ -127,12 +127,14 @@ function calculate(){
   renderDebt(r);renderSensitivity(r);renderRef(r);renderReport(r);
   if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.update(r);
   if(globalThis.LVInvestmentUI)globalThis.LVInvestmentUI.update(r);
+  if(globalThis.LVDeskReportUI)globalThis.LVDeskReportUI.update();
   set("context-headline",r.diagnostic.headline);
   set("context-message","Senior capacity "+usd(r.proceeds)+". Closing requirement "+usd(r.totalUses)+". "+(r.gap?"Unfunded amount "+usd(r.gap)+".":"No modeled gap.")+" Downside gap "+usd(cases[1].gap)+".");
   current=r;$("error").hidden=true;$("error").textContent="";
  }catch(error){
   current=null;$("error").textContent=error.message;$("error").hidden=false;
   if(globalThis.LVInvestmentUI)globalThis.LVInvestmentUI.clear();
+  if(globalThis.LVDeskReportUI)globalThis.LVDeskReportUI.clear(error.message);
   for(const id of ["debt-proceeds","ref-gap","report-loan","report-gap","debt-headline","context-headline","loan-monthly","capital-uses"])
    set(id,"—");
   $("limit-bars").replaceChildren();$("limit-table").replaceChildren();$("scenario-table").replaceChildren();$("report-inputs").replaceChildren();
@@ -157,8 +159,9 @@ $("reset").addEventListener("click",()=>{
  if(globalThis.LVInvestmentUI)globalThis.LVInvestmentUI.reset();
  calculate();
 });
-$("print").addEventListener("click",()=>{if(current)window.print();});
+$("print").addEventListener("click",()=>{if(current&&globalThis.LVDeskReportUI?.ready())window.print();});
 window.addEventListener("resize",()=>{if(sensitivityPlot){const width=Math.max(200,Math.round($("sensitivity-chart").getBoundingClientRect().width));if(Math.abs(width-sensitivityPlot.width)>2)sensitivityPlot.setSize({width,height:205});}});
 if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.setup();
+if(globalThis.LVDeskReportUI)globalThis.LVDeskReportUI.setup();
 calculate();switchPanel(active);
 })();
