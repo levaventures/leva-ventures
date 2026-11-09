@@ -202,9 +202,35 @@
             <p class="fineprint">Loan payments reflect the separately selected loan term and principal source. Capital-stack results include separately entered hypothetical contributions and fees.</p>
             <h4>Investment &amp; distribution cross-check</h4>
             <dl class="ledger"><div><dt>Annual investment IRR</dt><dd id="report-investment-irr">—</dd></div><div><dt>Equity multiple</dt><dd id="report-investment-multiple">—</dd></div><div><dt>LP distributions</dt><dd id="report-waterfall-lp">—</dd></div><div><dt>GP distributions</dt><dd id="report-waterfall-gp">—</dd></div></dl><p class="fineprint">Investment performance and waterfall outputs use separate hypothetical acquisition and distribution assumptions. See the associated module for methodology and limitations.</p>
+            <h4>Validated underwriting limits</h4>
+            <div class="table-scroll" role="region" tabindex="0" aria-label="Report loan sizing limits horizontally scrollable">
+              <table class="data-table"><caption>Independent loan sizing limits</caption><thead><tr><th scope="col">Test</th><th scope="col">Senior limit</th><th scope="col">Status</th></tr></thead><tbody id="report-limits"></tbody></table>
+            </div>
+            <h4>Financing scenario comparison</h4>
+            <div class="table-scroll" role="region" tabindex="0" aria-label="Report scenario comparison horizontally scrollable">
+              <table class="data-table"><caption>Base, downside and upside financing</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Senior capacity</th><th scope="col">Gap</th><th scope="col">Constraint</th></tr></thead><tbody id="report-scenarios"></tbody></table>
+            </div>
+            <h4>Capital sources and use allocations</h4>
+            <div class="table-scroll" role="region" tabindex="0" aria-label="Report source allocation horizontally scrollable">
+              <table class="data-table"><caption>Funding layers and allocation amounts</caption><thead><tr><th scope="col">Layer</th><th scope="col">Modeled</th><th scope="col">Applied</th><th scope="col">Share</th></tr></thead><tbody id="report-capital"></tbody></table>
+            </div>
+            <h4>Investment cash flow by year</h4>
+            <div class="table-scroll" role="region" tabindex="0" aria-label="Report annual investment cash flows horizontally scrollable">
+              <table class="data-table"><caption>Levered investment cash flows, including acquisition</caption><thead><tr><th scope="col">Year</th><th scope="col">NOI</th><th scope="col">Debt service</th><th scope="col">Equity cash</th></tr></thead><tbody id="report-cashflow"></tbody></table>
+            </div>
+            <h4>LP / GP distribution reconciliation</h4>
+            <div class="table-scroll" role="region" tabindex="0" aria-label="Report LP GP distribution schedule horizontally scrollable">
+              <table class="data-table"><caption>Annual investor distributions, capital calls and unpaid preferred return</caption><thead><tr><th scope="col">Year</th><th scope="col">LP distribution</th><th scope="col">GP distribution</th><th scope="col">Capital called</th><th scope="col">Unpaid LP pref</th></tr></thead><tbody id="report-distributions"></tbody></table>
+            </div>
+            <h4>Cross-module model checks</h4>
+            <ol class="report-notes" id="report-audit"></ol>
             <h4>Methodology and limitations</h4>
+            <p class="fineprint">Financial figures use the same deal inputs, calculations and transaction assumptions as the eight workspaces. Cash-flow analysis is annual, based on a hypothetical acquisition with forward-NOI exit capitalization. Preferred equity and LP/GP distributions do not constitute lender underwriting or partnership legal terms. Values are displayed rounded to dollars; downloadable CSV retains six decimal places.</p>
+            <ul class="report-notes" id="report-disclosures"></ul>
+            <p class="fineprint" id="report-validity" role="status">Consolidated report not yet reconciled.</p>
+            <p class="form-error" id="report-error" role="alert" hidden></p>
             <p class="fineprint">The lowest of DSCR, LTV and debt-yield ceilings controls modeled senior proceeds. Monthly debt service uses nominal annual interest divided by 12 and equal end-of-month amortizing payments. Cash gap equals the positive difference between total closing uses and senior proceeds. Results are not underwritten offers, commitments, investment advice or approved financing terms.</p>
-            <button class="primary" type="button" id="print">Print / save PDF locally</button>
+            <div class="report-actions"><button class="primary" type="button" id="print" disabled>Print / save PDF locally</button><button class="secondary" type="button" id="report-csv" disabled>Export audit CSV locally</button></div>
           </section>
         </div>
         <aside class="context surface" aria-label="Calculation context and interpretation">
@@ -231,7 +257,9 @@
   <script src="./vendor/uplot/uPlot.iife.min.js" defer></script>
   <script src="../../tools/commercial-real-estate-loan-calculator/investment.js" defer></script>
   <script src="../../tools/commercial-real-estate-loan-calculator/waterfall.js" defer></script>
+  <script src="../../tools/commercial-real-estate-loan-calculator/desk-report.js" defer></script>
   <script src="./investment-ui.js" defer></script>
+  <script src="./report-ui.js" defer></script>
   <script src="./desk-panels.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
