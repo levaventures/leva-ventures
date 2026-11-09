@@ -4,6 +4,7 @@ on:
     paths:
       - 'previews/leva-financing-desk-v2/**'
       - 'tools/commercial-real-estate-loan-calculator/desk-core*'
+      - 'tools/commercial-real-estate-loan-calculator/desk-bridge*'
       - '.github/workflows/financing-desk-v2.yml'
   workflow_dispatch:
 permissions:
@@ -18,7 +19,7 @@ jobs:
           node-version: '22'
       - name: Validate existing core alongside v2 independent underwriting tests
         run: |
-          node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/desk-core.test.js
+          node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/desk-core.test.js tools/commercial-real-estate-loan-calculator/desk-bridge.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js
       - name: Check for private-only preview and local-only calculations
         run: |
           node - <<'NODE'
@@ -27,7 +28,7 @@ jobs:
           const html=fs.readFileSync(dir+'index.html','utf8');
           const js=fs.readFileSync(dir+'app.js','utf8');
           if(!html.includes('noindex,nofollow'))throw new Error('Preview must remain noindex');
-          for(const file of ['finance.js','desk-core.js','app.js','style.css'])
+          for(const file of ['finance.js','desk-core.js','strategy.js','capital-stack.js','desk-bridge.js','desk-panels.js','app.js','style.css'])
             if(!html.includes(file))throw new Error('Missing asset reference: '+file);
           for(const forbidden of ['fetch(', 'sendBeacon(', 'localStorage', 'sessionStorage', 'XMLHttpRequest', 'innerHTML='])
             if(js.includes(forbidden))throw new Error('Disallowed data sink in prototype: '+forbidden);
