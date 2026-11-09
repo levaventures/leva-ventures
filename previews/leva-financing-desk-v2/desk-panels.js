@@ -161,5 +161,5 @@ function reset(){
  for(const [id,value] of Object.entries(defaults))$(id).value=value;
  $("loan-io").checked=false;
 }
-root.LVDeskPanels={setup,update,reset};
+root.LVDeskPanels={setup,update,reset,clear(){clearLoan();clearCapital();}};
 })(typeof globalThis!=="undefined"?globalThis:this);
