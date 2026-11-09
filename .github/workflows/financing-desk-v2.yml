@@ -49,3 +49,11 @@ jobs:
         run: node previews/leva-financing-desk-v2/seo-hub.test.js
       - name: Automated accessibility checks across all eight desk screens
         run: node previews/leva-financing-desk-v2/accessibility.test.js
+      - name: Capture reviewed desk and hub screenshots
+        run: node previews/leva-financing-desk-v2/review-screenshots.js
+      - name: Upload visual review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-desk-v2-visual-review
+          path: preview-artifacts/desk-v2/*.png
+          retention-days: 30
