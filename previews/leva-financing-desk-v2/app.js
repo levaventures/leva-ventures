@@ -125,20 +125,21 @@ function calculate(){
   const a=assumptions(),r=D.analyze(a);
   const cases=renderScenarios(a);
   renderDebt(r);renderSensitivity(r);renderRef(r);renderReport(r);
+  if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.update(r);
   set("context-headline",r.diagnostic.headline);
   set("context-message","Senior capacity "+usd(r.proceeds)+". Closing requirement "+usd(r.totalUses)+". "+(r.gap?"Unfunded amount "+usd(r.gap)+".":"No modeled gap.")+" Downside gap "+usd(cases[1].gap)+".");
   current=r;$("error").hidden=true;$("error").textContent="";
  }catch(error){
   current=null;$("error").textContent=error.message;$("error").hidden=false;
-  for(const id of ["debt-proceeds","ref-gap","report-loan","report-gap","debt-headline","context-headline"])
+  for(const id of ["debt-proceeds","ref-gap","report-loan","report-gap","debt-headline","context-headline","loan-monthly","capital-uses"])
    set(id,"—");
   $("limit-bars").replaceChildren();$("limit-table").replaceChildren();$("scenario-table").replaceChildren();$("report-inputs").replaceChildren();
  }
 }
 function switchPanel(name){
- if(!["debt","refinance","scenarios","report"].includes(name))return;
+ if(!["debt","loan","refinance","capital","scenarios","report"].includes(name))return;
  active=name;
- const titles={debt:"Debt Capacity",refinance:"Refinance Intelligence",scenarios:"Scenario Lab",report:"Analysis Report"};
+ const titles={debt:"Debt Capacity",loan:"Loan & Balloon",refinance:"Refinance Intelligence",capital:"Capital Structure",scenarios:"Scenario Lab",report:"Analysis Report"};
  set("workspace-title",titles[name]);
  for(const btn of document.querySelectorAll(".module")){
   const on=btn.dataset.panel===name;
@@ -147,12 +148,14 @@ function switchPanel(name){
  for(const n of Object.keys(titles))$("panel-"+n).hidden=n!==name;
 }
 for(const btn of document.querySelectorAll(".module"))btn.addEventListener("click",()=>switchPanel(btn.dataset.panel));
-for(const input of document.querySelectorAll("input"))input.addEventListener("input",calculate);
+for(const input of document.querySelectorAll("input, select"))input.addEventListener("input",calculate);
 $("reset").addEventListener("click",()=>{
  for(const [id,val] of Object.entries(defaultValues))$(id).value=val;
+ if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.reset();
  calculate();
 });
 $("print").addEventListener("click",()=>{if(current)window.print();});
 window.addEventListener("resize",()=>{if(sensitivityPlot){const width=Math.max(200,Math.round($("sensitivity-chart").getBoundingClientRect().width));if(Math.abs(width-sensitivityPlot.width)>2)sensitivityPlot.setSize({width,height:205});}});
+if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.setup();
 calculate();switchPanel(active);
 })();
