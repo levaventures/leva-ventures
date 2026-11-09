@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="strict-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'self'; object-src 'none'; frame-src 'none'">
+  <title>Financing Intelligence Desk V2 — Internal Review | Leva Ventures</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a href="#workspace" class="skip">Skip to financial workspace</a>
+  <header class="masthead">
+    <div class="identity"><span class="monogram" aria-hidden="true">L</span>
+      <div><strong>LEVA VENTURES</strong><small>Connecting Opportunity to Capital</small></div>
+    </div>
+    <div class="review-tag">V2 DESIGN PREVIEW · NOT PUBLIC</div>
+  </header>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Desk modules">
+      <p class="overline">FINANCIAL WORKSTATION</p>
+      <h1>Financing<br>Intelligence <em>Desk</em></h1>
+      <p class="sidebar-intro">One set of assumptions. A clearer picture of financing capacity and risk.</p>
+      <nav class="module-nav" aria-label="Analysis modules">
+        <button type="button" class="module active" data-panel="debt" aria-controls="panel-debt" aria-pressed="true"><span>01</span> Debt Capacity</button>
+        <button type="button" class="module" data-panel="refinance" aria-controls="panel-refinance" aria-pressed="false"><span>02</span> Refinance Intelligence</button>
+        <button type="button" class="module" data-panel="scenarios" aria-controls="panel-scenarios" aria-pressed="false"><span>03</span> Scenario Lab</button>
+        <button type="button" class="module" data-panel="report" aria-controls="panel-report" aria-pressed="false"><span>04</span> Analysis Report</button>
+      </nav>
+      <p class="sidebar-note">Phase 1 preview: these four workspaces are functional. Additional modules are not represented as complete.</p>
+      <a class="public-link" href="/tools/commercial-real-estate-loan-calculator/">Return to existing live calculator</a>
+    </aside>
+    <main id="workspace" class="workspace">
+      <div class="page-heading">
+        <div><span class="overline">TRANSACTION INTELLIGENCE / ILLUSTRATIVE</span><h2 id="workspace-title">Debt Capacity</h2></div>
+        <span class="local-chip">Private calculations · no account</span>
+      </div>
+      <div class="work-grid">
+        <section class="assumption-panel surface" aria-labelledby="assumption-title">
+          <div class="section-heading"><h3 id="assumption-title">Deal assumptions</h3><p>Shared across all four workspaces</p></div>
+          <fieldset class="input-grid">
+            <legend>Property and financing</legend>
+            <div class="field"><label for="value">Property value <span>USD</span></label><input id="value" type="number" min="0.01" step="any" inputmode="decimal" value="8000000" required></div>
+            <div class="field"><label for="noi">Annual underwritten NOI <span>USD</span></label><input id="noi" type="number" min="0" step="any" inputmode="decimal" value="520000" required></div>
+            <div class="field"><label for="payoff">Existing loan payoff <span>USD</span></label><input id="payoff" type="number" min="0" step="any" inputmode="decimal" value="5600000" required></div>
+            <div class="field"><label for="rate">Interest rate <span>% / yr</span></label><input id="rate" type="number" min="0" step="any" inputmode="decimal" value="7.5" required></div>
+            <div class="field"><label for="amortYears">Amortization <span>years</span></label><input id="amortYears" type="number" min="0.083333333" max="100" step="any" inputmode="decimal" value="25" required></div>
+          </fieldset>
+          <details class="advanced" open>
+            <summary>Underwriting rules &amp; closing uses</summary>
+            <div class="input-grid">
+              <div class="field"><label for="dscrMin">Minimum DSCR <span>x</span></label><input id="dscrMin" type="number" min="0.01" step="any" value="1.25" required></div>
+              <div class="field"><label for="ltvMax">Maximum LTV <span>%</span></label><input id="ltvMax" type="number" min="0" max="100" step="any" value="65" required></div>
+              <div class="field"><label for="debtYieldMin">Minimum debt yield <span>%</span></label><input id="debtYieldMin" type="number" min="0.01" max="100" step="any" value="9" required></div>
+              <div class="field"><label for="costs">Closing &amp; financing costs <span>USD</span></label><input id="costs" type="number" min="0" step="any" value="180000" required></div>
+              <div class="field"><label for="reserves">Required reserves <span>USD</span></label><input id="reserves" type="number" min="0" step="any" value="0" required></div>
+            </div>
+          </details>
+          <div class="input-actions"><button type="button" class="secondary" id="reset">Reset example</button><p>Changes calculate locally and update every view.</p></div>
+        </section>
+        <div class="results-column">
+          <p class="form-error" id="error" role="alert" hidden></p>
+          <section id="panel-debt" class="result-panel surface" aria-labelledby="debt-title">
+            <div class="section-heading"><span class="overline">01 / UNDERWRITING</span><h3 id="debt-title">Maximum supportable senior debt</h3></div>
+            <div class="hero-metric"><small>MODELED FINANCING CAPACITY</small><strong id="debt-proceeds">—</strong><span id="binding-note">Three independent sizing tests</span></div>
+            <h4>What constrains the loan?</h4>
+            <div id="limit-bars" class="bars" aria-hidden="true"></div>
+            <table class="data-table"><caption>Independent debt capacity ceilings</caption><thead><tr><th scope="col">Sizing test</th><th scope="col">Loan limit</th></tr></thead><tbody id="limit-table"></tbody></table>
+            <div class="insight" role="status"><strong id="debt-headline">—</strong><p id="debt-explanation">—</p><p id="next-constraint">—</p></div>
+          </section>
+          <section id="panel-refinance" class="result-panel surface" aria-labelledby="ref-title" hidden>
+            <div class="section-heading"><span class="overline">02 / REFINANCING</span><h3 id="ref-title">What remains to be funded?</h3></div>
+            <div class="hero-metric warning"><small>MODELED REFINANCE FUNDING GAP</small><strong id="ref-gap">—</strong><span id="ref-gap-subtitle">Senior proceeds versus closing uses</span></div>
+            <dl class="ledger"><div><dt>Existing loan payoff</dt><dd id="ref-payoff">—</dd></div><div><dt>Closing costs + reserves</dt><dd id="ref-costs">—</dd></div><div><dt>Total uses</dt><dd id="ref-uses">—</dd></div><div><dt>Modeled senior proceeds</dt><dd id="ref-proceeds">—</dd></div><div class="ledger-total"><dt>Residual shortfall / surplus</dt><dd id="ref-net">—</dd></div></dl>
+            <h4>What would support a fully funded refinance?</h4>
+            <dl class="ledger"><div><dt>Required NOI at assumed lender rules</dt><dd id="req-noi">—</dd></div><div><dt>Required collateral value at assumed LTV</dt><dd id="req-value">—</dd></div></dl>
+            <p class="fineprint">Both NOI and value requirements must be satisfied together. They do not guarantee financeability or lender acceptance.</p>
+          </section>
+          <section id="panel-scenarios" class="result-panel surface" aria-labelledby="scenario-title" hidden>
+            <div class="section-heading"><span class="overline">03 / SCENARIO COMPARISON</span><h3 id="scenario-title">Stress-test the financing</h3></div>
+            <p>Model a base case alongside adjusted NOI and interest-rate assumptions. Other lender limits and closing uses stay unchanged.</p>
+            <div class="scenario-editors">
+              <fieldset><legend>Downside</legend><div class="field"><label for="down-noi">NOI change <span>%</span></label><input id="down-noi" type="number" step="any" value="-10"></div><div class="field"><label for="down-rate">Rate change <span>percentage points</span></label><input id="down-rate" type="number" step="any" value="1"></div></fieldset>
+              <fieldset><legend>Upside</legend><div class="field"><label for="up-noi">NOI change <span>%</span></label><input id="up-noi" type="number" step="any" value="10"></div><div class="field"><label for="up-rate">Rate change <span>percentage points</span></label><input id="up-rate" type="number" step="any" value="-0.5"></div></fieldset>
+            </div>
+            <div class="table-scroll"><table class="data-table"><caption>Three locally calculated financing scenarios</caption><thead><tr><th scope="col">Case</th><th scope="col">Senior limit</th><th scope="col">Gap</th><th scope="col">Binding test</th></tr></thead><tbody id="scenario-table"></tbody></table></div>
+            <p class="fineprint">Scenario changes are displayed explicitly. No lender offers, rates or funding commitments are inferred.</p>
+          </section>
+          <section id="panel-report" class="result-panel surface" aria-labelledby="report-title" hidden>
+            <div class="section-heading"><span class="overline">04 / WORKING REPORT</span><h3 id="report-title">Financing analysis summary</h3></div>
+            <p class="fineprint" id="report-meta">Desk model 0.1 · Educational scenario</p>
+            <h4>Executive findings</h4>
+            <p id="report-finding">—</p>
+            <dl class="ledger"><div><dt>Senior loan capacity</dt><dd id="report-loan">—</dd></div><div><dt>Required uses</dt><dd id="report-uses">—</dd></div><div><dt>Funding gap</dt><dd id="report-gap">—</dd></div></dl>
+            <h4>Key model assumptions</h4>
+            <table class="data-table"><caption>Inputs used for this report</caption><tbody id="report-inputs"></tbody></table>
+            <h4>Methodology and limitations</h4>
+            <p class="fineprint">The lowest of DSCR, LTV and debt-yield ceilings controls modeled senior proceeds. Monthly debt service uses nominal annual interest divided by 12 and equal end-of-month amortizing payments. Cash gap equals the positive difference between total closing uses and senior proceeds. Results are not underwritten offers, commitments, investment advice or approved financing terms.</p>
+            <button class="primary" type="button" id="print">Print / save PDF locally</button>
+          </section>
+        </div>
+        <aside class="context surface" aria-label="Calculation context and interpretation">
+          <span class="overline">ANALYST'S NOTES</span>
+          <h3>Understand the constraint.</h3>
+          <p id="context-headline" class="context-headline">—</p>
+          <p id="context-message">—</p>
+          <div class="separator"></div>
+          <h4>Not an underwriting decision</h4>
+          <p class="fineprint">Illustrative assumptions are user-controlled; they are not verified lender criteria. More debt may be unavailable regardless of a modeled improvement.</p>
+          <h4>Privacy by default</h4>
+          <p class="fineprint">This preview does not save or send financial inputs. Printing stays in your browser's print workflow; browser services may handle printing differently.</p>
+          <a class="context-link" href="https://levaventures.com/">Leva Ventures home</a>
+        </aside>
+      </div>
+      <footer>Leva Ventures, LLC · Educational calculations only · Internal design prototype · No investment or financing solicitation</footer>
+    </main>
+  </div>
+  <script src="../../tools/commercial-real-estate-loan-calculator/finance.js" defer></script>
+  <script src="../../tools/commercial-real-estate-loan-calculator/desk-core.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
