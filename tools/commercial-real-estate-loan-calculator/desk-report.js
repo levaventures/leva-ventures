@@ -34,7 +34,8 @@ function build(shared,options){
  near(capital.plan.totalUses,capital.allocation.uses,"capital closing uses");
  near(capital.plan.uncovered,capital.allocation.shortage,"capital uncovered gap");
  near(capital.plan.surplus,capital.allocation.excess,"capital surplus");
- near(capital.allocation.segments.reduce((sum,x)=>sum+x.share,0),100,"stack percentage totals",.00001);
+ near(capital.allocation.segments.reduce((sum,x)=>sum+x.share,0),
+   capital.plan.totalUses>0?100:0,"stack percentage totals",.00001);
  if(loan.available&&options.loan.mode==="modeled")
   near(loan.loan.principal,debt.proceeds,"loan modeled principal");
  if(options.investment.debtMode==="modeled")
