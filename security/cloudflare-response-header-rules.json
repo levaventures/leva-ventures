@@ -1,0 +1,62 @@
+{
+  "$schema_note": "Cloudflare zone Rulesets API: these are example rules for http_response_headers_transform. DO NOT replace an existing ruleset; integrate with existing rules after audit. HTTPS/HSTS is configured separately in Cloudflare edge settings.",
+  "phase": "http_response_headers_transform",
+  "rules": [
+    {
+      "ref": "leva_secure_non_embeddable_production",
+      "description": "Leva production pages: header defenses without breaking previews or calculator embed",
+      "expression": "(http.host in {\"levaventures.com\" \"www.levaventures.com\"} and not starts_with(http.request.uri.path, \"/previews/\") and not (http.request.uri.path eq \"/tools/commercial-real-estate-loan-calculator/\" or http.request.uri.path eq \"/tools/commercial-real-estate-loan-calculator/index.html\"))",
+      "action": "rewrite",
+      "action_parameters": {
+        "headers": {
+          "X-Content-Type-Options": {
+            "operation": "set",
+            "value": "nosniff"
+          },
+          "Referrer-Policy": {
+            "operation": "set",
+            "value": "strict-origin-when-cross-origin"
+          },
+          "Permissions-Policy": {
+            "operation": "set",
+            "value": "camera=(), microphone=(), geolocation=(), payment=()"
+          },
+          "X-Frame-Options": {
+            "operation": "set",
+            "value": "DENY"
+          },
+          "Content-Security-Policy": {
+            "operation": "set",
+            "value": "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://formspree.io https://challenges.cloudflare.com; form-action 'self' https://formspree.io; frame-src https://challenges.cloudflare.com; worker-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+          }
+        }
+      }
+    },
+    {
+      "ref": "leva_secure_embeddable_original_calculator",
+      "description": "Leva original calculator: preserve documented third-party iframe embeds",
+      "expression": "(http.host in {\"levaventures.com\" \"www.levaventures.com\"} and (http.request.uri.path eq \"/tools/commercial-real-estate-loan-calculator/\" or http.request.uri.path eq \"/tools/commercial-real-estate-loan-calculator/index.html\"))",
+      "action": "rewrite",
+      "action_parameters": {
+        "headers": {
+          "X-Content-Type-Options": {
+            "operation": "set",
+            "value": "nosniff"
+          },
+          "Referrer-Policy": {
+            "operation": "set",
+            "value": "strict-origin-when-cross-origin"
+          },
+          "Permissions-Policy": {
+            "operation": "set",
+            "value": "camera=(), microphone=(), geolocation=(), payment=()"
+          },
+          "Content-Security-Policy": {
+            "operation": "set",
+            "value": "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'; upgrade-insecure-requests"
+          }
+        }
+      }
+    }
+  ]
+}
