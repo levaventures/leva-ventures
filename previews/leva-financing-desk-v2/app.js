@@ -163,5 +163,7 @@ $("print").addEventListener("click",()=>{if(current&&globalThis.LVDeskReportUI?.
 window.addEventListener("resize",()=>{if(sensitivityPlot){const width=Math.max(200,Math.round($("sensitivity-chart").getBoundingClientRect().width));if(Math.abs(width-sensitivityPlot.width)>2)sensitivityPlot.setSize({width,height:205});}});
 if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.setup();
 if(globalThis.LVDeskReportUI)globalThis.LVDeskReportUI.setup();
+const requestedModule=new URLSearchParams(location.search).get("module");
+if(["debt","loan","refinance","capital","scenarios","investment","waterfall","report"].includes(requestedModule))active=requestedModule;
 calculate();switchPanel(active);
 })();
