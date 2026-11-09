@@ -25,11 +25,13 @@
       <p class="sidebar-intro">One set of assumptions. A clearer picture of financing capacity and risk.</p>
       <nav class="module-nav" aria-label="Analysis modules">
         <button type="button" class="module active" data-panel="debt" aria-controls="panel-debt" aria-pressed="true"><span>01</span> Debt Capacity</button>
-        <button type="button" class="module" data-panel="refinance" aria-controls="panel-refinance" aria-pressed="false"><span>02</span> Refinance Intelligence</button>
-        <button type="button" class="module" data-panel="scenarios" aria-controls="panel-scenarios" aria-pressed="false"><span>03</span> Scenario Lab</button>
-        <button type="button" class="module" data-panel="report" aria-controls="panel-report" aria-pressed="false"><span>04</span> Analysis Report</button>
+        <button type="button" class="module" data-panel="loan" aria-controls="panel-loan" aria-pressed="false"><span>02</span> Loan &amp; Balloon</button>
+        <button type="button" class="module" data-panel="refinance" aria-controls="panel-refinance" aria-pressed="false"><span>03</span> Refinance Intelligence</button>
+        <button type="button" class="module" data-panel="capital" aria-controls="panel-capital" aria-pressed="false"><span>04</span> Capital Structure</button>
+        <button type="button" class="module" data-panel="scenarios" aria-controls="panel-scenarios" aria-pressed="false"><span>05</span> Scenario Lab</button>
+        <button type="button" class="module" data-panel="report" aria-controls="panel-report" aria-pressed="false"><span>06</span> Analysis Report</button>
       </nav>
-      <p class="sidebar-note">Phase 1 preview: these four workspaces are functional. Additional modules are not represented as complete.</p>
+      <p class="sidebar-note">Phase 1 review: six linked workspaces. Investment IRR and equity waterfalls are not yet included.</p>
       <a class="public-link" href="/tools/commercial-real-estate-loan-calculator/">Return to existing live calculator</a>
     </aside>
     <main id="workspace" class="workspace">
@@ -71,6 +73,28 @@
             <section class="sensitivity" aria-labelledby="sensitivity-title"><h4 id="sensitivity-title">NOI sensitivity · senior capacity</h4><p class="fineprint">How the three independent debt limits change as underwritten NOI changes. The lowest limit controls.</p><div id="sensitivity-chart" class="sensitivity-chart" aria-hidden="true"></div><div class="table-scroll"><table class="data-table"><caption>Accessible NOI sensitivity data</caption><thead><tr><th scope="col">NOI change</th><th scope="col">DSCR ceiling</th><th scope="col">LTV ceiling</th><th scope="col">Debt yield ceiling</th><th scope="col">Senior proceeds</th></tr></thead><tbody id="sensitivity-table"></tbody></table></div></section>
             <div class="insight" role="status"><strong id="debt-headline">—</strong><p id="debt-explanation">—</p><p id="next-constraint">—</p></div>
           </section>
+          <section id="panel-loan" class="result-panel surface" aria-labelledby="loan-title" hidden>
+            <div class="section-heading"><span class="overline">02 / MORTGAGE STRUCTURE</span><h3 id="loan-title">Loan payments &amp; balloon analysis</h3><p>Uses the interest rate and amortization period from shared deal assumptions.</p></div>
+            <div class="module-options">
+              <div class="field"><label for="loan-mode">Loan principal source</label><select id="loan-mode"><option value="modeled">Modeled senior loan proceeds</option><option value="custom">Custom hypothetical loan</option></select></div>
+              <div class="field" id="loan-custom-group" hidden><label for="loan-amount">Custom principal <span>USD</span></label><input id="loan-amount" type="number" min="0.01" step="any" value="1000000"></div>
+              <div class="field"><label for="loan-term">Loan maturity <span>years</span></label><input id="loan-term" type="number" min="0.083333333" max="100" step="any" value="10"></div>
+              <label class="check"><input id="loan-io" type="checkbox"> Interest-only payments throughout the selected term</label>
+            </div>
+            <p id="loan-error" class="form-error" role="alert" hidden></p>
+            <p id="loan-provenance" class="fineprint">Using the maximum modeled senior loan.</p>
+            <div class="kpi-grid">
+              <div class="kpi"><small>MONTHLY PAYMENT</small><strong id="loan-monthly">—</strong></div>
+              <div class="kpi"><small>BALLOON AT MATURITY</small><strong id="loan-balloon">—</strong></div>
+              <div class="kpi"><small>ANNUALIZED DEBT SERVICE</small><strong id="loan-annual">—</strong></div>
+              <div class="kpi"><small>INTEREST OVER LOAN TERM</small><strong id="loan-total-interest">—</strong></div>
+            </div>
+            <h4>Remaining principal through maturity</h4>
+            <div id="amort-chart" class="sensitivity-chart" aria-hidden="true"></div>
+            <div class="table-scroll"><table class="data-table"><caption>Outstanding loan balance at the end of each year, or final partial year</caption><thead><tr><th scope="col">Month</th><th scope="col">Remaining principal</th></tr></thead><tbody id="loan-year-table"></tbody></table></div>
+            <button type="button" class="primary export" id="loan-csv">Download monthly amortization CSV</button>
+            <p class="fineprint">Payments are assumed due at the end of each month. Loan maturity and amortization are distinct. Custom principal does not override underwriting capacity, refinancing proceeds, or the capital-stack senior loan.</p>
+          </section>
           <section id="panel-refinance" class="result-panel surface" aria-labelledby="ref-title" hidden>
             <div class="section-heading"><span class="overline">02 / REFINANCING</span><h3 id="ref-title">What remains to be funded?</h3></div>
             <div class="hero-metric warning"><small>MODELED REFINANCE FUNDING GAP</small><strong id="ref-gap">—</strong><span id="ref-gap-subtitle">Senior proceeds versus closing uses</span></div>
@@ -78,6 +102,30 @@
             <h4>What would support a fully funded refinance?</h4>
             <dl class="ledger"><div><dt>Required NOI at assumed lender rules</dt><dd id="req-noi">—</dd></div><div><dt>Required collateral value at assumed LTV</dt><dd id="req-value">—</dd></div></dl>
             <p class="fineprint">Both NOI and value requirements must be satisfied together. They do not guarantee financeability or lender acceptance.</p>
+          </section>
+          <section id="panel-capital" class="result-panel surface" aria-labelledby="capital-title" hidden>
+            <div class="section-heading"><span class="overline">04 / SOURCES AND USES</span><h3 id="capital-title">Illustrative capital structure</h3><p>Layer potential supplemental capital and sponsor cash onto modeled senior proceeds.</p></div>
+            <div class="module-options capital-options">
+              <div class="field"><label for="capital-type">Supplemental capital type</label><select id="capital-type"><option value="junior-debt">Junior debt (interest-only)</option><option value="preferred-equity">Preferred equity (current-pay distribution)</option></select></div>
+              <div class="field"><label for="capital-amount">Additional capital <span>USD</span></label><input id="capital-amount" type="number" min="0" step="any" value="500000"></div>
+              <div class="field"><label for="capital-sponsor">Sponsor cash <span>USD</span></label><input id="capital-sponsor" type="number" min="0" step="any" value="350000"></div>
+              <div class="field"><label for="capital-rate">Cash-pay rate <span>% / yr</span></label><input id="capital-rate" type="number" min="0" max="100" step="any" value="12"></div>
+              <div class="field"><label for="capital-fee">Upfront capital fee <span>%</span></label><input id="capital-fee" type="number" min="0" max="100" step="any" value="2"></div>
+            </div>
+            <p id="capital-error" class="form-error" role="alert" hidden></p>
+            <div class="kpi-grid">
+              <div class="kpi"><small>TOTAL CLOSING USES</small><strong id="capital-uses">—</strong></div>
+              <div class="kpi"><small>TOTAL MODELED SOURCES</small><strong id="capital-sources">—</strong></div>
+              <div class="kpi"><small>UNFUNDED SHORTFALL</small><strong id="capital-gap">—</strong></div>
+              <div class="kpi"><small>EXCESS MODELED SOURCES</small><strong id="capital-excess">—</strong></div>
+            </div>
+            <h4>Allocation of closing uses</h4>
+            <div id="capital-stack-bars" class="stack-bars" aria-hidden="true"></div>
+            <table class="data-table"><caption>Source amounts, portions applied to uses and remaining gap</caption><thead><tr><th scope="col">Layer</th><th scope="col">Modeled amount</th><th scope="col">Applied to uses</th><th scope="col">Share of uses</th></tr></thead><tbody id="capital-stack-table"></tbody></table>
+            <dl class="ledger"><div><dt>Supplemental upfront fees</dt><dd id="capital-fees">—</dd></div><div><dt>Supplemental annual cash-pay</dt><dd id="capital-cashpay">—</dd></div><div><dt>Senior debt service + modeled supplemental cash-pay</dt><dd id="capital-obligations">—</dd></div><div><dt>Illustrative NOI / total cash-pay burden</dt><dd id="capital-coverage">—</dd></div></dl>
+            <p class="fineprint" id="capital-disclosure">No source of additional capital has been identified or confirmed.</p>
+            <ul class="capital-flags" id="capital-flags" aria-label="Capital structure cautions"></ul>
+            <p class="fineprint">The visualization shows allocation toward closing uses, not lien priority or a legal distribution waterfall. Preferred-equity distributions are not debt service for lender DSCR purposes.</p>
           </section>
           <section id="panel-scenarios" class="result-panel surface" aria-labelledby="scenario-title" hidden>
             <div class="section-heading"><span class="overline">03 / SCENARIO COMPARISON</span><h3 id="scenario-title">Stress-test the financing</h3></div>
@@ -97,6 +145,9 @@
             <dl class="ledger"><div><dt>Senior loan capacity</dt><dd id="report-loan">—</dd></div><div><dt>Required uses</dt><dd id="report-uses">—</dd></div><div><dt>Funding gap</dt><dd id="report-gap">—</dd></div></dl>
             <h4>Key model assumptions</h4>
             <table class="data-table"><caption>Inputs used for this report</caption><tbody id="report-inputs"></tbody></table>
+            <h4>Loan and structured capital cross-check</h4>
+            <dl class="ledger"><div><dt>Modeled loan payment</dt><dd id="report-loan-payment">—</dd></div><div><dt>Modeled loan balloon</dt><dd id="report-balloon">—</dd></div><div><dt>Capital stack remaining gap</dt><dd id="report-stack-gap">—</dd></div></dl>
+            <p class="fineprint">Loan payments reflect the separately selected loan term and principal source. Capital-stack results include separately entered hypothetical contributions and fees.</p>
             <h4>Methodology and limitations</h4>
             <p class="fineprint">The lowest of DSCR, LTV and debt-yield ceilings controls modeled senior proceeds. Monthly debt service uses nominal annual interest divided by 12 and equal end-of-month amortizing payments. Cash gap equals the positive difference between total closing uses and senior proceeds. Results are not underwritten offers, commitments, investment advice or approved financing terms.</p>
             <button class="primary" type="button" id="print">Print / save PDF locally</button>
@@ -120,6 +171,9 @@
   </div>
   <script src="../../tools/commercial-real-estate-loan-calculator/finance.js" defer></script>
   <script src="../../tools/commercial-real-estate-loan-calculator/desk-core.js" defer></script>
+  <script src="../../tools/commercial-real-estate-loan-calculator/strategy.js" defer></script>
+  <script src="../../tools/commercial-real-estate-loan-calculator/capital-stack.js" defer></script>
+  <script src="../../tools/commercial-real-estate-loan-calculator/desk-bridge.js" defer></script>
   <script src="./vendor/uplot/uPlot.iife.min.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
