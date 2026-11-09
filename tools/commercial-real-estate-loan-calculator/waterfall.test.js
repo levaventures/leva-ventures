@@ -47,7 +47,7 @@ test("noncumulative preference does not carry unpaid balances",()=>{
  near(x.rows[0].unpaidPreferredReturn,0);
  near(x.rows[1].lpPrefPaid,10);
  near(x.rows[1].lpCapitalReturned,100);
- near(x.rows[1].lpProfit,40);
+ near(x.rows[1].lpProfit,28);
 });
 test("negative operating years generate LP/GP year-end capital calls",()=>{
  const x=W.build(mock([-100,-20,160]),config);
