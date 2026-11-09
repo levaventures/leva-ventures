@@ -6,9 +6,9 @@ const {chromium}=require("playwright"),axe=require("axe-core");
  try{
   for(const width of [1440,390]){
    const page=await browser.newPage({viewport:{width,height:900}});
+   await page.addInitScript({content:axe.source});
    await page.goto("file://"+path.resolve(__dirname,"index.html"));
    await page.waitForFunction(()=>document.querySelector("#debt-proceeds").textContent.startsWith("$"));
-   await page.addScriptTag({content:axe.source});
    for(const panel of ["debt","loan","refinance","capital","scenarios","report"]){
     await page.locator('[data-panel="'+panel+'"]').click();
     if(panel==="loan")await page.waitForFunction(()=>document.querySelector("#amort-chart .uplot"));
