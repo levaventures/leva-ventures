@@ -138,6 +138,8 @@ header {
 }
 .nav-links a:hover { color: var(--gold-light); }
 
+.mobile-calculator-btn { display: none; }
+
 .mobile-insights-link {
   display: none;
   color: var(--gold-light);
@@ -560,6 +562,7 @@ footer {
 }
 
 @media (max-width: 620px) {
+  .mobile-calculator-btn { display: inline-flex; }
   .container { width: min(100% - 32px, 1180px); }
   .nav { height: 76px; }
   .brand-name { font-size: .57rem; }
@@ -1035,6 +1038,7 @@ footer {
     <h1>Connecting<br><em>Opportunity</em><br>to Capital.</h1>
     <p>Leva Ventures identifies qualified opportunities, understands their capital requirements, and connects the right transactions with potentially appropriate private capital relationships.</p>
     <div class="hero-actions">
+      <a class="btn secondary mobile-calculator-btn" href="/tools/commercial-real-estate-loan-calculator/">Free Calculator</a>
       <a class="btn" href="#contact">Submit an Opportunity</a>
       <a class="btn secondary" href="#services">Explore Our Approach</a>
     </div>
