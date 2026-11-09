@@ -7,6 +7,7 @@
   <meta name="referrer" content="strict-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'self'; object-src 'none'; frame-src 'none'">
   <title>Financing Intelligence Desk V2 — Internal Review | Leva Ventures</title>
+  <link rel="stylesheet" href="./vendor/uplot/uPlot.min.css">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -67,6 +68,7 @@
             <h4>What constrains the loan?</h4>
             <div id="limit-bars" class="bars" aria-hidden="true"></div>
             <table class="data-table"><caption>Independent debt capacity ceilings</caption><thead><tr><th scope="col">Sizing test</th><th scope="col">Loan limit</th></tr></thead><tbody id="limit-table"></tbody></table>
+            <section class="sensitivity" aria-labelledby="sensitivity-title"><h4 id="sensitivity-title">NOI sensitivity · senior capacity</h4><p class="fineprint">How the three independent debt limits change as underwritten NOI changes. The lowest limit controls.</p><div id="sensitivity-chart" class="sensitivity-chart" aria-hidden="true"></div><div class="table-scroll"><table class="data-table"><caption>Accessible NOI sensitivity data</caption><thead><tr><th scope="col">NOI change</th><th scope="col">DSCR ceiling</th><th scope="col">LTV ceiling</th><th scope="col">Debt yield ceiling</th><th scope="col">Senior proceeds</th></tr></thead><tbody id="sensitivity-table"></tbody></table></div></section>
             <div class="insight" role="status"><strong id="debt-headline">—</strong><p id="debt-explanation">—</p><p id="next-constraint">—</p></div>
           </section>
           <section id="panel-refinance" class="result-panel surface" aria-labelledby="ref-title" hidden>
@@ -118,6 +120,7 @@
   </div>
   <script src="../../tools/commercial-real-estate-loan-calculator/finance.js" defer></script>
   <script src="../../tools/commercial-real-estate-loan-calculator/desk-core.js" defer></script>
+  <script src="./vendor/uplot/uPlot.iife.min.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
 </html>
