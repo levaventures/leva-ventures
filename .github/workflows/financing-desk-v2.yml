@@ -1,0 +1,41 @@
+name: Financing Intelligence Desk V2 Review
+on:
+  pull_request:
+    paths:
+      - 'previews/leva-financing-desk-v2/**'
+      - 'tools/commercial-real-estate-loan-calculator/desk-core*'
+      - '.github/workflows/financing-desk-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desk-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate existing core alongside v2 independent underwriting tests
+        run: |
+          node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/desk-core.test.js
+      - name: Check for private-only preview and local-only calculations
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const dir='previews/leva-financing-desk-v2/';
+          const html=fs.readFileSync(dir+'index.html','utf8');
+          const js=fs.readFileSync(dir+'app.js','utf8');
+          if(!html.includes('noindex,nofollow'))throw new Error('Preview must remain noindex');
+          for(const file of ['finance.js','desk-core.js','app.js','style.css'])
+            if(!html.includes(file))throw new Error('Missing asset reference: '+file);
+          for(const forbidden of ['fetch(', 'sendBeacon(', 'localStorage', 'sessionStorage', 'XMLHttpRequest', 'innerHTML='])
+            if(js.includes(forbidden))throw new Error('Disallowed data sink in prototype: '+forbidden);
+          console.log('Preview constraints checked');
+          NODE
+      - name: Install browser testing tools
+        run: |
+          npm install --no-save playwright
+          npx playwright install chromium --with-deps
+      - name: Desktop and mobile prototype smoke tests
+        run: node previews/leva-financing-desk-v2/browser.test.js
