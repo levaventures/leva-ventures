@@ -66,7 +66,9 @@ const assert=require("node:assert/strict"),path=require("node:path"),{chromium}=
    const lp=await page.locator("#waterfall-lp").innerText();
    assert.match(lp,/^\$/);
    await page.locator("#waterfall-lpshare").fill("100");
+   await page.locator("#waterfall-residual").fill("100");
    assert.equal(await page.locator("#waterfall-gp").innerText(),"$0");
+   await page.locator("#waterfall-residual").fill("70");
    await page.locator("#waterfall-lpshare").fill("90");
    await page.locator("#waterfall-cumulative").uncheck();
    await page.locator("#waterfall-compound").check();
