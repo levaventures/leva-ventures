@@ -126,6 +126,7 @@ function calculate(){
   const cases=renderScenarios(a);
   renderDebt(r);renderSensitivity(r);renderRef(r);renderReport(r);
   if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.update(r);
+  if(globalThis.LVInvestmentUI)globalThis.LVInvestmentUI.update(r);
   set("context-headline",r.diagnostic.headline);
   set("context-message","Senior capacity "+usd(r.proceeds)+". Closing requirement "+usd(r.totalUses)+". "+(r.gap?"Unfunded amount "+usd(r.gap)+".":"No modeled gap.")+" Downside gap "+usd(cases[1].gap)+".");
   current=r;$("error").hidden=true;$("error").textContent="";
@@ -137,9 +138,9 @@ function calculate(){
  }
 }
 function switchPanel(name){
- if(!["debt","loan","refinance","capital","scenarios","report"].includes(name))return;
+ if(!["debt","loan","refinance","capital","scenarios","investment","waterfall","report"].includes(name))return;
  active=name;
- const titles={debt:"Debt Capacity",loan:"Loan & Balloon",refinance:"Refinance Intelligence",capital:"Capital Structure",scenarios:"Scenario Lab",report:"Analysis Report"};
+ const titles={debt:"Debt Capacity",loan:"Loan & Balloon",refinance:"Refinance Intelligence",capital:"Capital Structure",scenarios:"Scenario Lab",investment:"Investment Returns",waterfall:"Equity Waterfall",report:"Analysis Report"};
  set("workspace-title",titles[name]);
  for(const btn of document.querySelectorAll(".module")){
   const on=btn.dataset.panel===name;
@@ -152,6 +153,7 @@ for(const input of document.querySelectorAll("input, select"))input.addEventList
 $("reset").addEventListener("click",()=>{
  for(const [id,val] of Object.entries(defaultValues))$(id).value=val;
  if(globalThis.LVDeskPanels)globalThis.LVDeskPanels.reset();
+ if(globalThis.LVInvestmentUI)globalThis.LVInvestmentUI.reset();
  calculate();
 });
 $("print").addEventListener("click",()=>{if(current)window.print();});
