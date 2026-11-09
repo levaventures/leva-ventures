@@ -132,6 +132,7 @@ function calculate(){
   current=r;$("error").hidden=true;$("error").textContent="";
  }catch(error){
   current=null;$("error").textContent=error.message;$("error").hidden=false;
+  if(globalThis.LVInvestmentUI)globalThis.LVInvestmentUI.clear();
   for(const id of ["debt-proceeds","ref-gap","report-loan","report-gap","debt-headline","context-headline","loan-monthly","capital-uses"])
    set(id,"—");
   $("limit-bars").replaceChildren();$("limit-table").replaceChildren();$("scenario-table").replaceChildren();$("report-inputs").replaceChildren();
