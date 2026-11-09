@@ -41,6 +41,48 @@ function renderDebt(r){
   fill.style.width=Math.max(0,100*test.amount/high)+"%";track.append(fill);visual.append(label,track);bars.append(visual);
  }
 }
+
+let sensitivityPlot=null;
+function renderSensitivity(r){
+ const changes=[-20,-10,0,10,20];
+ const rows=changes.map(change=>{
+  const result=D.analyze({...r.assumptions,noi:r.assumptions.noi*(1+change/100)});
+  return {change,DSCR:result.rankedLimits.find(x=>x.name==="DSCR").amount,
+   LTV:result.rankedLimits.find(x=>x.name==="LTV").amount,
+   debtYield:result.rankedLimits.find(x=>x.name==="Debt yield").amount,
+   proceeds:result.proceeds};
+ });
+ const tbody=$("sensitivity-table");tbody.replaceChildren();
+ for(const row of rows){
+  const tr=el("tr","");
+  for(const value of [(row.change>0?"+":"")+row.change+"%",usd(row.DSCR),usd(row.LTV),usd(row.debtYield),usd(row.proceeds)])
+   tr.append(el("td",value));
+  tbody.append(tr);
+ }
+ if(typeof globalThis.uPlot!=="function")return;
+ const node=$("sensitivity-chart"),w=Math.max(200,Math.round(node.getBoundingClientRect().width));
+ const data=[rows.map(a=>a.change),rows.map(a=>a.DSCR),rows.map(a=>a.LTV),rows.map(a=>a.debtYield),rows.map(a=>a.proceeds)];
+ if(sensitivityPlot){sensitivityPlot.setData(data);return;}
+ const options={
+  title:"",width:w,height:205,
+  padding:[8,4,6,4],
+  legend:{show:false},
+  cursor:{show:false},
+  scales:{x:{time:false}},
+  axes:[
+   {stroke:"#b9c6d2",grid:{stroke:"#344252"},ticks:{stroke:"#344252"},values:(u,values)=>values.map(n=>n+"%"),size:38},
+   {stroke:"#b9c6d2",grid:{stroke:"#344252"},ticks:{stroke:"#344252"},values:(u,values)=>values.map(n=>n>=1e6?(n/1e6).toFixed(1)+"m":(n/1e3).toFixed(0)+"k"),size:49}
+  ],
+  series:[{},
+   {label:"DSCR",stroke:"#b8a0df",width:2,points:{show:true,size:4}},
+   {label:"LTV",stroke:"#8ea6bd",width:2,points:{show:true,size:4}},
+   {label:"Debt yield",stroke:"#7ec2b6",width:2,points:{show:true,size:4}},
+   {label:"Senior proceeds",stroke:"#d0a75c",width:3,points:{show:true,size:5}}
+  ]
+ };
+ sensitivityPlot=new uPlot(options,data,node);
+}
+
 function renderRef(r){
  set("ref-gap",usd(r.gap));
  set("ref-gap-subtitle",r.gap>0?"Additional sources required before closing":"No modeled funding gap");
@@ -82,7 +124,7 @@ function calculate(){
  try{
   const a=assumptions(),r=D.analyze(a);
   const cases=renderScenarios(a);
-  renderDebt(r);renderRef(r);renderReport(r);
+  renderDebt(r);renderSensitivity(r);renderRef(r);renderReport(r);
   set("context-headline",r.diagnostic.headline);
   set("context-message","Senior capacity "+usd(r.proceeds)+". Closing requirement "+usd(r.totalUses)+". "+(r.gap?"Unfunded amount "+usd(r.gap)+".":"No modeled gap.")+" Downside gap "+usd(cases[1].gap)+".");
   current=r;$("error").hidden=true;$("error").textContent="";
@@ -111,5 +153,6 @@ $("reset").addEventListener("click",()=>{
  calculate();
 });
 $("print").addEventListener("click",()=>{if(current)window.print();});
+window.addEventListener("resize",()=>{if(sensitivityPlot){const width=Math.max(200,Math.round($("sensitivity-chart").getBoundingClientRect().width));if(Math.abs(width-sensitivityPlot.width)>2)sensitivityPlot.setSize({width,height:205});}});
 calculate();switchPanel(active);
 })();
