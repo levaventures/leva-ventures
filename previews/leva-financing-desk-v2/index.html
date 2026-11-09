@@ -70,7 +70,7 @@
             <h4>What constrains the loan?</h4>
             <div id="limit-bars" class="bars" aria-hidden="true"></div>
             <table class="data-table"><caption>Independent debt capacity ceilings</caption><thead><tr><th scope="col">Sizing test</th><th scope="col">Loan limit</th></tr></thead><tbody id="limit-table"></tbody></table>
-            <section class="sensitivity" aria-labelledby="sensitivity-title"><h4 id="sensitivity-title">NOI sensitivity · senior capacity</h4><p class="fineprint">How the three independent debt limits change as underwritten NOI changes. The lowest limit controls.</p><div id="sensitivity-chart" class="sensitivity-chart" aria-hidden="true"></div><div class="table-scroll"><table class="data-table"><caption>Accessible NOI sensitivity data</caption><thead><tr><th scope="col">NOI change</th><th scope="col">DSCR ceiling</th><th scope="col">LTV ceiling</th><th scope="col">Debt yield ceiling</th><th scope="col">Senior proceeds</th></tr></thead><tbody id="sensitivity-table"></tbody></table></div></section>
+            <section class="sensitivity" aria-labelledby="sensitivity-title"><h4 id="sensitivity-title">NOI sensitivity · senior capacity</h4><p class="fineprint">How the three independent debt limits change as underwritten NOI changes. The lowest limit controls.</p><div id="sensitivity-chart" class="sensitivity-chart" aria-hidden="true"></div><div class="table-scroll" tabindex="0" role="region" aria-label="Accessible NOI sensitivity data scrollable table"><table class="data-table"><caption>Accessible NOI sensitivity data</caption><thead><tr><th scope="col">NOI change</th><th scope="col">DSCR ceiling</th><th scope="col">LTV ceiling</th><th scope="col">Debt yield ceiling</th><th scope="col">Senior proceeds</th></tr></thead><tbody id="sensitivity-table"></tbody></table></div></section>
             <div class="insight" role="status"><strong id="debt-headline">—</strong><p id="debt-explanation">—</p><p id="next-constraint">—</p></div>
           </section>
           <section id="panel-loan" class="result-panel surface" aria-labelledby="loan-title" hidden>
@@ -91,7 +91,7 @@
             </div>
             <h4>Remaining principal through maturity</h4>
             <div id="amort-chart" class="sensitivity-chart" aria-hidden="true"></div>
-            <div class="table-scroll"><table class="data-table"><caption>Outstanding loan balance at the end of each year, or final partial year</caption><thead><tr><th scope="col">Month</th><th scope="col">Remaining principal</th></tr></thead><tbody id="loan-year-table"></tbody></table></div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Outstanding loan balance at the end of each year, or final partial year scrollable table"><table class="data-table"><caption>Outstanding loan balance at the end of each year, or final partial year</caption><thead><tr><th scope="col">Month</th><th scope="col">Remaining principal</th></tr></thead><tbody id="loan-year-table"></tbody></table></div>
             <button type="button" class="primary export" id="loan-csv">Download monthly amortization CSV</button>
             <p class="fineprint">Payments are assumed due at the end of each month. Loan maturity and amortization are distinct. Custom principal does not override underwriting capacity, refinancing proceeds, or the capital-stack senior loan.</p>
           </section>
@@ -134,7 +134,7 @@
               <fieldset><legend>Downside</legend><div class="field"><label for="down-noi">NOI change <span>%</span></label><input id="down-noi" type="number" step="any" value="-10"></div><div class="field"><label for="down-rate">Rate change <span>percentage points</span></label><input id="down-rate" type="number" step="any" value="1"></div></fieldset>
               <fieldset><legend>Upside</legend><div class="field"><label for="up-noi">NOI change <span>%</span></label><input id="up-noi" type="number" step="any" value="10"></div><div class="field"><label for="up-rate">Rate change <span>percentage points</span></label><input id="up-rate" type="number" step="any" value="-0.5"></div></fieldset>
             </div>
-            <div class="table-scroll"><table class="data-table"><caption>Three locally calculated financing scenarios</caption><thead><tr><th scope="col">Case</th><th scope="col">Senior limit</th><th scope="col">Gap</th><th scope="col">Binding test</th></tr></thead><tbody id="scenario-table"></tbody></table></div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Three locally calculated financing scenarios scrollable table"><table class="data-table"><caption>Three locally calculated financing scenarios</caption><thead><tr><th scope="col">Case</th><th scope="col">Senior limit</th><th scope="col">Gap</th><th scope="col">Binding test</th></tr></thead><tbody id="scenario-table"></tbody></table></div>
             <p class="fineprint">Scenario changes are displayed explicitly. No lender offers, rates or funding commitments are inferred.</p>
           </section>
           <section id="panel-report" class="result-panel surface" aria-labelledby="report-title" hidden>
