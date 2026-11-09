@@ -7,7 +7,9 @@ Status: **feature branch only; not deployed**. Existing public calculator unchan
 - Model definitions and strict validation for value, underwritten NOI, payoff, costs, reserves, rate, amortization, minimum DSCR, maximum LTV and minimum debt yield.
 - Explicit binding and next-binding constraints, target-loan requirements and standalone cap-rate implied valuation.
 - Three-case analysis (base, downside, upside), with shared assumptions and per-case change audit.
-- A nonindexed responsive internal preview with four functional panels: debt capacity, refinance, scenario comparison, and client-side printable report.
+- Loan and capital adapter (`desk-bridge.js`) reuses existing `finance.js`, `strategy.js` and `capital-stack.js` without reimplementing their formulas. It supports modeled versus user-specified principal, balloon and annual balance analysis, modeled supplemental cash-pay, source/use reconciliation and browser-local amortization CSV.
+- Local uPlot charting and local Lucide SVG navigation assets, with separately included source licenses. No external runtime asset fetch is needed.
+- A nonindexed responsive internal preview with six functional panels: debt capacity, loan & balloon analysis, refinance, capital structure, scenario comparison, and client-side printable report.
 - No change to live calculator markup or existing indexed URL; no outbound collection or persistence of inputs.
 - Independent financing test suite and desktop/mobile Chromium review test in CI.
 
@@ -33,4 +35,17 @@ Phase 1 uses a lightweight dedicated preview rather than replacing the productio
 6. Reassess scope of investments IRR and waterfall *after* contractual conventions are specified and audited.
 
 ## Release gate
-Never merge directly to main until regression, model, accessibility, mobile, SEO and security checks pass. The preview remains noindex and is intentionally not a new public SEO landing page. No live deployment claimed.
+Never merge directly to main until regression, model, accessibility, mobile, SEO and security checks pass. The preview remains noindex and is intentionally not a new public SEO landing page.
+
+## Current six-workspace release testing
+- Bridge-specific unit tests cover amortization, IO loans, zero proceeds, invalid inputs, GP-independent senior capital allocations, preferred equity, and source/use reconciliation.
+- Chromium browser tests exercise loan controls, mobile rendering, capital structures and all existing original screens.
+- Axe-core tests sample all six screens in desktop and mobile browsers for WCAG 2.x A/AA rule families; automated testing alone does not establish full WCAG conformance or ADA certification.
+- The live public calculator URL and original site files are unchanged. Review build remains in draft PR #5.
+
+## Explicit limitations
+- Preferred equity is modeled only as a simple hypothetical current-pay preferred distribution, not as a legal return waterfall or lender DSCR.
+- The capital-stack bars show portions applied toward closing uses, not lien seniority or investment distribution priority.
+- Printable report and downloadable CSV stay browser-local but output is not externally audited underwriting.
+- A custom hypothetical loan amount is not treated as an available lender commitment or automatically inserted into refinance funding assumptions.
+- Full cross-browser assistive-technology testing and all-site production regression results remain separate release gates. No live deployment claimed.
