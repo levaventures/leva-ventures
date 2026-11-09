@@ -23,3 +23,5 @@
 @media print{.module-options,.export{display:none!important}}
 
 .module-icon{width:17px;height:17px;flex:0 0 17px;filter:invert(90%) sepia(16%) saturate(1018%) hue-rotate(348deg) brightness(92%)}.module .module-icon+span{font-size:10px}
+
+.table-scroll:focus-visible{outline:3px solid var(--gold-soft);outline-offset:3px}
