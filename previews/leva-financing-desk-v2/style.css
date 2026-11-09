@@ -25,3 +25,11 @@
 .module-icon{width:17px;height:17px;flex:0 0 17px;filter:invert(90%) sepia(16%) saturate(1018%) hue-rotate(348deg) brightness(92%)}.module .module-icon+span{font-size:10px}
 
 .table-scroll:focus-visible{outline:3px solid var(--gold-soft);outline-offset:3px}
+
+.investment-options,.waterfall-options{margin-bottom:22px}
+.investment-options legend,.waterfall-options legend{grid-column:1/-1}
+.investment-options .field:first-of-type,.waterfall-options .field:first-of-type{grid-column:auto}
+.investment-options .check,.waterfall-options .check{grid-column:1/-1}
+.detail-table{min-width:640px}
+.detail-table th:first-child,.detail-table td:first-child{position:sticky;left:0;background:var(--panel);padding-left:6px}
+@media(max-width:660px){.investment-options,.waterfall-options{grid-template-columns:1fr}}
