@@ -11,6 +11,8 @@ const assert=require("node:assert/strict"),path=require("node:path"),{chromium}=
    assert.equal(errors.length,0,errors.join("; "));
    assert.equal(await page.locator("#debt-proceeds").innerText(),"$4,691,080");
    assert.equal(await page.locator("#binding-note").innerText(),"Binding test: DSCR");
+   assert.equal(await page.locator("#sensitivity-table tr").count(),5);
+   assert.equal(await page.locator("#sensitivity-chart .uplot").count(),1);
    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1);
    assert.equal(overflow,false,"Horizontal overflow at "+width);
    await page.getByRole("button",{name:/Refinance Intelligence/}).click();
@@ -19,6 +21,7 @@ const assert=require("node:assert/strict"),path=require("node:path"),{chromium}=
    await page.locator("#noi").fill("572000");
    assert.equal(await page.locator("#debt-proceeds").innerText(),"$5,160,188");
    assert.equal(await page.locator("#binding-note").innerText(),"Binding test: DSCR");
+   assert.equal(await page.locator("#sensitivity-table tr").count(),5);
    await page.getByRole("button",{name:/Scenario Lab/}).click();
    assert.equal(await page.locator("#scenario-table tr").count(),3);
    await page.getByRole("button",{name:/Analysis Report/}).click();
