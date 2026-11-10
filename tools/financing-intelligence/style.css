@@ -90,4 +90,17 @@
 .public-guide-faq summary{cursor:pointer;color:#f2eee3}
 .public-guide-faq details p,.public-guide-note{font-size:13px}
 @media(max-width:720px){.public-guide-grid{grid-template-columns:1fr}.public-guide{padding:18px 14px}}
-@media print{.public-guide{display:none!important}}
+
+/* Opt-in commercial financing inquiry; never includes calculated deal inputs. */
+.sidebar-detail{font-size:12px;line-height:1.6;color:#bfc7cf;margin-top:13px}
+.context-cta{display:block;padding:12px 13px;margin-top:14px;border-radius:6px;background:var(--gold-soft);color:#101821!important;font-weight:700;text-align:center;text-decoration:none}
+.context-cta:hover,.inquiry-button:hover{filter:brightness(1.08)}
+.context-cta:focus-visible,.inquiry-button:focus-visible{outline:3px solid #ffffff;outline-offset:3px}
+.inquiry-cta{margin-top:24px;padding:24px 26px;display:flex;gap:26px;align-items:center;justify-content:space-between;background:#1b2836;border:1px solid var(--stroke);border-radius:9px}
+.inquiry-cta h2{margin:0 0 10px;color:#f5f1e9;font:500 clamp(22px,2.4vw,30px)/1.2 Georgia,serif}
+.inquiry-cta p{color:#c8d0d8;line-height:1.6;margin:8px 0;max-width:76ch}
+.inquiry-cta .fineprint{font-size:12px;color:var(--muted)}
+.inquiry-button{flex:0 0 auto;display:inline-block;padding:14px 20px;border-radius:6px;background:var(--gold-soft);color:#101821;font-weight:700;text-align:center;text-decoration:none;max-width:100%}
+@media(max-width:800px){.inquiry-cta{flex-direction:column;align-items:stretch;padding:18px 16px}.inquiry-button{width:100%}}
+
+@media print{.public-guide,.inquiry-cta{display:none!important}}
