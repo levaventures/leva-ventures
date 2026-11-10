@@ -25,7 +25,9 @@ test("V2 NVDA speaks accessible names across all eight navigation buttons",async
    await nvda.perform(nvda.keyboardCommands.reportCurrentFocus);
    const speech=await nvda.lastSpokenPhrase();
    console.log("NVDA V2 module",id,JSON.stringify(speech));
-   expect(speech.toLowerCase()).toContain(name.toLowerCase());
+   // NVDA normally speaks an ampersand as the word "and"; both are correct accessible names.
+   const normalized=text=>text.toLowerCase().replace(/&/g,"and").replace(/\s+/g," ").trim();
+   expect(normalized(speech)).toContain(normalized(name));
    await button.press("Enter");
    await expect(button).toHaveAttribute("aria-pressed","true");
    await expect(page.locator("#panel-"+id)).toBeVisible();
