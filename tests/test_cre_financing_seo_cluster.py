@@ -58,7 +58,9 @@ for slug in SLUGS:
 sitemap=ET.fromstring((ROOT/"sitemap.xml").read_text("utf-8"))
 ns="{http://www.sitemaps.org/schemas/sitemap/0.9}"
 sitemap_urls=[x.text for x in sitemap.findall(f"{ns}url/{ns}loc")]
-assert len(sitemap_urls)==11 and len(set(sitemap_urls))==11
+assert len(sitemap_urls)==12 and len(set(sitemap_urls))==12
+assert "https://levaventures.com/tools/financing-intelligence/" in sitemap_urls
+assert "https://levaventures.com/tools/commercial-real-estate-loan-calculator/" in sitemap_urls
 for u in urls: assert u in sitemap_urls,u
 
 rss=ET.fromstring((ROOT/"insights"/"feed.xml").read_text("utf-8"))
