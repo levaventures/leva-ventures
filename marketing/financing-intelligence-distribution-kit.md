@@ -55,7 +55,7 @@ For every public post, editorial submission, email, partner newsletter, or socia
 
 https://levaventures.com/tools/financing-intelligence/
 
-The original calculator's clean URL is https://levaventures.com/tools/commercial-real-estate-loan-calculator/ . Do not append source=chatgpt, utm_source, tracking IDs or other suffixes. Do not copy a link's address after clicking it through an app that may have added a referral query; copy this exact text instead. Referral-source identification, when needed, comes from aggregate analytics and visitors' optional answers on the contact form. Never transmit calculator inputs.
+The original calculator's clean URL is https://levaventures.com/tools/commercial-real-estate-loan-calculator/ . Do not append referral identifiers, campaign tags, tracking IDs or other suffixes. Do not copy a link's address after clicking it through an app that may have added a referral query; copy this exact text instead. Referral-source identification, when needed, comes from aggregate analytics and visitors' optional answers on the contact form. Never transmit calculator inputs.
 
 Track: referral sessions, engaged visits, calculator interactions (without financial values), voluntary contact-form conversions, qualified conversations, and originating channel. Do not optimize to raw traffic or purchased backlinks.
 
@@ -85,7 +85,7 @@ All distribution destinations below use the **same clean, direct URL**. No chann
 | Partner newsletter | https://levaventures.com/tools/financing-intelligence/ |
 | Direct CRE referral | https://levaventures.com/tools/financing-intelligence/ |
 
-We no longer use public-facing UTM campaign links or the V2 channel propagation script. Visitors may self-report their referral source using the existing contact form. The V2 calculator retains a **fixed internal origin label** for visitors who voluntarily submit an inquiry, without including any calculator inputs. Channel-specific inquiry attribution is not automatic, and social/search platforms can add their own referral parameters when links are clicked from those interfaces.
+We no longer use public-facing UTM campaign links or the V2 channel propagation script. Visitors may self-report their referral source using the existing contact form. There are no hidden source or channel labels attached through public URL parameters. Channel-specific inquiry attribution is not automatic; use the visible optional Referral Source form field and aggregate referral reports where available. Social/search platforms may append their own parameters to links opened from their interfaces.
 
 ### Qualified audience / editorial fit
 
@@ -140,15 +140,15 @@ I'm with Leva Ventures, LLC, a private capital sourcing and opportunity firm. An
 | V2 search clicks and queries | Search Console | Aggregate search visibility, not individual visitor tracking |
 | Site and V2 pageviews | Cloudflare zone/Web Analytics, if enabled | Aggregate only; verify domain-specific instrument coverage |
 | Optional distribution referrals | Aggregate referral analytics where available | Do not assert attribution without measurable evidence |
-| Voluntary inquiries from V2 | Formspree `lead_origin=financing_desk_v2` | Count received submissions, excluding tests/spam |
-| Self-reported referral channel | Voluntary `referral_source` selection in Formspree | Count only responses users chose to provide; may be incomplete |
+| Total voluntary opportunity inquiries | Formspree submission count | Count received submissions, excluding tests/spam; no automatic V2-source attribution |
+| Self-reported referral channel | Optional `referral_source` selection in Formspree | Count only responses users chose to provide; may be incomplete and is not guaranteed V2-specific |
 | Qualified conversations | Owner-maintained tracker | Only high-level deal status, no high-risk PII; keep source and status separate from input financials |
 | Opportunities accepted for preliminary evaluation | Owner tracker | Follow regulatory and engagement constraints; never call submissions guaranteed fundings |
 
-**Important measurement limitation:** This is opt-in *inquiry-source* attribution plus self-reported referral context, not complete per-channel or identity-level conversion tracking. Referral performance and click-to-submission conversion rates require aggregate page/referral counts from an appropriately configured analytics provider and verified matching definitions. No new tracking beacon is installed by this campaign.
+**Important measurement limitation:** This is aggregate referral measurement plus optional self-reported referral context, not reliable V2-specific or identity-level conversion tracking. Referral performance and click-to-submission conversion rates require aggregate page/referral counts from an appropriately configured analytics provider and verified matching definitions. No new tracking beacon is installed by this campaign.
 
 ### Example weekly funnel summary
 
-Period: [week ending] | Page visits: [verified aggregate] | V2-origin submissions: [count] | Self-reported LinkedIn submissions: [count] | Self-reported editorial submissions: [count] | Qualified calls: [count] | Active opportunities: [count].
+Period: [week ending] | V2 page visits: [verified aggregate] | Total voluntary inquiries: [count] | Self-reported LinkedIn referrals: [count] | Self-reported editorial referrals: [count] | Qualified calls: [count] | Active opportunities: [count]. Do not label the inquiry counts as V2 conversions unless independently verified.
 
 Report only observed figures. Do not invent traffic, backlinks, placement, rankings, application approvals or available capital.
