@@ -74,4 +74,5 @@
   .module-nav{grid-template-columns:repeat(2,minmax(0,1fr));overflow-x:visible}
   .module{white-space:normal;overflow-wrap:anywhere;min-width:0;min-height:52px;padding:10px 8px;gap:7px;line-height:1.35;font-size:12px}
   .module-icon{width:15px;height:15px;flex:0 0 15px}
+  .module span{white-space:nowrap;flex:0 0 auto}
 }
