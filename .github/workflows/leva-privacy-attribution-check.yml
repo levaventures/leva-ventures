@@ -6,6 +6,9 @@ on:
       - 'index.html'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'tests/test_calculator_lead_origin.py'
+      - 'tests/attribution-contract.test.cjs'
+      - 'tools/financing-intelligence/campaign-links.js'
+      - 'tools/financing-intelligence/index.html'
       - '.github/workflows/leva-privacy-attribution-check.yml'
   push:
     branches: [main]
@@ -14,6 +17,9 @@ on:
       - 'index.html'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'tests/test_calculator_lead_origin.py'
+      - 'tests/attribution-contract.test.cjs'
+      - 'tools/financing-intelligence/campaign-links.js'
+      - 'tools/financing-intelligence/index.html'
       - '.github/workflows/leva-privacy-attribution-check.yml'
   workflow_dispatch:
 permissions:
@@ -25,3 +31,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: python3 tests/test_calculator_lead_origin.py
       - run: node --check assets/leva-site.js
+      - run: node --check tools/financing-intelligence/campaign-links.js
+      - run: node --test tests/attribution-contract.test.cjs
