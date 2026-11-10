@@ -15,11 +15,12 @@ const routes=[
   {path:"/tools/commercial-real-estate-loan-calculator/share/",name:"Share calculator",title:/Share Our Free Commercial Real Estate Loan Calculator/},
    {path:"/accessibility/",name:"Accessibility",title:/Accessibility.*Leva Ventures/},
   {path:"/tools/commercial-real-estate-loan-calculator/",name:"Calculator",title:/Commercial Real Estate Loan Calculator/},
-  {path:"/tools/financing-intelligence/",name:"Financing Desk V2",title:/Commercial Real Estate Financing Intelligence Desk/},
+  {path:"/tools/financing-intelligence/",name:"Financing Desk V2",title:/CRE Loan Sizing & Refinance Gap Calculator/},
   {path:"/insights/how-to-prepare-real-estate-opportunity-private-capital/",name:"Capital preparation",title:/How to Prepare a Real Estate Opportunity/},
   {path:"/insights/how-to-finance-investment-property-private-capital/",name:"Investment property",title:/How to Finance an Investment Property/},
   {path:"/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/",name:"Debt equity hybrid",title:/Commercial Real Estate Acquisition Financing/},
   {path:"/insights/commercial-real-estate-refinance-gap-analysis/",name:"Refinance gap analysis",title:/Commercial Real Estate Refinance Gaps/},
+  {path:"/insights/dscr-ltv-debt-yield-commercial-loan-sizing/",name:"DSCR LTV debt-yield guide",title:/DSCR vs\. LTV vs\. Debt Yield/},
   {path:"/insights/value-add-commercial-real-estate-acquisition-financing/",name:"Value-add acquisition",title:/Value-Add Commercial Real Estate Acquisition Financing/},
   {path:"/insights/private-capital-real-estate-development-financing/",name:"Development capital",title:/Private Capital for Real Estate Development/}
 ];
