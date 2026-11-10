@@ -51,12 +51,11 @@ The model is educational and does not present lender offers or confirmed financi
 
 ## Measurement plan
 
-Add channel-specific UTM parameters to links used *outside* the canonical website, e.g.:
-- LinkedIn: `?utm_source=linkedin&utm_medium=organic_social&utm_campaign=financing_tool_launch`
-- Partner newsletter: `?utm_source=partner_newsletter&utm_medium=referral&utm_campaign=financing_tool_launch`
-- Podcast: `?utm_source=podcast&utm_medium=referral&utm_campaign=financing_tool_launch`
+For every public post, editorial submission, email, partner newsletter, or social profile, use **only the direct canonical URL** with no query string, UTM tags, or tracking parameters:
 
-Keep canonical tags and XML sitemap links free of UTM parameters. Never transmit calculator input values to analytics as URL query parameters.
+https://levaventures.com/tools/financing-intelligence/
+
+The original calculator's clean URL is https://levaventures.com/tools/commercial-real-estate-loan-calculator/ . Do not append source=chatgpt, utm_source, tracking IDs or other suffixes. Do not copy a link's address after clicking it through an app that may have added a referral query; copy this exact text instead. Referral-source identification, when needed, comes from aggregate analytics and visitors' optional answers on the contact form. Never transmit calculator inputs.
 
 Track: referral sessions, engaged visits, calculator interactions (without financial values), voluntary contact-form conversions, qualified conversations, and originating channel. Do not optimize to raw traffic or purchased backlinks.
 
@@ -73,20 +72,20 @@ Do not promise loan approval, capital access, investment returns, transaction su
 
 **Product promise:** Eight local-only illustrative CRE financing analysis workspaces. Free, no account; estimates are not lender quotes, underwriting commitments or contractual investor waterfalls. Do not claim independent professional financial, legal or accessibility certification.
 
-### Public links with privacy-safe channel tagging
+### Public links — clean direct URLs only
 
-The URL query strings below contain **only fixed campaign labels**. No visitor identifiers, deal inputs, NOI, debt balance, calculator results, or prospect data.
+All distribution destinations below use the **same clean, direct URL**. No channel-specific query string is appended. This is intentional: a consistent professional link is the highest priority.
 
 | Channel | Approved landing URL |
 |---|---|
-| LinkedIn organic | https://levaventures.com/tools/financing-intelligence/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=v2_financing_intelligence |
-| SIOR editorial | https://levaventures.com/tools/financing-intelligence/?utm_source=sior&utm_medium=editorial&utm_campaign=v2_financing_intelligence |
-| CRE News Today editorial | https://levaventures.com/tools/financing-intelligence/?utm_source=cre_news_today&utm_medium=editorial&utm_campaign=v2_financing_intelligence |
-| Colorado Real Estate Journal | https://levaventures.com/tools/financing-intelligence/?utm_source=crej&utm_medium=editorial&utm_campaign=v2_financing_intelligence |
-| Partner newsletter | https://levaventures.com/tools/financing-intelligence/?utm_source=partner_newsletter&utm_medium=referral&utm_campaign=v2_financing_intelligence |
-| Direct CRE referral | https://levaventures.com/tools/financing-intelligence/?utm_source=industry_referral&utm_medium=referral&utm_campaign=v2_financing_intelligence |
+| LinkedIn organic | https://levaventures.com/tools/financing-intelligence/ |
+| SIOR editorial | https://levaventures.com/tools/financing-intelligence/ |
+| CRE News Today editorial | https://levaventures.com/tools/financing-intelligence/ |
+| Colorado Real Estate Journal | https://levaventures.com/tools/financing-intelligence/ |
+| Partner newsletter | https://levaventures.com/tools/financing-intelligence/ |
+| Direct CRE referral | https://levaventures.com/tools/financing-intelligence/ |
 
-The V2 page may carry only an approved `utm_source` into the **voluntary** opportunity link as `lv_channel`. The homepage inquiry form may submit only allowlisted `lead_origin` and `lead_channel` hidden labels alongside form information the visitor explicitly entered, and only after a successful security check and active submission. Simply visiting or operating the calculator never submits any inquiry. Third-party analytics and search systems are not a definitive per-user conversion source.
+We no longer use public-facing UTM campaign links or the V2 channel propagation script. Visitors may self-report their referral source using the existing contact form. The V2 calculator retains a **fixed internal origin label** for visitors who voluntarily submit an inquiry, without including any calculator inputs. Channel-specific inquiry attribution is not automatic, and social/search platforms can add their own referral parameters when links are clicked from those interfaces.
 
 ### Qualified audience / editorial fit
 
@@ -94,7 +93,7 @@ The V2 page may carry only an approved `utm_source` into the **voluntary** oppor
 2. **CRE News Today (free contributed perspective)** — CRE practitioner insight with original analysis and disclosed affiliation, not AI-only generated or a disguised sponsored link. Seek editorial permission for the relevant free calculator as a reader resource; no paid add-on.
 3. **Colorado Real Estate Journal expert articles** — Colorado market professionals, finance and deal-preparation perspective. Contact the relevant editor about topic suitability and exclusivity before drafting a final exclusive article.
 4. **Broker/lender association newsletters, capital-market partner resources** — offer the free calculator and a transparent $8m NOI/DSCR worked example. Invite editorial review, not paid placements or guaranteed citations.
-5. **LinkedIn owner/company posts** — publish original commentary and clearly disclose Leva affiliation; use the tracked LinkedIn link above.
+5. **LinkedIn owner/company posts** — publish original commentary and clearly disclose Leva affiliation; use the clean V2 link above.
 
 ### Expert LinkedIn post (review before publication)
 
@@ -106,7 +105,7 @@ The important question isn't only what the building is worth. It's which underwr
 
 We developed a free Financing Intelligence Desk to make this analysis easier to explore, including stress tests, debt sizing and illustrative capital structures. No account required, and entered financial assumptions are not sent to Leva.
 
-https://levaventures.com/tools/financing-intelligence/?utm_source=linkedin&utm_medium=organic_social&utm_campaign=v2_financing_intelligence
+https://levaventures.com/tools/financing-intelligence/
 
 These are hypothetical assumptions, not lender quotes or financing commitments.
 
@@ -120,7 +119,7 @@ It is intended as an educational resource—no account required, no automatic co
 
 You're welcome to review it and decide whether it belongs in a resource note or newsletter:
 
-https://levaventures.com/tools/financing-intelligence/?utm_source=partner_newsletter&utm_medium=referral&utm_campaign=v2_financing_intelligence
+https://levaventures.com/tools/financing-intelligence/
 
 If helpful, we can supply the financial conventions and an example for editorial review.
 
@@ -140,16 +139,16 @@ I'm with Leva Ventures, LLC, a private capital sourcing and opportunity firm. An
 |---|---|---|
 | V2 search clicks and queries | Search Console | Aggregate search visibility, not individual visitor tracking |
 | Site and V2 pageviews | Cloudflare zone/Web Analytics, if enabled | Aggregate only; verify domain-specific instrument coverage |
-| Optional distribution referrals | Aggregate analytics / UTM campaign reports where available | Do not assert attribution without measurable evidence |
+| Optional distribution referrals | Aggregate referral analytics where available | Do not assert attribution without measurable evidence |
 | Voluntary inquiries from V2 | Formspree `lead_origin=financing_desk_v2` | Count received submissions, excluding tests/spam |
-| Inquiries from approved campaigns | Formspree `lead_channel` | Only if both allowed source and channel are present |
+| Self-reported referral channel | Voluntary `referral_source` selection in Formspree | Count only responses users chose to provide; may be incomplete |
 | Qualified conversations | Owner-maintained tracker | Only high-level deal status, no high-risk PII; keep source and status separate from input financials |
 | Opportunities accepted for preliminary evaluation | Owner tracker | Follow regulatory and engagement constraints; never call submissions guaranteed fundings |
 
-**Important measurement limitation:** This is opt-in *inquiry-source* attribution, not full journey or identity-level conversion tracking. Referral performance and click-to-submission conversion rates require aggregate page/referral counts from an appropriately configured analytics provider and verified matching definitions. No new tracking beacon is installed by this campaign.
+**Important measurement limitation:** This is opt-in *inquiry-source* attribution plus self-reported referral context, not complete per-channel or identity-level conversion tracking. Referral performance and click-to-submission conversion rates require aggregate page/referral counts from an appropriately configured analytics provider and verified matching definitions. No new tracking beacon is installed by this campaign.
 
 ### Example weekly funnel summary
 
-Period: [week ending] | Page visits: [verified aggregate] | V2-origin submissions: [count] | LinkedIn-sourced V2 submissions: [count] | Editorial-sourced V2 submissions: [count] | Qualified calls: [count] | Active opportunities: [count].
+Period: [week ending] | Page visits: [verified aggregate] | V2-origin submissions: [count] | Self-reported LinkedIn submissions: [count] | Self-reported editorial submissions: [count] | Qualified calls: [count] | Active opportunities: [count].
 
 Report only observed figures. Do not invent traffic, backlinks, placement, rankings, application approvals or available capital.
