@@ -27,3 +27,5 @@ jobs:
         run: npx @guidepup/setup install
       - name: Test actual spoken headings and capital-stack navigation
         run: npx playwright test -c tools/commercial-real-estate-loan-calculator/nvda-playwright.config.cjs
+      - name: Test real NVDA speech for all eight new V2 desk modules
+        run: npx playwright test -c previews/leva-financing-desk-v2/nvda-v2.config.cjs
