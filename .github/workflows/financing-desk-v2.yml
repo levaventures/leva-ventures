@@ -48,14 +48,16 @@ jobs:
         run: node scripts/build-v2-staging.cjs
       - name: Validate deployable Pages package (CSP, noindex, eight workspaces)
         run: node scripts/test-v2-staging.cjs
+      - name: Package separate production placeholder and access-gated preview ZIPs
+        run: python3 scripts/package-v2-staging.py
       - name: Upload controlled V2 staging artifact — ACCESS GATE REQUIRED
         uses: actions/upload-artifact@v4
         with:
           name: leva-desk-v2-protected-staging-zip-source
           path: |
-            dist/v2-staging/
+            dist/leva-v2-01-public-placeholder.zip
+            dist/leva-v2-02-protected-preview.zip
             dist/v2-staging-manifest.json
-            dist/v2-public-placeholder/
           retention-days: 14
       - name: Desktop and mobile prototype smoke tests
         run: node previews/leva-financing-desk-v2/browser.test.js
