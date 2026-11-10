@@ -25,7 +25,7 @@ const server=http.createServer((req,res)=>{
   const url=new URL(req.url,"http://127.0.0.1");
   const decoded=decodeURIComponent(url.pathname);
   let file=path.resolve(dist,"."+decoded);
-  if(!file.startsWith(dist+path.sep))throw Error("outside");
+  if(file!==dist&&!file.startsWith(dist+path.sep))throw Error("outside");
   if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,"index.html");
   const data=fs.readFileSync(file);
   res.writeHead(200,{"Content-Type":mime[path.extname(file)]||"application/octet-stream",
