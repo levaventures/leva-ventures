@@ -35,3 +35,10 @@
 **Decision:** Keep pull request **draft** and unmerged. Do not claim ADA/WCAG certification, full external security certification, professional investment underwriting certification, or that the new desk is live.
 
 **Cost:** No new paid software dependency in this review branch.
+
+## November 9, 2026 continuation — production baseline and mobile visual QA
+- Production website owner verified SecurityHeaders.com **A+ on the homepage**, Cloudflare **Full (strict)**, automatic HTTP→HTTPS, HSTS (one month, no preload/includeSubDomains), CSP on the homepage, and successful Formspree receipt and notification after CSP enforcement. This is **not** a security sign-off for unpublished V2 paths: route-specific response headers and embedded output must be retested on the final route.
+- Fresh SSL Labs scans continued to show **B for GitHub Pages origin IPs**, not confirmed Cloudflare edge; no change to the working production TLS controls is justified by that alone.
+- The desktop and 390px/320px screenshots were retrieved and visually inspected. Mobile module navigation previously concealed modules in a horizontal scroll strip; V2 preview CSS now displays two columns of navigation modules (four rows), with browser assertions requiring all eight buttons to fit. This is a design improvement, **not** a substitute for human/real-device review.
+- V2 draft branch remains behind the current main branch containing homepage CSP fixes. Before shipping, reconcile with current main without replacing its hardened homepage, contact form, DNS or security rules; keep original calculator and sitemap intact during preview.
+- **Next launch gate**: obtain the changed-branch V2 browser + finance + accessibility CI results, perform real NVDA/VoiceOver on all eight new modules, independent scenario/IRR/waterfall financial review and disclosure sign-off, and verify a nonindexed staging route (not merely a local file preview). Production publication remains contingent on explicit go/no-go approval.
