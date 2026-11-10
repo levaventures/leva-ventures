@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Free commercial property financing analysis: compare loan capacity, refinance gaps, balloon loans, capital structure, investment IRR and simplified LP/GP waterfalls."><link rel="canonical" href="https://levaventures.com/tools/financing-intelligence/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:title" content="Commercial Real Estate Financing Intelligence Desk | Leva Ventures"><meta property="og:description" content="Eight linked CRE financing calculators with shared assumptions and local calculations."><meta property="og:url" content="https://levaventures.com/tools/financing-intelligence/">
+  <meta name="description" content="Free CRE loan sizing and refinance gap calculator. Compare DSCR, LTV, debt yield, balloon balances, capital structures, property IRR and simplified LP/GP waterfalls."><link rel="canonical" href="https://levaventures.com/tools/financing-intelligence/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:title" content="CRE Loan Sizing &amp; Refinance Gap Calculator | Leva Ventures"><meta property="og:description" content="Free commercial real estate debt capacity, refinance shortfall, capital structure and investment return analysis. Eight linked workspaces. No account required."><meta property="og:url" content="https://levaventures.com/tools/financing-intelligence/"><meta property="og:image" content="https://levaventures.com/levaventures-og-image.png">
   <meta name="referrer" content="strict-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'self'; object-src 'none'; frame-src 'none'">
-  <title>Commercial Real Estate Financing Intelligence Desk | Leva Ventures</title>
+  <title>CRE Loan Sizing &amp; Refinance Gap Calculator | Leva Ventures</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Leva Financing Intelligence Desk — CRE Loan Sizing and Refinance Gap Calculator","url":"https://levaventures.com/tools/financing-intelligence/","description":"Free browser-based commercial real estate financing analysis for estimated DSCR, LTV and debt-yield debt capacity, refinancing shortfalls, loan balloon schedules, hypothetical capital structures, investment IRR and simplified LP/GP distributions.","applicationCategory":"FinanceApplication","operatingSystem":"Web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Leva Ventures, LLC","url":"https://levaventures.com/"}}</script>
   <link rel="stylesheet" href="./vendor/uplot/uPlot.min.css">
   <link rel="stylesheet" href="./style.css">
 </head>
@@ -23,6 +24,7 @@
       <p class="overline">FINANCIAL WORKSTATION</p>
       <h1>Financing<br>Intelligence <em>Desk</em></h1>
       <p class="sidebar-intro">One set of assumptions. A clearer picture of financing capacity and risk.</p>
+      <p class="sidebar-detail">Free commercial real estate loan sizing and refinance gap calculator using DSCR, LTV and debt yield, with connected analysis of balloon balances, capital stacks, investment IRR and simplified LP/GP distributions.</p>
       <nav class="module-nav" aria-label="Analysis modules">
         <button type="button" class="module active" data-panel="debt" aria-controls="panel-debt" aria-pressed="true"><img class="module-icon" alt="" aria-hidden="true" src="./vendor/lucide/landmark.svg"><span>01</span> Debt Capacity</button>
         <button type="button" class="module" data-panel="loan" aria-controls="panel-loan" aria-pressed="false"><img class="module-icon" alt="" aria-hidden="true" src="./vendor/lucide/chart-no-axes-combined.svg"><span>02</span> Loan &amp; Balloon</button>
@@ -202,7 +204,7 @@
             <p class="fineprint">Loan payments reflect the separately selected loan term and principal source. Capital-stack results include separately entered hypothetical contributions and fees.</p>
             <h4>Investment &amp; distribution cross-check</h4>
             <dl class="ledger"><div><dt>Annual investment IRR</dt><dd id="report-investment-irr">—</dd></div><div><dt>Equity multiple</dt><dd id="report-investment-multiple">—</dd></div><div><dt>LP distributions</dt><dd id="report-waterfall-lp">—</dd></div><div><dt>GP distributions</dt><dd id="report-waterfall-gp">—</dd></div></dl><p class="fineprint">Investment performance and waterfall outputs use separate hypothetical acquisition and distribution assumptions. See the associated module for methodology and limitations.</p>
-            <h4>Validated underwriting limits</h4>
+            <h4>Calculated underwriting limits</h4>
             <div class="table-scroll" role="region" tabindex="0" aria-label="Report loan sizing limits horizontally scrollable">
               <table class="data-table"><caption>Independent loan sizing limits</caption><thead><tr><th scope="col">Test</th><th scope="col">Senior limit</th><th scope="col">Status</th></tr></thead><tbody id="report-limits"></tbody></table>
             </div>
@@ -243,7 +245,11 @@
           <p class="fineprint">Illustrative assumptions are user-controlled; they are not verified lender criteria. More debt may be unavailable regardless of a modeled improvement.</p>
           <h4>Privacy by default</h4>
           <p class="fineprint">The calculator models entered financial assumptions in your browser without submitting or storing them. Browser extensions and print providers may handle exports independently.</p>
-          <a class="context-link" href="https://levaventures.com/">Leva Ventures home</a>
+          <div class="separator"></div>
+          <h4>Have an actual financing requirement?</h4>
+          <p class="fineprint">An upcoming loan maturity, acquisition or refinance funding gap may merit a conversation. Submit high-level business opportunity details voluntarily; this tool does not send your calculator inputs.</p>
+          <a class="context-link context-cta" href="/?lv_origin=financing_desk_v2#contact">Discuss a financing opportunity</a>
+          <a class="context-link" href="/">Leva Ventures home</a>
         </aside>
       </div>
 
@@ -259,6 +265,10 @@
         </div>
         <h2>How investment return and LP/GP distribution estimates work</h2>
         <p>Investment returns use year-end annual cash flows, monthly debt amortization and a forward-year NOI exit capitalization. IRR is periodic annual IRR, not XIRR. Calculations exclude income taxes and unmodeled capital expenditures. The equity waterfall illustrates preferred return, return of contributed capital and residual allocation; it does not model catch-up, clawback, multiple investor classes or negotiated legal terms.</p>
+        <h2>A worked example: why a commercial refinance can leave a cash gap</h2>
+        <p>Consider an illustrative property valued at $8,000,000, producing $520,000 in annual net operating income (NOI), with a $5,600,000 existing loan payoff and $180,000 in estimated costs and reserves. Assume a 7.50% interest rate, 25-year amortization, minimum DSCR of 1.25x, maximum LTV of 65%, and minimum debt yield of 9%.</p>
+        <p>The DSCR test supports approximately <strong>$4,691,080</strong> in senior debt; the LTV test supports <strong>$5,200,000</strong>; and the debt-yield test supports <strong>$5,777,778</strong>. The lowest limit controls, so estimated senior debt is <strong>$4,691,080</strong>. Against total refinance uses of $5,780,000, that leaves an illustrative funding gap of <strong>$1,088,920</strong>. Raising collateral value alone would not resolve the income-driven constraint at these assumptions.</p>
+        <p>These are scenario calculations, not lender quotations. Actual lender sizing, property underwriting, borrower credit, reserves, closing costs and capital-source availability may differ.</p>
         <h2>Frequently asked questions</h2>
         <div class="public-guide-faq">
           <details><summary>Can a higher property appraisal resolve a refinancing gap?</summary><p>Not if cash flow or debt yield is the binding limit. An increase in collateral value alone may have no effect on the maximum senior debt.</p></details>
@@ -269,6 +279,12 @@
         <h3>Continue with related research</h3>
         <p>For a simpler starting point, use the <a href="/tools/commercial-real-estate-loan-calculator/">original commercial loan calculator</a>. See also <a href="/insights/commercial-real-estate-refinance-gap-analysis/">our refinancing gap guide</a> and <a href="/insights/commercial-real-estate-acquisition-financing-debt-equity-hybrid/">debt versus equity financing analysis</a>.</p>
         <p class="public-guide-note">Leva Ventures connects appropriate funding relationships with qualified opportunities. This tool is not a financing commitment, investment recommendation, registered securities placement service, or substitute for qualified financial or legal advice.</p>
+      </section>
+      <section class="inquiry-cta" aria-labelledby="inquiry-title">
+        <div><h2 id="inquiry-title">Have a real commercial financing gap?</h2>
+        <p>For a property refinance, approaching loan maturity or commercial acquisition, Leva Ventures can consider a high-level transaction inquiry and whether appropriate private capital relationships may be relevant. No financing is guaranteed, and the calculator does not transmit your financial inputs.</p>
+        <p class="fineprint">Share business contact details and a brief transaction description only. Do not include Social Security numbers, banking credentials, tax IDs or other high-risk personal information.</p></div>
+        <a class="inquiry-button" href="/?lv_origin=financing_desk_v2#contact">Submit a financing opportunity</a>
       </section>
       <footer>Leva Ventures, LLC · Illustrative educational estimates only · Not lender offers, financing commitments, investment advice or securities solicitation</footer>
     </main>
