@@ -48,6 +48,7 @@ const server=http.createServer((req,res)=>{try{
      await page.locator('[data-panel="'+id+'"]').click();
      assert.equal(await page.locator("#panel-"+id).isVisible(),true);
    }
+   await page.locator('[data-panel="report"]').click();
    assert.equal(await page.locator("#report-csv").isEnabled(),true);
    const csv=page.waitForEvent("download");await page.locator("#report-csv").click();
    assert.match((await csv).suggestedFilename(),/leva-financing-intelligence-desk-review\.csv/);
