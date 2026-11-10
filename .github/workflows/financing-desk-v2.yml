@@ -46,6 +46,8 @@ jobs:
           npx playwright install chromium --with-deps
       - name: Desktop and mobile prototype smoke tests
         run: node previews/leva-financing-desk-v2/browser.test.js
+      - name: Isolated HTTP-served preview, noindex and no outbound requests
+        run: node previews/leva-financing-desk-v2/http-preview.test.js
       - name: Export and print finance report browser validation
         run: node previews/leva-financing-desk-v2/report-browser.test.js
       - name: Nonindexed hub and deep-link release checks
