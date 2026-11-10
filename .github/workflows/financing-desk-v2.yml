@@ -1,0 +1,87 @@
+name: Financing Intelligence Desk V2 Review
+on:
+  pull_request:
+    paths:
+      - 'previews/leva-financing-desk-v2/**'
+      - 'tools/financing-intelligence/**'
+      - 'tools/commercial-real-estate-loan-calculator/index.html'
+      - 'tests/desk-v2-production.test.cjs'
+      - 'sitemap.xml'
+      - 'tools/commercial-real-estate-loan-calculator/desk-core*'
+      - 'tools/commercial-real-estate-loan-calculator/desk-bridge*'
+      - 'tools/commercial-real-estate-loan-calculator/investment*'
+      - 'tools/commercial-real-estate-loan-calculator/waterfall*'
+      - 'tools/commercial-real-estate-loan-calculator/desk-report*'
+      - 'tools/commercial-real-estate-loan-calculator/desk-release-finance.test.js'
+      - '.github/workflows/financing-desk-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desk-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate existing core alongside v2 independent underwriting tests
+        run: |
+          node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/desk-core.test.js tools/commercial-real-estate-loan-calculator/desk-bridge.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/investment.test.js tools/commercial-real-estate-loan-calculator/waterfall.test.js tools/commercial-real-estate-loan-calculator/desk-report.test.js tools/commercial-real-estate-loan-calculator/desk-release-finance.test.js previews/leva-financing-desk-v2/release-security.test.js
+      - name: Independently benchmark financial outputs in Python against V2 engine
+        run: python3 tests/desk_v2_independent_financial_reference.py
+      - name: Check for private-only preview and local-only calculations
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const dir='previews/leva-financing-desk-v2/';
+          const html=fs.readFileSync(dir+'index.html','utf8');
+          const js=fs.readFileSync(dir+'app.js','utf8');
+          if(!html.includes('noindex,nofollow'))throw new Error('Preview must remain noindex');
+          for(const file of ['finance.js','desk-core.js','strategy.js','capital-stack.js','desk-bridge.js','desk-panels.js','investment.js','waterfall.js','investment-ui.js','desk-report.js','report-ui.js','app.js','style.css'])
+            if(!html.includes(file))throw new Error('Missing asset reference: '+file);
+          for(const forbidden of ['fetch(', 'sendBeacon(', 'localStorage', 'sessionStorage', 'XMLHttpRequest', 'innerHTML='])
+            if(js.includes(forbidden))throw new Error('Disallowed data sink in prototype: '+forbidden);
+          console.log('Preview constraints checked');
+          NODE
+      - name: Install browser testing tools
+        run: |
+          npm install --no-save playwright axe-core
+          npx playwright install chromium --with-deps
+      - name: Create isolated Cloudflare Pages staging package
+        run: node scripts/build-v2-staging.cjs
+      - name: Validate deployable Pages package (CSP, noindex, eight workspaces)
+        run: node scripts/test-v2-staging.cjs
+      - name: Package separate production placeholder and access-gated preview ZIPs
+        run: python3 scripts/package-v2-staging.py
+      - name: Upload controlled V2 staging artifact — ACCESS GATE REQUIRED
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-desk-v2-protected-staging-zip-source
+          path: |
+            dist/leva-v2-01-public-placeholder.zip
+            dist/leva-v2-02-protected-preview.zip
+            dist/v2-staging-manifest.json
+          retention-days: 14
+      - name: Validate production candidate and existing indexed calculator over HTTP
+        run: node tests/desk-v2-production.test.cjs
+      - name: Desktop and mobile prototype smoke tests
+        run: node previews/leva-financing-desk-v2/browser.test.js
+      - name: Isolated HTTP-served preview, noindex and no outbound requests
+        run: node previews/leva-financing-desk-v2/http-preview.test.js
+      - name: Export and print finance report browser validation
+        run: node previews/leva-financing-desk-v2/report-browser.test.js
+      - name: Nonindexed hub and deep-link release checks
+        run: node previews/leva-financing-desk-v2/seo-hub.test.js
+      - name: Keyboard-only navigation and input error recovery
+        run: node previews/leva-financing-desk-v2/keyboard-release.test.js
+      - name: Automated accessibility checks across all eight desk screens
+        run: node previews/leva-financing-desk-v2/accessibility.test.js
+      - name: Capture reviewed desk and hub screenshots
+        run: node previews/leva-financing-desk-v2/review-screenshots.js
+      - name: Upload visual review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-desk-v2-visual-review
+          path: preview-artifacts/desk-v2/*.png
+          retention-days: 30
