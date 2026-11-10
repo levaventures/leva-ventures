@@ -73,7 +73,7 @@ assert new_parser.headings.count("h1")==1
 assert '"@type":"BlogPosting"' in new_text
 assert 'DSCR' in new_text and 'debt yield' in new_text.lower()
 assert '/tools/financing-intelligence/' in new_parser.anchors
-assert '/?lv_origin=debt_sizing_article#contact' in new_parser.anchors
+assert "/#contact" in new_parser.anchors
 assert new_url in sitemap_urls
 assert f'href="/insights/{new_slug}/"' in hub
 v2=(ROOT/"tools"/"financing-intelligence"/"index.html").read_text("utf-8")

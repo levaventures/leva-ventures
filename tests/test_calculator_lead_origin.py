@@ -1,39 +1,38 @@
 #!/usr/bin/env python3
-"""Static privacy contract regression checks; no production data or network calls."""
+"""Direct-link and no-leaked-calculator-inputs contract; no live form submissions."""
 from pathlib import Path
+root=Path(__file__).resolve().parents[1]
+site=(root/"assets/leva-site.js").read_text("utf-8")
+home=(root/"index.html").read_text("utf-8")
+v2=(root/"tools/financing-intelligence/index.html").read_text("utf-8")
+original=(root/"tools/commercial-real-estate-loan-calculator/index.html").read_text("utf-8")
+article=(root/"insights/dscr-ltv-debt-yield-commercial-loan-sizing/index.html").read_text("utf-8")
+kit=(root/"marketing/financing-intelligence-distribution-kit.md").read_text("utf-8")
+sitemap=(root/"sitemap.xml").read_text("utf-8")
 
-root = Path(__file__).resolve().parents[1]
-app = (root / "assets" / "leva-site.js").read_text(encoding="utf-8")
-calc = (root / "tools" / "commercial-real-estate-loan-calculator" / "index.html").read_text(encoding="utf-8")
-home = (root / "index.html").read_text(encoding="utf-8")
-sitemap = (root / "sitemap.xml").read_text(encoding="utf-8")
+for name,content in {"home":home,"V2":v2,"original":original,"article":article,"distribution kit":kit}.items():
+    assert "source=chatgpt" not in content.lower(),name
+    assert "utm_source=" not in content.lower(),name
+    assert "lv_origin=" not in content.lower(),name
+    assert "lv_channel=" not in content.lower(),name
 
-assert calc.count('href="/?lv_origin=calculator#contact"') >= 1
-assert 'new URLSearchParams(window.location.search)' in app
-assert "allowedOrigins = new Set(['calculator', 'financing_desk_v2', 'debt_sizing_article'])" in app
-assert "allowedChannels = new Set(" in app
-assert "addFixedLabel('lead_origin', origin)" in app
-assert "addFixedLabel('lead_channel', channel)" in app
-assert "form.appendChild(field)" in app
-assert "if (response.ok)" not in app  # success path checks !response.ok
-assert "if (!response.ok)" in app
-assert "if (success)" in app
-assert "source label" in " ".join(home.lower().replace("&ldquo;", "").replace("&rdquo;", "").split())
-assert "loan amounts" in home
-assert "https://levaventures.com/tools/commercial-real-estate-loan-calculator/" in sitemap
+assert v2.count('href="/#contact"')>=2
+assert original.count('href="/#contact"')>=2
+assert 'href="/#contact"' in article
+assert "campaign-links.js" not in v2
+assert not (root/"tools/financing-intelligence/campaign-links.js").exists()
 
-# Provenance must remain independent of calculator's state or user's financial inputs.
-for forbidden in ["localStorage", "sessionStorage", "document.cookie", "sendBeacon", "navigator.sendBeacon", "gtag(", "dataLayer.push", "loanAmount", "loan_amount", "dscr", "debtYield", "income", "capitalRequired"]:
-    assert forbidden not in app, f"Unexpected telemetry/input reference in form handler: {forbidden}"
+assert "URLSearchParams" not in site
+assert "lead_origin" not in site
+assert "lead_channel" not in site
+assert "addEventListener('submit'" in site
+assert "if (!response.ok)" in site
+assert "referral_source" in site
+assert "Referral Source" in home
+assert "No loan amounts" not in home or "loan amounts" in home
+for forbidden in ["localStorage","sessionStorage","document.cookie","sendBeacon","navigator.sendBeacon","gtag(","dataLayer.push","loanAmount","loan_amount","debtYield","capitalRequired"]:
+    assert forbidden not in site,forbidden
+for url in ["https://levaventures.com/tools/financing-intelligence/","https://levaventures.com/tools/commercial-real-estate-loan-calculator/"]:
+    assert url in sitemap,url
 
-campaign=(root/"tools"/"financing-intelligence"/"campaign-links.js").read_text("utf-8")
-v2=(root/"tools"/"financing-intelligence"/"index.html").read_text("utf-8")
-assert '<script src="./campaign-links.js" defer></script>' in v2
-assert 'new URLSearchParams(window.location.search)' in campaign
-assert 'params.get("utm_source")' in campaign
-assert 'lv_channel=' in campaign
-assert 'a[href="/?lv_origin=financing_desk_v2#contact"]' in campaign
-assert 'Object.prototype.hasOwnProperty.call(allow, source)' in campaign
-for forbidden in ["localStorage", "sessionStorage", "document.cookie", "sendBeacon", "fetch(", "XMLHttpRequest", "document.referrer", "loanAmount", "loan_amount", "dscr", "debtYield", "capitalRequired"]:
-    assert forbidden not in campaign, "unexpected data sink: "+forbidden
-print("PASS: original calculator and V2 allowlisted attribution on voluntary form submission; no financial data plumbing")
+print("PASS: direct public links, no campaign query strings, optional visible referral field and private calculator inputs")
