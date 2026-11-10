@@ -3,6 +3,10 @@ on:
   pull_request:
     paths:
       - 'previews/leva-financing-desk-v2/**'
+      - 'tools/financing-intelligence/**'
+      - 'tools/commercial-real-estate-loan-calculator/index.html'
+      - 'tests/desk-v2-production.test.cjs'
+      - 'sitemap.xml'
       - 'tools/commercial-real-estate-loan-calculator/desk-core*'
       - 'tools/commercial-real-estate-loan-calculator/desk-bridge*'
       - 'tools/commercial-real-estate-loan-calculator/investment*'
@@ -59,6 +63,8 @@ jobs:
             dist/leva-v2-02-protected-preview.zip
             dist/v2-staging-manifest.json
           retention-days: 14
+      - name: Validate production candidate and existing indexed calculator over HTTP
+        run: node tests/desk-v2-production.test.cjs
       - name: Desktop and mobile prototype smoke tests
         run: node previews/leva-financing-desk-v2/browser.test.js
       - name: Isolated HTTP-served preview, noindex and no outbound requests
