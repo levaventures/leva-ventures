@@ -58,16 +58,35 @@ for slug in SLUGS:
 sitemap=ET.fromstring((ROOT/"sitemap.xml").read_text("utf-8"))
 ns="{http://www.sitemaps.org/schemas/sitemap/0.9}"
 sitemap_urls=[x.text for x in sitemap.findall(f"{ns}url/{ns}loc")]
-assert len(sitemap_urls)==12 and len(set(sitemap_urls))==12
+assert len(sitemap_urls)==13 and len(set(sitemap_urls))==13
 assert "https://levaventures.com/tools/financing-intelligence/" in sitemap_urls
 assert "https://levaventures.com/tools/commercial-real-estate-loan-calculator/" in sitemap_urls
 for u in urls: assert u in sitemap_urls,u
 
+# New non-duplicative loan-sizing educational resource and linked V2.
+new_slug="dscr-ltv-debt-yield-commercial-loan-sizing"
+new_url="https://levaventures.com/insights/"+new_slug+"/"
+new_text=(ROOT/"insights"/new_slug/"index.html").read_text("utf-8")
+new_parser=SEOParser();new_parser.feed(new_text)
+assert new_parser.canonicals==[new_url]
+assert new_parser.headings.count("h1")==1
+assert '"@type":"BlogPosting"' in new_text
+assert 'DSCR' in new_text and 'debt yield' in new_text.lower()
+assert '/tools/financing-intelligence/' in new_parser.anchors
+assert '/?lv_origin=debt_sizing_article#contact' in new_parser.anchors
+assert new_url in sitemap_urls
+assert f'href="/insights/{new_slug}/"' in hub
+v2=(ROOT/"tools"/"financing-intelligence"/"index.html").read_text("utf-8")
+assert f'href="/insights/{new_slug}/"' in v2
+for u in new_parser.anchors:
+    if u.startswith("/insights/") and u.endswith("/"):
+        assert (ROOT/u.lstrip("/")/"index.html").is_file(),u
+
 rss=ET.fromstring((ROOT/"insights"/"feed.xml").read_text("utf-8"))
 entries=rss.findall("./channel/item")
-assert len(entries)==7
+assert len(entries)==8
 feed_urls=[e.findtext("link") for e in entries]
-for u in urls: assert u in feed_urls,u
+for u in urls+[new_url]: assert u in feed_urls,u
 
 # Refinance scenario exact arithmetic: $8m, $520k NOI,
 # 65% LTV, 9% debt yield, 1.25 DSCR at 7.50% / 25 years.
