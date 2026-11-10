@@ -44,6 +44,19 @@ jobs:
         run: |
           npm install --no-save playwright axe-core
           npx playwright install chromium --with-deps
+      - name: Create isolated Cloudflare Pages staging package
+        run: node scripts/build-v2-staging.cjs
+      - name: Validate deployable Pages package (CSP, noindex, eight workspaces)
+        run: node scripts/test-v2-staging.cjs
+      - name: Upload controlled V2 staging artifact — ACCESS GATE REQUIRED
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-desk-v2-protected-staging-zip-source
+          path: |
+            dist/v2-staging/
+            dist/v2-staging-manifest.json
+            dist/v2-public-placeholder/
+          retention-days: 14
       - name: Desktop and mobile prototype smoke tests
         run: node previews/leva-financing-desk-v2/browser.test.js
       - name: Isolated HTTP-served preview, noindex and no outbound requests
