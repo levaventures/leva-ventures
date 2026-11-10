@@ -22,6 +22,25 @@ const {chromium}=require("playwright");
     const buttons=await page.locator(".module[aria-pressed=true]").count();
     assert.equal(buttons,1,"Exactly one active module must be announced");
    }
+   if(width<=390){
+    // All eight buttons should be directly visible in two mobile rows/columns,
+    // not hidden beyond a sideways scroll strip.
+    const layout=await page.locator(".module-nav").evaluate(nav=>{
+     const cells=[...nav.querySelectorAll(".module")].map(el=>({
+      left:Math.round(el.getBoundingClientRect().left),
+      top:Math.round(el.getBoundingClientRect().top),
+      right:Math.round(el.getBoundingClientRect().right)
+     }));
+     return {columns:new Set(cells.map(x=>x.left)).size,
+       rows:new Set(cells.map(x=>x.top)).size,
+       allWithinViewport:cells.every(x=>x.left>=0&&x.right<=window.innerWidth+1),
+       overflow:nav.scrollWidth>nav.clientWidth+1};
+    });
+    assert.equal(layout.columns,2,"Mobile nav should expose two columns");
+    assert.equal(layout.rows,4,"Mobile nav should expose all eight modules in four rows");
+    assert.equal(layout.allWithinViewport,true,"All mobile nav buttons should fit viewport");
+    assert.equal(layout.overflow,false,"Mobile nav should not require horizontal scrolling");
+   }
    // Horizontal data tables must be reachable without a mouse.
    const scrollable=page.locator("#panel-report .table-scroll").first();
    await scrollable.focus();
