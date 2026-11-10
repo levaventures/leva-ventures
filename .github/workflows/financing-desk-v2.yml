@@ -24,6 +24,8 @@ jobs:
       - name: Validate existing core alongside v2 independent underwriting tests
         run: |
           node --test tools/commercial-real-estate-loan-calculator/finance.test.js tools/commercial-real-estate-loan-calculator/desk-core.test.js tools/commercial-real-estate-loan-calculator/desk-bridge.test.js tools/commercial-real-estate-loan-calculator/capital-stack.test.js tools/commercial-real-estate-loan-calculator/strategy.test.js tools/commercial-real-estate-loan-calculator/investment.test.js tools/commercial-real-estate-loan-calculator/waterfall.test.js tools/commercial-real-estate-loan-calculator/desk-report.test.js tools/commercial-real-estate-loan-calculator/desk-release-finance.test.js previews/leva-financing-desk-v2/release-security.test.js
+      - name: Independently benchmark financial outputs in Python against V2 engine
+        run: python3 tests/desk_v2_independent_financial_reference.py
       - name: Check for private-only preview and local-only calculations
         run: |
           node - <<'NODE'
