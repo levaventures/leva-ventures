@@ -40,7 +40,7 @@ With those assumptions, the Desk models **$4,691,080 in senior loan proceeds**, 
 
 ## Visual review and screenshots
 
-The live application has eight workspace views and responsive layouts. **View the [live, interactive Desk](https://levaventures.com/tools/financing-intelligence/) for the current production interface.** The existing [V2 review workflow](.github/workflows/financing-desk-v2.yml) captures actual desktop and mobile screenshots of all eight modules as an Actions artifact named `leva-desk-v2-visual-review` (retained for 30 days per run). The screenshot generator is in [review-screenshots.js](previews/leva-financing-desk-v2/review-screenshots.js). The brand graphic above is **not a screenshot**.
+The live application has eight workspace views and responsive layouts. **View the [live, interactive Desk](https://levaventures.com/tools/financing-intelligence/) for the current production interface.** The existing [V2 review workflow](.github/workflows/financing-desk-v2.yml) captures desktop and mobile screenshots of all eight V2 review-preview modules as an Actions artifact named `leva-desk-v2-visual-review` (retained for 30 days per run). The screenshot generator is in [review-screenshots.js](previews/leva-financing-desk-v2/review-screenshots.js). The review previews may not precisely match the latest production deployment. The brand graphic above is **not a screenshot**.
 
 We intentionally do not publish potentially stale or mockup screenshots as if they were current V2 images.
 
@@ -62,6 +62,8 @@ This repository contains the website and application needed for Leva's existing 
 - [CRE refinance gap analysis](https://levaventures.com/insights/commercial-real-estate-refinance-gap-analysis/)
 - [Original commercial real estate loan calculator](https://levaventures.com/tools/commercial-real-estate-loan-calculator/)
 - [Leva Ventures](https://levaventures.com/)
+
+See the [GitHub Topics and About settings checklist](docs/github-showcase-settings.md) for the seven relevant discovery topics. Those metadata settings have not yet been applied.
 
 ## Ownership and limitations
 
