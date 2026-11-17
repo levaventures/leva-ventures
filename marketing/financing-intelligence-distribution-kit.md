@@ -152,3 +152,28 @@ I'm with Leva Ventures, LLC, a private capital sourcing and opportunity firm. An
 Period: [week ending] | V2 page visits: [verified aggregate] | Total voluntary inquiries: [count] | Self-reported LinkedIn referrals: [count] | Self-reported editorial referrals: [count] | Qualified calls: [count] | Active opportunities: [count]. Do not label the inquiry counts as V2 conversions unless independently verified.
 
 Report only observed figures. Do not invent traffic, backlinks, placement, rankings, application approvals or available capital.
+
+
+---
+
+## Branded campaign links — first-party routing (November 16, 2026)
+
+These are short, clean paths owned by Leva Ventures. Each serves an accessible, nonindexable static page that immediately redirects to the existing live V2 calculator, with a fallback link if refresh is disabled.
+
+| Approved channel | Clean public campaign URL |
+|---|---|
+| LinkedIn organic | https://levaventures.com/go/linkedin/ |
+| SIOR editorial | https://levaventures.com/go/sior/ |
+| CRE News Today | https://levaventures.com/go/cre-news/ |
+| Colorado Real Estate Journal | https://levaventures.com/go/crej/ |
+| Partner and broker referrals | https://levaventures.com/go/partners/ |
+
+**Canonical destination:** https://levaventures.com/tools/financing-intelligence/
+
+**How to distribute:** Publish exactly the clean route shown above as copied plain text. No `?utm_...`, `?source=...`, ID or other query string. Editors may prefer to link directly to the canonical calculator; respect their preference. Redirect paths are not included in the sitemap and should not compete with the calculator for search indexing.
+
+**Measurement is conditional, not yet operational:** A GitHub Pages static refresh is not an HTTP 301/302 and cannot itself count visits. The route's browser refresh may occur before standard page-view analytics loads. To measure paths reliably, verify that the DNS/CDN edge (e.g., Cloudflare zone analytics with path-level request logs/counters, if available on the account) can report requests by each exact `/go/<channel>/` path; otherwise introduce a separately reviewed first-party, privacy-limited request counter. Do not claim campaign click counts merely because these paths exist. Clicks on external platforms and visits at the edge may differ because of bots, previews, security scans and repeated requests.
+
+**Inquiries are separate:** A route view does NOT by itself establish that a specific user submitted Leva's opportunity form. The form currently accepts optional self-reported referral information; no per-visitor identity, session persistence, URL attribution forwarding or calculator financial inputs are added by these pages. Conversion rates require verified aggregate data and careful interpretation. Do not invent funnel metrics.
+
+**Publishing safety:** Never use these URLs in unsolicited bulk messages or assume an editorial outlet accepted a placement. Keep source-specific public landing paths clean and visibly attributable to Leva without promising lender approval.
