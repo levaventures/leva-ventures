@@ -5,6 +5,7 @@ on:
       - 'insights/**'
       - 'index.html'
       - 'tests/gsc-internal-links.test.cjs'
+      - 'tests/subdivision-content-gap.test.cjs'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -15,6 +16,7 @@ on:
       - 'insights/**'
       - 'index.html'
       - 'tests/gsc-internal-links.test.cjs'
+      - 'tests/subdivision-content-gap.test.cjs'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -31,3 +33,5 @@ jobs:
         run: python3 tests/test_cre_financing_seo_cluster.py
       - name: Validate V2 linking from higher-visibility GSC pages
         run: node tests/gsc-internal-links.test.cjs
+      - name: Validate subdivision content gap and internal linking
+        run: node tests/subdivision-content-gap.test.cjs
