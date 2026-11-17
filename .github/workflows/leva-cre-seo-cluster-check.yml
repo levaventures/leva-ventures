@@ -7,6 +7,9 @@ on:
       - 'tests/gsc-internal-links.test.cjs'
       - 'tests/subdivision-content-gap.test.cjs'
       - 'tests/refinance-gap-content-review.test.cjs'
+      - 'tests/homepage-seo-performance.test.cjs'
+      - 'assets/leva-hero-background.png'
+      - 'assets/leva-about-background.png'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -19,6 +22,9 @@ on:
       - 'tests/gsc-internal-links.test.cjs'
       - 'tests/subdivision-content-gap.test.cjs'
       - 'tests/refinance-gap-content-review.test.cjs'
+      - 'tests/homepage-seo-performance.test.cjs'
+      - 'assets/leva-hero-background.png'
+      - 'assets/leva-about-background.png'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -39,3 +45,5 @@ jobs:
         run: node tests/subdivision-content-gap.test.cjs
       - name: Validate refinance sensitivity, content gap and internal linking
         run: node tests/refinance-gap-content-review.test.cjs
+      - name: Validate homepage loading and updated sitemap
+        run: node tests/homepage-seo-performance.test.cjs
