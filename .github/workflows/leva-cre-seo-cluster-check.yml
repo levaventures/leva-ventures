@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'insights/**'
+      - 'index.html'
+      - 'tests/gsc-internal-links.test.cjs'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -11,6 +13,8 @@ on:
     branches: [main]
     paths:
       - 'insights/**'
+      - 'index.html'
+      - 'tests/gsc-internal-links.test.cjs'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -25,3 +29,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate SEO pages and numerical examples
         run: python3 tests/test_cre_financing_seo_cluster.py
+      - name: Validate V2 linking from higher-visibility GSC pages
+        run: node tests/gsc-internal-links.test.cjs
