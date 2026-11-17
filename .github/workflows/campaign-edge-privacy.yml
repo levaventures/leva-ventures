@@ -1,0 +1,38 @@
+name: V2 campaign edge privacy and routing
+on:
+  pull_request:
+    paths:
+      - 'campaign-edge/**'
+      - 'tests/campaign-edge-worker.test.cjs'
+      - '.github/workflows/campaign-edge-privacy.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'campaign-edge/**'
+      - 'tests/campaign-edge-worker.test.cjs'
+      - '.github/workflows/campaign-edge-privacy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  edge-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate all first-party campaign redirects without publishing
+        run: node --test tests/campaign-edge-worker.test.cjs tests/campaign-routes.test.cjs
+      - name: Verify Worker syntax
+        run: node --check campaign-edge/worker.mjs
+      - name: Verify no production route configured
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const cfg=fs.readFileSync('campaign-edge/wrangler.toml','utf8');
+          if(!cfg.includes('workers_dev = false'))throw Error('Workers dev route must be disabled');
+          if(/^[^#\n]*routes\s*=/m.test(cfg))throw Error('Production route requires separate approval');
+          if(!cfg.includes('binding = "CAMPAIGN_COUNTS"'))throw Error('Missing binding');
+          console.log('Edge worker remains unconnected to production');
+          NODE
