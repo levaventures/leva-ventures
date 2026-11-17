@@ -6,6 +6,7 @@ on:
       - 'index.html'
       - 'tests/gsc-internal-links.test.cjs'
       - 'tests/subdivision-content-gap.test.cjs'
+      - 'tests/refinance-gap-content-review.test.cjs'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -17,6 +18,7 @@ on:
       - 'index.html'
       - 'tests/gsc-internal-links.test.cjs'
       - 'tests/subdivision-content-gap.test.cjs'
+      - 'tests/refinance-gap-content-review.test.cjs'
       - 'tools/commercial-real-estate-loan-calculator/index.html'
       - 'sitemap.xml'
       - 'tests/test_cre_financing_seo_cluster.py'
@@ -35,3 +37,5 @@ jobs:
         run: node tests/gsc-internal-links.test.cjs
       - name: Validate subdivision content gap and internal linking
         run: node tests/subdivision-content-gap.test.cjs
+      - name: Validate refinance sensitivity, content gap and internal linking
+        run: node tests/refinance-gap-content-review.test.cjs
