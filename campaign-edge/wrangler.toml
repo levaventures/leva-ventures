@@ -1,0 +1,12 @@
+name = "leva-v2-campaign-counter"
+main = "worker.mjs"
+compatibility_date = "2026-11-16"
+workers_dev = false
+
+# SAFETY: No production routes are declared here. Never enable without
+# confirming Cloudflare zone ownership, proxied DNS, Free plan and manual approval.
+# GitHub Pages continues to serve the existing /go/* fallback pages.
+
+[[analytics_engine_datasets]]
+binding = "CAMPAIGN_COUNTS"
+dataset = "leva_v2_campaign_requests"
