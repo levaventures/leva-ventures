@@ -1,0 +1,69 @@
+name: Capture genuine live V2 editorial screenshot (temporary)
+on:
+  push:
+    branches:
+      - ops/editorial-live-v2-screenshot
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/capture-editorial-v2.yml
+permissions:
+  contents: read
+jobs:
+  live-screenshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          npm install --no-save playwright
+          npx playwright install chromium --with-deps
+      - name: Capture actual live production URL with default hypothetical values
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          const fs=require('fs');
+          (async () => {
+            const browser=await chromium.launch({headless:true});
+            try {
+              const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+              const source='https://levaventures.com/tools/financing-intelligence/';
+              const response=await page.goto(source,{waitUntil:'domcontentloaded',timeout:60000});
+              if(!response || response.status()!==200)throw Error('Live URL did not return 200: '+response?.status());
+              await page.waitForFunction(() => document.querySelector('#debt-proceeds')?.textContent?.includes('4,691,080'),null,{timeout:30000});
+              const val=await page.locator('#debt-proceeds').innerText();
+              if(!val.includes('4,691,080'))throw Error('Proceeds mismatch: '+val);
+              await page.locator('[data-panel="refinance"]').click();
+              await page.waitForFunction(() => document.querySelector('#ref-gap')?.textContent?.includes('1,088,920') && document.querySelector('#panel-refinance')?.hidden===false,null,{timeout:10000});
+              await page.evaluate(() => { window.scrollTo(0,0);document.activeElement?.blur?.(); });
+              await page.waitForTimeout(1000);
+              fs.mkdirSync('editorial-screenshots',{recursive:true});
+              await page.screenshot({path:'editorial-screenshots/Leva_V2_LIVE_Refinance_Intelligence.png',fullPage:true,animations:'disabled'});
+              fs.writeFileSync('editorial-screenshots/source.txt',[
+                'LIVE URL: '+source,
+                'Captured (UTC): '+new Date().toISOString(),
+                'Page HTTP status: '+response.status(),
+                'Selected view: Refinance Intelligence',
+                'Confirmed modeled proceeds: '+val,
+                'Confirmed funding gap: '+await page.locator('#ref-gap').innerText(),
+                'Source: production site via GitHub Actions Chromium (NOT preview)',
+                'Assumptions: built-in public default hypothetical values; no client data'
+              ].join('\n')+'\n');
+              console.log(fs.readFileSync('editorial-screenshots/source.txt','utf8'));
+              await page.close();
+            } finally {await browser.close();}
+          })().catch(e=>{console.error(e);process.exitCode=1;});
+          NODE
+      - name: Store screenshot as short-lived downloadable artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: leva-v2-live-editorial-screenshot
+          path: editorial-screenshots/
+          if-no-files-found: warn
+          retention-days: 5
